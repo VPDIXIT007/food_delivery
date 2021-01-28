@@ -1,0 +1,135 @@
+{{ header }}
+
+<div class="row upmargin">
+	<div class="col-sm-12">
+	
+<style type="text/css">
+.upmargin {margin-top:-30px!important;}
+.btn.btn-default.ckshare_cancel
+{
+    text-align: center;
+	font-size:18px!important;
+}
+.btn.btn-danger.ckshare_replace
+{
+    text-align: center;
+		font-size:18px!important;
+}
+span.btn.btn-primary.ckshare_add {
+    text-align: center;
+		font-size:18px!important;
+}
+.ckshare_add,.ckshare_cancel,.ckshare_replace{display:block;margin-left:auto;margin-right:auto;margin-top:20px;margin-bottom:10px}
+</style>
+
+<div id="content">
+{% if share_cnt %}
+	<div class="col-sm-12">
+		<h1>{{ share_available }}</h1>
+		<div>{{text_share_info }}</div><br>
+		<div>{{text_share_add }}</div>
+	</div>
+	<div class="col-sm-12" id="ckhook"></div>
+	<div class="col-sm-4">
+		<div><span class="btn btn-primary ckshare_add">{{btn_ckshare_add }}</span></div>
+	</div>
+	<div class="col-sm-4">
+		<div><span class="btn btn-danger ckshare_replace">{{btn_ckshare_replace }}</span></div>
+	</div>
+	<div class="col-sm-4">
+		<div><a href="{{continue }}" class="btn btn-default ckshare_cancel">{{btn_ckshare_cancel }}</a></div>
+	</div>
+	{% else %}
+<div class="col-sm-12" >
+	<h1>{{share_unavailable }}</h1>
+	<div class="buttons clearfix">
+		<div class="pull-right"><a href="{{continue }}" class="btn btn-primary">{{button_continue }}</a></div>
+	</div>
+</div>
+{% endif %}
+</div>
+</div></div></div></div></div></div>
+<script type="text/javascript"><!--
+$('.ckshare_add').on('click', function(e) {
+			e.preventDefault();
+			ckshare('1');
+});
+
+$('.ckshare_replace').on('click', function(e) {
+			e.preventDefault();
+			ckshare('0');
+});
+
+function ckshare(e) {
+var flag = e;
+        $.ajax({
+			url : 'index.php?route=extension/module/sharecart/share_add&cart={{share_id }}&flag='+flag,
+            dataType: 'json',
+			beforeSend: function() {
+				$('.ckshare_add').prop('disabled', true);
+			},
+			complete: function() {
+				$('.ckshare_add').prop('disabled', false);
+			},
+            success : function (json) {
+				if (json['nop']) {
+					ckshare_modal(json['nop'], false);
+				}
+				if (json['success']) {
+					$('.ckshare_add,.ckshare_replace,.ckshare_cancel').remove();
+					ckshare_modal(json['success'], true);
+				}
+            },
+		error: function(xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+        });
+}
+
+function ckshare_modal(data, xx) {
+var data = data;
+var xx = xx;
+var title = xx ? '{{share_updated }}' : '{{share_updated_nop }}';
+var htm ='';
+htm += '<div id="shareCart" class="modal fade" role="dialog" aria-labelledby="dataConfirmLabel" aria-hidden="true">';
+htm += '<div class="modal-dialog"><div class="modal-content">';
+htm += '	<div class="modal-header">'+title;
+htm += '		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+htm += '	</div>';
+htm += '	<div class="modal-body">';
+
+htm += '<div class="row">';
+htm += '<div class="col-sm-12">';
+if (!xx) {
+htm += '<div class="alert alert-danger">' + data + '</div>';
+} else {
+htm += '<p>' + data + '</p>';
+}
+htm += '</div>';
+htm += '</div>';
+htm += '<div class="col-sm-12" id="eout"></div>';
+htm += '<div class="row" style="margin-top:10px;">';
+htm += '<div class="col-sm-12 ck_buttons">';
+htm += '	<div class="pull-right"><button class="btn btn-primary" data-dismiss="modal" aria-hidden="true">{{button_continue }}</button></div>';
+htm += '</div>';
+htm += '</div>';
+
+htm += '	</div>';
+htm += '</div></div>';
+htm += '</div>';
+
+if (!$('#shareCart').length > 0) {
+		$('body').append(htm);
+		$('#shareCart').modal({show:true, keyboard:true, backdrop:true});
+}
+
+	$("#shareCart").on('hidden.bs.modal', function(){
+		$('#shareCart').remove();
+		if (xx) {
+		location = '{{success_url }}';
+		}
+	});
+}
+//--></script>
+</div>
+{{footer }}

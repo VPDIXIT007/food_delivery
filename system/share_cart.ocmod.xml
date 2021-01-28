@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<modification>
+	<name>Share Cart</name>
+	<version>1.05</version>
+	<author>AlexDW</author>
+	<link>https://www.opencart.com/index.php?route=marketplace/extension&amp;filter_member=AlexDW</link>
+	<code>sharecart-adw</code>
+	<file path="admin/controller/common/column_left.php">
+		<operation error="skip">
+		<search index="0"><![CDATA[
+$customer = array();
+			]]></search>
+			<add position="before" ><![CDATA[
+// ShareCart
+			if ($this->config->get('sharecart_status') && $this->user->hasPermission('access', 'catalog/sharecart')) {
+			$data['menus'][] = array(
+				'id'       => 'menu-sharecart',
+				'icon'	   => 'fa-cart-plus',
+				'name'	   => 'Share Cart',
+				'href'     => $this->url->link('catalog/sharecart', 'token=' . $this->session->data['token'], true),
+				'children' => array()
+			);
+			}
+// ShareCart
+			]]></add>
+		</operation>
+	</file>
+</modification>

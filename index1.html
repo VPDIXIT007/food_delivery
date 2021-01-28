@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Browser Notification</title>
+
+
+
+
+
+</head>
+
+<body>
+  <div id="message"></div>
+  <button type="button" name="button" onclick="setNotification()">
+    Send Notification
+  </button>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    var socket = io();
+
+    /**
+     * Set Default Socket For Show Notification
+     * @param {type} data
+     * @returns {undefined}
+     */
+    socket.on('show_notification', function (data) {
+      showDesktopNotification(data.title, data.message, data.icon);
+    });
+    /**
+     * Set Notification Request
+     * @type type
+     */
+    function setNotification() {
+      showDesktopNotification('THIS IS A NOTIFICATION', 'YOUR ORDER IS PROCESSING', '/favicon.ico');
+      sendNodeNotification('Lokesh', 'Browser Notification..!', '/favicon.ico');
+    }
+    /**
+     * Check Browser Notification Permission
+     * @type window.Notification|Window.Notification|window.webkitNotification|Window.webkitNotification|Window.mozNotification|window.mozNotification
+     */
+    var Notification = window.Notification || window.mozNotification || window.webkitNotification;
+    Notification.requestPermission(function (permission) {
+    });
+    /**
+     * Request Browser Notification Permission 
+     * @type Arguments
+     */
+    function requestNotificationPermissions() {
+      if (Notification.permission !== 'denied') {
+        Notification.requestPermission(function (permission) {
+        });
+      }
+    }
+    /**
+     * Show Desktop Notification If Notification Allow
+     * @param {type} title
+     * @param {type} message
+     * @param {type} icon
+     * @returns {undefined}
+     */
+    function showDesktopNotification(message, body, icon, sound, timeout) {
+      if (!timeout) {
+        //   timeout = 8000;
+      }
+      requestNotificationPermissions();
+      var instance = new Notification(
+        message, {
+        body: body,
+        icon: icon,
+        sound: sound
+      }
+      );
+      instance.onclick = function () {
+        console.log('clicked');
+        // Something to do
+      };
+      instance.onerror = function () {
+        console.log('error');
+        // Something to do
+      };
+      instance.onshow = function () {
+        console.log('showed');
+        // Something to do
+      };
+      instance.onclose = function () {
+        console.log('closed');
+        // Something to do
+      };
+      if (sound) {
+        instance.sound;
+      }
+      setTimeout(instance.close.bind(instance), timeout);
+      return false;
+    }
+    /**
+     * Send Node Notification
+     * @param {type} title
+     * @param {type} message
+     * @param {type} icon
+     * @returns {undefined}
+     */
+    function sendNodeNotification(title, message, icon) {
+      socket.emit('new_notification', {
+        message: message,
+        title: title,
+        icon: icon,
+      });
+    }
+    socket.on('notification', function (data) {
+      alert(data)
+    });
+    socket.on('message', function (msg) {
+      console.log(msg);
+      document.getElementById("message").innerHTML = msg;
+    });
+  </script>
+
+</body>
+
+</html>

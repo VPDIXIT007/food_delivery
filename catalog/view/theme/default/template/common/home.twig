@@ -1,0 +1,27 @@
+{{ headerhome }}
+<div id="common-home">	
+	{{ content_top }}
+	<div class="container">
+		<div class="row">		
+			{{ column_left }}
+			{% if column_left and column_right %}
+			{% set class = 'col-sm-6' %}
+			{% elseif column_left or column_right %}
+			{% set class = 'col-sm-9' %}
+			{% else %}
+			{% set class = 'col-sm-12' %}
+			{% endif %}
+			<div id="content" class="{{ class }}">
+				{{ content_bottom }}
+			</div>
+			{{ column_right }}
+		</div>
+	</div>
+</div>
+{{ footerhome }}
+
+<link href="catalog/view/theme/default/stylesheet/aos.css" rel="stylesheet" media="screen">
+<script src="catalog/view/javascript/mahardhi/aos.js"></script>
+<script src="catalog/view/javascript/mahardhi/anime.min.js"></script>
+<script src="catalog/view/javascript/mahardhi/Home.js"></script>
+<link href="catalog/view/theme/mahardhi/stylesheet/enhanced.css" rel="stylesheet" media="screen">

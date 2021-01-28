@@ -1,0 +1,150 @@
+{% if logged %}
+<div class="row">
+	<div class="col-sm-12">
+		<div class="pull-right"> <span id="clearbutton" class="btn btn-primary">{{ clear_cart }} <i class="fa fa-trash" aria-hidden="true"></i></span> <span class="btn btn-primary ckshare">{{ sharecart_share }} <i class="fa fa-share-alt" aria-hidden="true"></i></span></div>
+	</div>
+	<div class="col-sm-12" id="ckhook"></div>
+	<div id="clearcart" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content" style="text-align: center; height: 160px;  vertical-align: middle; width: 500px;top: 30%; margin: 0 auto; padding: 20px;">
+    <span class="close">&times;</span>
+	<p>{{ warning_text }}</p>
+   <a  class="btn btn-primary" onclick="clearCart(); window.location.reload();" >{{ clear_cart }}</a>
+  </div>
+
+</div>
+<style type="text/css">
+.container .alert-dismissible .close {position: inherit;}
+</style>
+<script type="text/javascript"><!--
+// Get the modal
+var modal = document.getElementById("clearcart");
+
+// Get the button that opens the modal
+var btn = document.getElementById("clearbutton");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+   function clearCart() {
+                $.ajax({
+                  url: 'index.php?route=checkout/cart/clearcart',
+                  dataType: 'json',
+                  success: function(json) {
+                      $('#cart-total').html(json['total']);
+                      if (getURLVar('route') == 'checkout/cart' || getURLVar('route') == 'checkout/checkout') {
+                          location = 'index.php';
+                      } else {
+						     location = 'index.php';
+                          $('#cart > ul').load('index.php?route=common/cart/info ul li');
+                      }
+                  }
+              });
+            }
+$('.ckshare').on('click', function(e) {
+	e.preventDefault();
+	$('#shareCart .eout').remove();
+	
+var htm ='';
+htm += '<div id="shareCart" class="modal fade" role="dialog" aria-labelledby="dataConfirmLabel" aria-hidden="true">';
+htm += '<div class="modal-dialog"><div class="modal-content">';
+htm += '	<div class="modal-header">{{ sharecart_share }}';
+htm += '		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+htm += '	</div>';
+htm += '	<div class="modal-body">';
+htm += '<div class="row">';
+htm += '<div class="col-sm-12">';
+htm += '<p>{{ share_create_text }}</p>';
+htm += '</div>';
+htm += '</div>';
+htm += '<div class="col-sm-12" id="eout"></div>';
+htm += '<div class="row" style="margin-top:10px;">';
+htm += '<div class="col-sm-12 ck_buttons">';
+htm += '	<div class="pull-left"><button class="btn btn-primary" id="ConfirmShare">{{ btn_ckshare_create }}</button></div><div class="pull-right"><button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{ button_cancel }}</button></div>';
+htm += '</div>';
+htm += '</div>';
+
+htm += '	</div>';
+htm += '</div></div>';
+htm += '</div>';
+
+if (!$('#shareCart').length > 0) {
+		$('body').append(htm);
+		$('#shareCart').modal({show:true, keyboard:true, backdrop:true});
+
+		$('#ConfirmShare').on('click', function(e) {
+			e.preventDefault();
+			$('#shareCart .alert-danger').remove();
+			$('#shareCart .eout').remove();
+
+        $.ajax({
+			url : 'index.php?route=extension/module/sharecart/ckshare',
+            dataType: 'json',
+			beforeSend: function() {
+				$('#ConfirmShare').prop('disabled', true);
+				$('#shareCart .eout').remove();
+			},
+			complete: function() {
+				$('#ConfirmShare').prop('disabled', false);
+			},
+            success : function (json) {
+				$('#shareCart .eout').remove();
+
+				if (json['nop']) {
+					$('#ConfirmShare').remove();
+					html = '<div class="alert alert-danger">' + json['nop'] + '</div>';
+					$('#eout').append(html).hide().fadeIn(500);
+				}
+
+				if (json['success']) {
+				$('#eout').append('<div class="alert alert-success eout" style="word-break: break-all;">' + json['share_day'] + '<span id="cklink">' + json['success'] + '</span><br></div>');
+
+				$('#ConfirmShare').replaceWith('<button class="btn btn-success" id="copyLink">{{ copy_link }}</button>');
+
+				$('#copyLink').on('click', function(e) {
+					var $tmp = $("<input>");
+					$("body").append($tmp);
+
+					$tmp.val($('#cklink').text()).select();
+						var successful = document.execCommand('copy');
+						if (successful) {
+							$('#copyLink').html('<i class="fa fa-check"></i> {{ copy_link_success }}');
+						}
+					$tmp.remove();
+				});
+				
+				}
+            },
+		error: function(xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+        });
+
+		});
+}
+
+	$("#shareCart").on('hidden.bs.modal', function(){
+		$('#shareCart').remove();
+	});
+});
+//--></script>
+</div>
+
+{% endif %}

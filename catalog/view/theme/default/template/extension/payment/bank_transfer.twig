@@ -1,0 +1,39 @@
+
+<div class="buttons">
+  <div class="pull-right">
+    <input type="button" value="{{ button_confirm }}" id="button-confirm" data-loading-text="{{ text_loading }}" class="btn btn-primary" />
+  </div>
+</div>
+<script type="text/javascript"><!--
+
+$('#button-confirm').on('click', function() {
+var commentsarray = [];
+$(".table-responsive textarea").each(function(e){	
+  id = this.id;
+  var prodid = id.match(/\d/g);
+  prodid = prodid.join("");
+  commentsarray.push('product_id:'+prodid +', comment:' +$(this).val());
+});
+//console.log(commentsarray);
+	$.ajax({
+		url: 'index.php?route=extension/payment/bank_transfer/confirm&seller_store_id={{ seller_id }}',
+		dataType: 'json',
+		type: 'post',
+		data: {prodcomments:commentsarray},
+		beforeSend: function() {
+			$('#button-confirm').button('loading');
+		},
+		complete: function() {
+			$('#button-confirm').button('reset');
+		},
+		success: function(json) {
+			if (json['redirect']) {
+				location = json['redirect'];	
+			}
+		},
+		error: function(xhr, ajaxOptions, thrownError) {
+			alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+		}
+	});
+});
+//--></script>

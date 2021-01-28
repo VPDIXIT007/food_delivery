@@ -1,0 +1,45 @@
+<div class="row">
+  <div class="col-sm-6">
+    <h2>{{ text_checkout }}</h2>
+
+    <div class="radio">
+      <label> {% if tableid %}
+        <input type="radio" name="checkoutoption" value="dinein" checked="checked" />
+		  {{ text_dinein }}</label>
+        {% else %}
+        <!--<input type="radio" name="checkoutoption" value="dinein" />-->
+        {% endif %}
+      
+    </div>
+   <div class="form-group required radio" >    <label> 
+      <input type="radio" name="checkoutoption" value="delivery" />
+	  {{ text_delivery }}</label>
+   </div>
+   <div class="form-group required radio" >    <label> 
+	   <input type="radio" name="checkoutoption" value="takeaway" />
+	   {{ text_takeaway }}</label>
+	</div>
+	 {% if not logged %}
+    <input type="button" value="{{ button_continue_as_guest }}" id="button-account2" data-loading-text="{{ text_loading }}" class="btn btn-primary" />
+	 <input type="button" value="{{ button_continue}}" id="button-account" data-loading-text="{{ text_loading }}" class="btn btn-primary" />
+	{% else %}
+	<input type="button" value="{{ button_continue}}" id="button-account" data-loading-text="{{ text_loading }}" class="btn btn-primary" />
+	{% endif %}
+  </div>
+  {% if not logged %}
+  <div class="col-sm-6">
+  {{ social_media }}
+    <h2>{{ text_returning_customer }}</h2>
+    <p>{{ text_i_am_returning_customer }}</p>
+    <div class="form-group">
+      <label class="control-label" for="input-email">{{ entry_email }}</label>
+      <input type="text" name="email" value="" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label class="control-label" for="input-password">{{ entry_password }}</label>
+      <input type="password" name="password" value="" placeholder="{{ entry_password }}" id="input-password" class="form-control" />
+      <a href="{{ forgotten }}">{{ text_forgotten }}</a> |  <a href="{{ register }}">{{ text_register }}</a></div>
+    <input type="button" value="{{ button_login }}" id="button-login" data-loading-text="{{ text_loading }}" class="btn btn-primary" />
+  </div>
+    {% endif %}
+</div>

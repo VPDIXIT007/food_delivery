@@ -1,0 +1,216 @@
+<footer>
+	<div class="footer-top">
+		<div class="container">
+			{{ footer_top }}
+			<div class="row footer-middle">
+				<div class="col-sm-6">
+					<div class="footer-inner">
+						 {{ footer_left }} 
+					</div>
+				</div>
+				
+		      	{# <div class="col-sm-4">
+		      		<div class="footer-inner clearfix">
+		      			{% if informations %}
+		      			<div class="footer-inner1 col-sm-6">
+					        <h5>{{ text_information }}</h5>
+					        <ul class="list-unstyled">
+					         	{% for information in informations %}
+					          	<li><a href="{{ information.href }}">{{ information.title }}</a></li>
+					          	{% endfor %}
+					          	<li><a href="{{ account }}">{{ text_account }}</a></li>
+					          	
+					        </ul>
+				        </div>
+				        {% endif %}
+
+		      			<div class="footer-inner2 col-sm-6">
+					        <h5>{{ text_service }}</h5>
+					        <ul class="list-unstyled">
+					        	<li><a href="{{ manufacturer }}">{{ text_manufacturer }}</a></li>
+								<li><a href="{{ voucher }}">{{ text_voucher }}</a></li>
+								<li><a href="{{ affiliate }}">{{ text_affiliate }}</a></li>
+								<li><a href="{{ special }}">{{ text_special }}</a></li>
+								<li><a href="{{ sitemap }}">{{ text_sitemap }}</a></li>
+								<li><a href="{{ contact }}">{{ text_contact }}</a></li>
+					        </ul>
+					    </div>
+
+			        </div>
+		      	</div> #}
+
+		      	<div class="col-sm-6">
+		      		<div class="footer-inner">
+					 	 <h5 class="toggled title">{{ timmings }}</h5>
+						 {% if store_timings %}
+						<ul class="list-unstyled">
+						<li><label style="margin-right: 10px;"><h4>{{ text_day }}</h4></label>&nbsp; | &nbsp; 
+						<label style="margin-right: 10px;"><h4>{{ text_opening }}</h4></label>&nbsp; | &nbsp; 
+						<label><h4>{{ text_close }}</h4></label></li>	
+						   {% for timings in store_timings %}
+						   {% if lang == 'ar' %}
+						  {% if timings.day_name == 'Saturday' %}
+						  {% set newday = 'السبت' %}
+						  {% endif %} 
+						   {% if timings.day_name == 'Sunday' %}
+						  {% set newday = 'الاحد' %}
+						  {% endif %} 
+						   {% if timings.day_name == 'Monday' %}
+						  {% set newday = 'الاثنين' %}
+						  {% endif %} 
+						   {% if timings.day_name == 'Tuesday' %}
+						  {% set newday = 'الثلاثاء' %}
+						  {% endif %} 
+						   {% if timings.day_name == 'Wednesday' %}
+						  {% set newday = 'الاربعاء' %}
+						  {% endif %} 
+						   {% if timings.day_name == 'Thursday' %}
+						  {% set newday = 'الخميس' %}
+						  {% endif %} 
+						   {% if timings.day_name == 'Friday' %}
+						  {% set newday = 'الجمعه' %}
+						  {% endif %} 
+					
+						  {% endif %} 
+					
+						   {% if timings.day_name ==  "now"|date('l') %}
+							<li style="color:red;font-weight:bold;"><label style="margin-right: 10px;">{% if lang == 'ar' %} {{ newday }} {% else %} {{ timings.day_name }}  {% endif %}</label>&nbsp; | &nbsp; 
+							<label style="margin-right: 10px;">{{ timings.open_time|date('h:i A') }}</label>&nbsp; | &nbsp; 
+							<label>{{ timings.close_time|date('h:i A') }}</label></li>
+							 {% else %}
+							<li><label style="margin-right: 10px;">  {% if lang == 'ar' %} {{ newday }} {% else %} {{ timings.day_name }}  {% endif %} </label>&nbsp; | &nbsp; 
+							<label style="margin-right: 10px;">{{ timings.open_time|date('h:i A') }}</label>&nbsp; | &nbsp; 
+							<label>{{ timings.close_time|date('h:i A') }}</label></li>
+							
+							 {% endif %} 
+						   {% endfor %}
+					  </ul>
+						{% endif %}  
+		      		{#}{{ footer_right }} #}
+		      		</div>
+		      	</div>
+			</div>
+		</div>
+	</div>
+	<div class="footer_bottom clearfix">
+		<div class="container">	
+			<div class="footer-bottom-inner">
+				<p class="copyright">{{ powered }}  &nbsp;&nbsp;</p>	 
+				<p class="copyright">
+									{% for information in informations %}
+								<a href="{{ information.href }}"> {{ information.title }} </a> &nbsp;&nbsp;
+									{% endfor %}
+				</p>	
+			</div>		
+		</div>	
+	</div>
+	{% for script in scripts %}
+		<script src="{{ script }}"></script>
+	{% endfor %}
+
+</footer>
+<!-- top scroll -->
+	<a href="#" class="scrollToTop back-to-top" data-toggle="tooltip" title="{{ text_backtop }}"></a>
+	<!-- FIRE BASE PUSH NOTIFICATIONS -->
+<script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-messaging.js"></script>
+<script>
+/*
+    var firebaseConfig = {
+            apiKey: "AIzaSyDsRoYUkVAmpjUeyjSQjxIcPSg8Us5WXF4",
+            authDomain: "el-order-58003.firebaseapp.com",
+            databaseURL: "https://el-order-58003.firebaseio.com",
+            projectId: "el-order-58003",
+            storageBucket: "el-order-58003.appspot.com",
+            messagingSenderId: "129287823104",
+            appId: "1:129287823104:web:849ac6770bbaaa478a1de5",
+            measurementId: "G-B6F3HYQQ13"
+        };*/
+		 var firebaseConfig = {
+    apiKey: "AIzaSyA-xZHyg5TfODQd36knDWPMsWT57z-R2Sg",
+    authDomain: "el-order-30130.firebaseapp.com",
+    databaseURL: "https://el-order-30130.firebaseio.com",
+    projectId: "el-order-30130",
+    storageBucket: "el-order-30130.appspot.com",
+    messagingSenderId: "277138525933",
+    appId: "1:277138525933:web:c1a80a3ed701293ede46e4",
+    measurementId: "G-183DPNZLJB"
+  };
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    const messaging = firebase.messaging();
+
+    function IntitalizeFireBaseMessaging() {
+        // Add the public key generated from the console here.
+        
+        messaging.getToken({ vapidKey: "BD56_VxtCHHFHWV2X6h2sReadxxPqKGHXQcmGAy_OkLj4bgaS04cv1OcbNVJWPTIqqR5eAb4Ce_OHuHfBlNgJ-w" })
+         //   .requestPermission()
+            .then(function () {
+                console.log("Notification Permission");
+                return messaging.getToken();
+            })
+            .then(function (token) {
+                console.log("Token : "+token);
+              //  document.getElementById("token").innerHTML=token;
+	    $.ajax({
+		
+        url: 'index.php?route=common/header/pushnotifications',
+        type: 'post',
+        data: {token: token},
+        dataType: 'json',
+     
+        success: function() {
+       
+        },
+		 error: function() {
+     
+        },
+      
+    });
+            })
+            .catch(function (reason) {
+                console.log(reason);
+            });
+    }
+	
+    messaging.onMessage(function (payload) {
+        console.log(payload);
+		
+		$('#content').parent().before('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + payload.notification.body + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+		$('html, body').animate({ scrollTop: 0 }, 'slow');
+        const notificationOption={
+            body:payload.notification.body,
+            icon:payload.notification.icon
+        };
+
+        if(Notification.permission==="granted"){
+            var notification=new Notification(payload.notification.title,notificationOption);
+
+            notification.onclick=function (ev) {
+                ev.preventDefault();
+                window.open(payload.notification.click_action,'_blank');
+                notification.close();
+            }
+        }
+
+    });
+	
+    messaging.onTokenRefresh(function () {
+        messaging.getToken()
+            .then(function (newtoken) {
+                console.log("New Token : "+ newtoken);
+            })
+            .catch(function (reason) {
+                console.log(reason);
+            })
+    })
+    IntitalizeFireBaseMessaging();
+</script>
+<!-- FIRE BASE PUSH NOTIFICATIONS END --> 
+
+<link href="catalog/view/theme/default/stylesheet/enhanced.css" rel="stylesheet">
+
+
+</body>
+</html>

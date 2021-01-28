@@ -1,0 +1,352 @@
+{{ header }}
+<style type="text/css">
+.ckpad,.ckquant{padding-right:10px;padding-left:3px}.ckpad{width:60px}.ckbtn,.ckpro{width:100%}.ckquant{min-width:40px;text-align:right}.ckname{max-width:250px;word-break:break-all}.ckbtn{min-width:300px}.ckopt{min-width:50px;padding-left:5px}.ckpro td{padding-top:10px;vertical-align:top!important}.ck_small{font-size:80%;text-align: right;padding: 0px 10px 0px 20px;color:#999}.well button{margin-top:3px;}.well .form-group{margin-bottom:10px!important;margin-top: 2px;padding-top:0!important;padding-bottom:0!important}
+</style>
+{{ column_left }}
+<div id="content">
+  <div class="page-header"> 
+    <div class="container-fluid">
+      <div class="pull-right">
+		<span style="padding-right:20px;">
+		<a href="{{ stng }}" target="_blank" data-toggle="tooltip" title="{{ text_edit }}" class="btn btn-default"><i class="fa fa-cogs"></i></a>
+		</span>
+        <button type="button" data-toggle="tooltip" title="{{ button_refresh }}" data-title="{{ confirm_refresh }}" class="btn btn-info" data-confirm="{{ refresh }}" ><i class="fa fa-refresh"></i></button>
+        <button type="button" data-toggle="tooltip" title="{{ button_delete }}" data-title="{{confirm_delete }}" class="btn btn-danger" data-confirm="{{ delete }}" ><i class="fa fa-trash-o"></i></button>
+      </div>
+      <h1>ShareCart 1.05</h1>
+      <ul class="breadcrumb">
+       {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>  
+  <div class="container-fluid">
+    {% if error.error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error.error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if success %}  
+    <div class="alert alert-success"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-list"></i>{{ text_sharelist }}</h3>
+      </div>
+      <div class="panel-body">
+        <div class="well">
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label class="control-label" for="input-name">{{ customer }}</label>
+                <input type="text" name="filter_name" value="{{ filter_name }}" placeholder="{{ customer }}" id="input-name" class="form-control" />
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label class="control-label" for="input-session">{{ uid }}</label>
+                <input type="text" name="filter_session" value="{{ filter_session }}" placeholder="{{ uid }}" id="input-session" class="form-control" />
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label class="control-label" for="input-status">{{ text_status }}</label>
+                <select name="filter_status" id="input-status" class="form-control">
+                  <option value="*"></option>
+				  {% if filter_status is null %}
+          
+                  <option value="0" selected="selected">{{ guest }}</option>
+                  {% else %}
+                  <option value="0">{{ guest }}</option>
+                  {% endif %}
+				  {% if filter_status != 0 %} 
+                  <option value="1" selected="selected">{{ registered }}</option>
+					  {% else %}
+                  <option value="1">{{ registered }}</option>
+					  {% endif %}
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label class="control-label" for="input-quantity">{{ total_goods }}</label>
+                <input type="text" name="filter_quantity" value="{{ filter_quantity }}" placeholder="{{ total_goods }}" id="input-quantity" class="form-control" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+				<label class="control-label" for="input-date-added">{{ date_added }}</label>
+				<div class="input-group">
+					<span class="input-group-addon">{{ text_date_beg }}</span>
+					<input type="text" name="filter_date_added" class="form-control date" data-date-format="YYYY-MM-DD" id="input-date-added" value="{{ filter_date_added }}">
+					<span class="input-group-addon">{{ text_date_end }}</span>
+					<input type="text" name="filter_date_added_end" class="form-control date" data-date-format="YYYY-MM-DD" id="input-date-added-end" value="{{ filter_date_added_end }}">
+				</div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label class="control-label" for="input-quantity">{{ ip }}</label>
+                <input type="text" name="filter_ip" value="{{ filter_ip }}" placeholder="{{ ip }}" id="input-quantity" class="form-control" />
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label class="control-label" for="input-quantity">{{ user_agent }}</label>
+                <input type="text" name="filter_user_agent" value="{{ filter_user_agent }}" placeholder="{{ user_agent }}" id="input-quantity" class="form-control" />
+              </div>
+            </div>
+            <div class="col-sm-12">
+			  <div class="pull-right">
+			  <button type="button" id="button-clear" class="btn btn-info"><i class="fa fa-eraser"></i> {{ text_clear }}</button>
+              <button type="button" id="button-filter" class="btn btn-primary"><i class="fa fa-search"></i> {{ button_filter }}</button>
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="padding-bottom: 10px;">
+          <div class="col-sm-6 text-left">{{ pagination }}</div>
+          <div class="col-sm-6 text-right">{{ results }}</div>
+        </div>
+        <form action="{{ delete }}" method="post" enctype="multipart/form-data" id="form-review">
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr>
+                  <td style="width: 1px;" class="text-center"><input type="checkbox" name="allsel" onclick="$('input[name*=\'selected\']').prop('checked', this.checked);" /></td>
+                  <td class="text-left">{% if sort == customer_name %}
+                    <a href="{{ sort_customer_name }}" class="{{ order|lower }}">{{ customer }}</a>
+						{% else %}
+                    <a href="{{ sort_customer_name }}">{{ customer }}</a>
+						{% endif %}</td>
+                  <td class="text-left">{% if sort == share_id %}
+                    <a href="{{ sort_share_id }}" class="{{ order|lower }}">{{ uid }}</a>
+                 	{% else %}
+                    <a href="{{ sort_share_id }}">{{ uid }}</a>
+                  {% endif %}</td>
+                  <td colspan="2" class="text-left">{{ column_pro }}</td>
+                  <td class="text-right">{% if sort == quantity %}
+				
+                    <a href="{{ sort_quantity }}" class="{{ order|lower }}">{{ total_goods }}</a>
+						{% else %}
+                    <a href="{{ sort_quantity }}">{{ total_goods }}</a>
+						{% endif %}</td>
+                  <td class="text-left">{% if sort == date_added %}
+				
+                    <a href="{{ sort_date_added }}" class="{{ order|lower }}">{{ date_added }}</a>
+                   	{% else %}
+                    <a href="{{ sort_date_added }}">{{ date_added }}</a>
+                  {% endif %}</td>
+                </tr>
+              </thead>
+              <tbody>
+			  {% if carts %}
+				  {% for cart in carts %}
+             
+                <tr>
+                  <td class="text-center">
+				  {% if cart.share_id in selected %}
+				
+                    <input type="checkbox" name="selected[]" value="{{ cart.share_id }}" checked="checked" />
+                   	{% else %}
+                    <input type="checkbox" name="selected[]" value="{{ cart.share_id }}" />
+                    {% endif %}</td>
+						{% if cart.customer_link %}
+			
+                  <td class="text-left"><a href="{{ cart.customer_link }}" target="_blank">{{ cart.customer_name }}</a><br>
+					  {% if cart.ip %}
+						<div class="ck_small">{{ cart.ip }}</div>
+				   {% endif %}
+					  {% if cart.user_agent %}
+						<div class="ck_small">{{ cart.user_agent }}</div>
+				  {% endif %}
+				  </td>
+				  {% else %}
+                  <td class="text-left">{{ cart.customer_name }}
+					  {% if cart.ip %}
+						<div class="ck_small">{{ cart.ip }}</div>
+				  {% endif %}
+			  {% if cart.user_agent %}
+						<div class="ck_small">{{ cart.user_agent }}</div>
+					  {% endif %}
+				  </td>
+				  {% endif %}
+                  <td class="text-left"><a href="{{ cart.share_link }}" target="_blank">{{ cart.share_id }}</a></td>
+
+				<td colspan="2" class="text-left" style="padding: 10px; line-height: 18px;">
+  {% if cart.pro %}
+					<span class="btn btn-info ckbtn" data-toggle="collapse" data-target="#hide-{{ cart.share_id }}">{{ help_pro }}</span>
+					<div id="hide-{{ cart.share_id }}" class="collapse">
+
+					<table class="ckpro">
+					{% for product in cart.pro %}
+					
+					<tr>
+					{% if product.image %}
+					<td class="ckpad"><img src="{{ product.image }}" class="img-thumbnail"/></td>
+				  {% endif %}
+						<td class="ckname">
+						<a href="#" data-toggle="name">{{ product.name }}</a><br>
+						<input type="hidden" name="sort_order" id="{{ product.view }}" value="{{ product.edit }}" />
+
+						<span style="color: #aaa;"> {{ product.model }} </span><br>
+
+						<div class="ckopt">
+						{% for option in product.option %}
+					
+						<small>- {{ option.name }}:  {{ option.value }}</small><br>
+							{% endfor %}
+						</div>
+
+						</td>
+						<td class="ckquant">x {{ product.quantity }}</td>
+
+					</tr>
+					{% endfor %}
+					</table>
+				</td>
+</div>
+{% endif %}
+				  </td>
+
+                  <td class="text-right">{{ cart.quantity }}</td>
+                  <td class="text-left">{{ cart.date_added }}</td>
+
+                </tr>
+              	{% endfor %}
+					{% else %}
+                <tr>
+                  <td class="text-center" colspan="7">{{ text_no_results }}</td>
+                </tr>
+              {% endif %}
+              </tbody>
+            </table>
+          </div>
+        </form>
+        <div class="row">
+          <div class="col-sm-6 text-left">{{ pagination }}</div>
+          <div class="col-sm-6 text-right">{{ results }}</div>
+        </div>
+      </div>
+    </div>
+ 
+  </div>
+  <script >
+$(document).click(function(e){$(e.target).is("[data-toggle='name'], .forname, .popover-title, .popover-content")||($(".popover").remove(),$("[data-toggle='name']").popover("destroy"))}),$(document).on("click","a[data-toggle='name']",function(e){var a=$(this),t=a.data("bs.popover"),o=a.parent().find("input").val(),n=a.parent().find("input").attr("id");e.preventDefault(),$(".popover").remove(),$("a[data-toggle='name']").popover("destroy"),t||(a.popover({html:!0,placement:"bottom",trigger:"manual",content:function(){return'<div id="forname"><a href="'+n+'" target="_blank" class="btn btn-info forname"><i class="fa fa-eye"></i></a> <a href="'+o+'" target="_blank" class="btn btn-primary forname"><i class="fa fa-pencil"></i></a></div>'}}),a.popover("show"))});
+
+function filter() {
+	url = 'index.php?route=catalog/sharecart&token={{ token }}';
+
+	var filter_name = $('input[name=\'filter_name\']').val();
+
+	if (filter_name) {
+		url += '&filter_name=' + encodeURIComponent(filter_name);
+	}
+
+	var filter_quantity = $('input[name=\'filter_quantity\']').val();
+
+	if (filter_quantity) {
+		url += '&filter_quantity=' + encodeURIComponent(filter_quantity);
+	}
+
+	var filter_ip = $('input[name=\'filter_ip\']').val();
+
+	if (filter_ip) {
+		url += '&filter_ip=' + encodeURIComponent(filter_ip);
+	}
+
+	var filter_user_agent = $('input[name=\'filter_user_agent\']').val();
+
+	if (filter_user_agent) {
+		url += '&filter_user_agent=' + encodeURIComponent(filter_user_agent);
+	}
+
+	var filter_session = $('input[name=\'filter_session\']').val();
+
+	if (filter_session) {
+		url += '&filter_session=' + encodeURIComponent(filter_session);
+	}
+
+	var filter_status = $('select[name=\'filter_status\']').val();
+
+	if (filter_status != '*') {
+		url += '&filter_status=' + encodeURIComponent(filter_status); 
+	}		
+
+	var filter_date_added = $('input[name=\'filter_date_added\']').val();
+
+	if (filter_date_added) {
+		url += '&filter_date_added=' + encodeURIComponent(filter_date_added);
+	}
+
+	var filter_date_added_end = $('input[name=\'filter_date_added_end\']').val();
+
+	if (filter_date_added_end) {
+		url += '&filter_date_added_end=' + encodeURIComponent(filter_date_added_end);
+	}
+
+	location = url;
+}
+
+$('input[name^=\'selected\'], input[name=\'allsel\']').on('change', function() {
+	$('button[data-confirm]').prop('disabled', true);
+
+	var selected = $('input[name^=\'selected\']:checked');
+
+	if (selected.length) {
+		$('button[data-confirm]').prop('disabled', false);
+	}
+});
+
+$('button[data-confirm]').prop('disabled', true);
+
+$('input[name^=\'selected\']:first').trigger('change');
+
+$('button[data-confirm]').click(function(ev) {
+		var href = $(this).attr('data-confirm');
+		$('#form-review').attr('action', href);
+
+		if (!$('#dataConfirmModal').length) {
+			$('body').append('<div id="dataConfirmModal" class="modal" role="dialog" aria-labelledby="dataConfirmLabel" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-body"></div><div class="modal-footer"><a class="btn btn-danger" id="dataConfirmOK">{{ text_yes }}</a><button class="btn btn-default" data-dismiss="modal" aria-hidden="true">{{ text_no }}</button></div></div></div></div>');
+		} 
+		$('#dataConfirmModal').find('.modal-body').text($(this).attr('data-title'));
+
+		$('#dataConfirmOK').on('click', function(e) {
+			$('#form-review').attr('target', '_self').submit();
+		});
+
+		$('#dataConfirmModal').modal({show:true});
+});
+
+function clear_filter() {
+	$('select.form-control').val('*');
+	$('input.form-control').val('');
+	filter();
+	return false;
+}
+
+$('input[class=\'form-control\']').keydown(function(e) {
+	if (e.keyCode == 13) {
+		filter();
+	}
+});
+
+$('#button-filter').on('click', function() {
+		filter();
+});
+
+$('#button-clear').on('click', function() {
+		clear_filter();
+});
+</script> 
+  <script type="text/javascript">
+$('.date').datetimepicker({
+	pickTime: false
+});
+  </script>
+</div>
+{{ footer }}

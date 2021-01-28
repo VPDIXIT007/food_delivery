@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>Seo Friendly URL</name>
+  <code>default</code>
+  <version>1.1</version>
+  <author>aarontong</author>
+  <link>http://www.fcwebsolution.com/</link>
+  
+  <file path="catalog/controller/startup/seo_url.php" >
+	<operation>
+      <search >
+        <![CDATA[if ($url) {]]>
+      </search>
+      <add position="before">
+        <![CDATA[		
+		if (isset($data['route']) && $data['route'] == 'common/home') {
+            $url = '/';
+        }
+
+        if (!$url && isset($data['route'])) {
+		if($backupdata['seller_store_id'] > 0) {
+						
+						$query1 = $this->db->query("SELECT * FROM " . DB_PREFIX . "seo_url WHERE `query` = '" . $this->db->escape('seller_store_id' . '=' . (int)$backupdata['seller_store_id']) . "' AND store_id = '" . (int)$this->config->get('config_store_id') . "' AND language_id = '" . (int)$this->config->get('config_language_id') . "'");
+				
+					if ($query1->num_rows && $query1->row['keyword']) {
+						$url .= '/' . $query1->row['keyword'];
+
+						unset($data['seller_store_id']);
+					}
+						
+					}
+            $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "seo_url WHERE `query` = '" . $this->db->escape($data['route']) . "' AND store_id = '" . (int)$this->config->get('config_store_id') . "' AND language_id = '" . (int)$this->config->get('config_language_id') . "'");
+
+            if ($query->num_rows && $query->row['keyword']) {
+                $url .= '/' . $query->row['keyword'];
+            }
+        }
+
+        if (!$url && isset($data['route'])) {
+            if (stripos($data['route'], '-') === false) {
+                $url .= '/' . str_replace('/' , '-', $data['route']);
+            }
+        }]]>
+      </add>
+    </operation>
+	<operation>
+      <search>
+        <![CDATA[$this->request->get['route'] = 'information/information';]]>
+      </search>
+      <add position="replace">
+        <![CDATA[		
+		$this->request->get['route'] = 'information/information';}}
+		$url_extends = [
+                'product-product-',
+                'product-category-',
+                'information-information-',
+            ];
+
+            $url_extends_flag = false;
+
+            foreach ($url_extends as $url_extend) {
+                if (stripos($this->request->get['_route_'], $url_extend) !== false) {
+                    $url_extends_flag = true;
+                    break;
+                }
+            }
+
+            if (($this->request->get['route'] == 'error/not_found' || $url_extends_flag) && stripos($this->request->get['_route_'], '/') === false && stripos($this->request->get['_route_'], '-') !== false) {
+                $this->request->get['route'] = str_replace('-', '/', $this->request->get['_route_']);
+            }if (1){ if(1){]]>
+      </add>
+    </operation>
+	<operation>
+      <search>
+        <![CDATA[($key == 'path')]]>
+      </search>
+	  <add position="replace">
+	  <![CDATA[($key == 'path' && ($data['route'] == 'product/category' || $data['route'] == 'product/product'))]]>
+	  </add>
+    </operation>
+    <operation>
+      <search  index="1">
+        <![CDATA[unset($data[$key]);]]>
+      </search>
+      <add position="replace" >
+        <![CDATA[
+        if ($url) {unset($data[$key]);}
+]]>
+      </add>
+    </operation>
+	
+
+  </file> 
+</modification>

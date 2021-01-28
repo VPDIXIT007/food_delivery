@@ -1,0 +1,1361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<modification>
+<name>Changes all links in opencart</name>
+<code>abdo_change_links</code>
+<version>1.0</version>
+<author>pixema@live.com</author>
+<link></link>
+	<file path="catalog/controller/checkout/*.php">
+			<operation error="skip">
+			<search><![CDATA[
+			public function
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[
+			protected function
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/account', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/account', 'seller_store_id='.$seller_id, true)]]></add>
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('account/login', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/login', 'seller_store_id='.$seller_id, true)]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/edit', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/edit', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/password', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/password', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/address', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/address', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/wishlist', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/wishlist', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/reward', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/reward', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/return', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/return', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/transaction', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/transaction', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/recurring', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/recurring', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/newsletter', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/newsletter', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/address/add', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/address/add', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/forgotten', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/forgotten', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/register', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/register', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/logout', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/logout', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order', $url, true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[ $this->url->link('account/order', $url.'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order/info', 'order_id=' . $result['order_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order/info', 'order_id=' . $result['order_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order', 'page={page}', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order', 'page={page}'.'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order/info', 'order_id=' . $order_id, true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order/info', 'order_id=' . $order_id.'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order/info', 'order_id=' . $this->request->get['order_id'] . $url.'&seller_store_id='.$seller_id, true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order/info', 'order_id=' . $this->request->get['order_id'] . $url.'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order/reorder', 'order_id=' . $order_id . '&order_product_id=' . $product['order_product_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order/reorder', 'order_id=' . $order_id . '&order_product_id=' . $product['order_product_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/return/add', 'order_id=' . $order_info['order_id'] . '&product_id=' . $product['product_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/return/add', 'order_id=' . $order_info['order_id'] . '&product_id=' . $product['product_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/product', 'product_id=' . $product_info['product_id'].'&seller_store_id='.$seller_id)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/product', 'product_id=' . $product_info['product_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/cart')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/cart','seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/cart', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/cart', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/password', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/password', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/success')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/success', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/success')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/success', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/wishlist')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/wishlist', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/reset', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/reset', 'seller_store_id='.$seller_id,true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/reset', 'code=' . $code, true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/reset', 'code=' . $code.'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('common/home', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('extension/account/purpletree_multivendor/sellerstore/storeview', 'seller_store_id='.$seller_id,true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('common/home')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('extension/account/purpletree_multivendor/sellerstore/storeview', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('information/contact')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('information/contact', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/voucher/success')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/voucher/success', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/voucher', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/voucher', 'seller_store_id='.$seller_id,true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('information/information/agree', 'information_id=' . $this->config->get('config_account_id'), true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('information/information/agree', 'information_id=' . $this->config->get('config_account_id').'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/address/delete', 'address_id=' . $result['address_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/address/delete', 'address_id=' . $result['address_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/address/edit', 'address_id=' . $result['address_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/address/edit', 'address_id=' . $result['address_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/address/edit', 'address_id=' . $this->request->get['address_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/address/edit', 'address_id=' . $this->request->get['address_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/product', 'product_id=' . $product['product_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/product', 'product_id=' . $product['product_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/cart')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/cart','seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/checkout','',false)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/checkout','seller_store_id='.$seller_id,false)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('common/currency/currency', '', $this->request->server['HTTPS'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('common/currency/currency', 'seller_store_id='.$seller_id, $this->request->server['HTTPS'])]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link($route, $url, $this->request->server['HTTPS'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link($route, $url.'&seller_store_id='.$seller_id, $this->request->server['HTTPS'])]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('information/information', 'information_id=' . $result['information_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('information/information', 'information_id=' . $result['information_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/return/add', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/return/add', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('information/sitemap')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('information/sitemap', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/manufacturer')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/manufacturer','seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/special')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/special','seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/checkout', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/checkout', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/category', 'path=' . $child['category_id'] . '_' . $child_3['category_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/category', 'path=' . $child['category_id'] . '_' . $child_3['category_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('common/language/language', '', $this->request->server['HTTPS'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('common/language/language', 'seller_store_id='.$seller_id, $this->request->server['HTTPS'])]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/category', 'path=' . $category['category_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/category', 'path=' . $category['category_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/cart/edit', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/cart/edit', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/cart', 'remove=' . $key)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/cart', 'remove=' . $key.'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('product/product', 'product_id=' . $this->request->post['product_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/product', 'product_id=' . $this->request->post['product_id'].'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('product/product', 'product_id=' . $product['product_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/product', 'product_id=' . $product['product_id'].'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('$this->url->link('information/information/agree', 'information_id=' . $this->config->get('config_checkout_id'), true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('information/information/agree', 'information_id=' . $this->config->get('config_checkout_id').'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/manufacturer/info', 'manufacturer_id=' . $product_info['manufacturer_id']);]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/manufacturer/info', 'manufacturer_id=' . $product_info['manufacturer_id'] . 'seller_store_id='.$seller_id);]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . $url)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . $url . 'seller_store_id='.$seller_id)]]></add>
+		</operation>
+	</file>
+	<file path="catalog/controller/product/*.php">
+		<operation error="skip">
+			<search><![CDATA[
+			public function 
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/manufacturer/info', 'manufacturer_id=' . $product_info['manufacturer_id']);]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/manufacturer/info', 'manufacturer_id=' . $product_info['manufacturer_id'] . 'seller_store_id='.$seller_id);]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . $url)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . $url . 'seller_store_id='.$seller_id)]]></add>
+		</operation>
+<operation error="skip">
+			<search><![CDATA[$this->url->link('account/account', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/account', 'seller_store_id='.$seller_id, true)]]></add>
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('account/login', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/login', 'seller_store_id='.$seller_id, true)]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/edit', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/edit', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/password', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/password', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/address', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/address', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/wishlist', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/wishlist', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/reward', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/reward', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/return', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/return', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/transaction', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/transaction', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/recurring', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/recurring', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/newsletter', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/newsletter', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/address/add', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/address/add', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/forgotten', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/forgotten', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/register', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/register', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/logout', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/logout', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order', $url, true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[ $this->url->link('account/order', $url.'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order/info', 'order_id=' . $result['order_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order/info', 'order_id=' . $result['order_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order', 'page={page}', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order', 'page={page}'.'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order/info', 'order_id=' . $order_id, true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order/info', 'order_id=' . $order_id.'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order/info', 'order_id=' . $this->request->get['order_id'] . $url.'&seller_store_id='.$seller_id, true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order/info', 'order_id=' . $this->request->get['order_id'] . $url.'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order/reorder', 'order_id=' . $order_id . '&order_product_id=' . $product['order_product_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order/reorder', 'order_id=' . $order_id . '&order_product_id=' . $product['order_product_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/return/add', 'order_id=' . $order_info['order_id'] . '&product_id=' . $product['product_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/return/add', 'order_id=' . $order_info['order_id'] . '&product_id=' . $product['product_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/product', 'product_id=' . $product_info['product_id'].'&seller_store_id='.$seller_id)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/product', 'product_id=' . $product_info['product_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/cart')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/cart','seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/cart', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/cart', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/password', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/password', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/success')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/success', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/success')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/success', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/wishlist')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/wishlist', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/reset', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/reset', 'seller_store_id='.$seller_id,true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/reset', 'code=' . $code, true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/reset', 'code=' . $code.'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('common/home', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('extension/account/purpletree_multivendor/sellerstore/storeview', 'seller_store_id='.$seller_id,true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('common/home')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('extension/account/purpletree_multivendor/sellerstore/storeview', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('information/contact')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('information/contact', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/voucher/success')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/voucher/success', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/voucher', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/voucher', 'seller_store_id='.$seller_id,true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('information/information/agree', 'information_id=' . $this->config->get('config_account_id'), true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('information/information/agree', 'information_id=' . $this->config->get('config_account_id').'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/address/delete', 'address_id=' . $result['address_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/address/delete', 'address_id=' . $result['address_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/address/edit', 'address_id=' . $result['address_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/address/edit', 'address_id=' . $result['address_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/address/edit', 'address_id=' . $this->request->get['address_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/address/edit', 'address_id=' . $this->request->get['address_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/product', 'product_id=' . $product['product_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/product', 'product_id=' . $product['product_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/cart')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/cart','seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/checkout','',false)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/checkout','seller_store_id='.$seller_id,false)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('common/currency/currency', '', $this->request->server['HTTPS'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('common/currency/currency', 'seller_store_id='.$seller_id, $this->request->server['HTTPS'])]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link($route, $url, $this->request->server['HTTPS'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link($route, $url.'&seller_store_id='.$seller_id, $this->request->server['HTTPS'])]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('information/information', 'information_id=' . $result['information_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('information/information', 'information_id=' . $result['information_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/return/add', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/return/add', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('information/sitemap')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('information/sitemap', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/manufacturer')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/manufacturer','seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/special')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/special','seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/checkout', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/checkout', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/category', 'path=' . $child['category_id'] . '_' . $child_3['category_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/category', 'path=' . $child['category_id'] . '_' . $child_3['category_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('common/language/language', '', $this->request->server['HTTPS'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('common/language/language', 'seller_store_id='.$seller_id, $this->request->server['HTTPS'])]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/category', 'path=' . $category['category_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/category', 'path=' . $category['category_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/cart/edit', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/cart/edit', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/cart', 'remove=' . $key)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/cart', 'remove=' . $key.'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('product/product', 'product_id=' . $this->request->post['product_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/product', 'product_id=' . $this->request->post['product_id'].'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('product/product', 'product_id=' . $product['product_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/product', 'product_id=' . $product['product_id'].'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('$this->url->link('information/information/agree', 'information_id=' . $this->config->get('config_checkout_id'), true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('information/information/agree', 'information_id=' . $this->config->get('config_checkout_id').'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+	</file>
+	<file path="catalog/controller/common/*.php">
+		<operation error="skip">
+			<search><![CDATA[
+			public function
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[
+			protected function
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/account', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/account', 'seller_store_id='.$seller_id, true)]]></add>
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('account/login', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/login', 'seller_store_id='.$seller_id, true)]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/edit', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/edit', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/password', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/password', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/address', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/address', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/wishlist', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/wishlist', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/reward', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/reward', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/return', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/return', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/transaction', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/transaction', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/recurring', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/recurring', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/newsletter', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/newsletter', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/address/add', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/address/add', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/forgotten', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/forgotten', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/register', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/register', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/logout', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/logout', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order', $url, true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[ $this->url->link('account/order', $url.'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order/info', 'order_id=' . $result['order_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order/info', 'order_id=' . $result['order_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order', 'page={page}', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order', 'page={page}'.'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order/info', 'order_id=' . $order_id, true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order/info', 'order_id=' . $order_id.'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order/info', 'order_id=' . $this->request->get['order_id'] . $url.'&seller_store_id='.$seller_id, true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order/info', 'order_id=' . $this->request->get['order_id'] . $url.'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order/reorder', 'order_id=' . $order_id . '&order_product_id=' . $product['order_product_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order/reorder', 'order_id=' . $order_id . '&order_product_id=' . $product['order_product_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/return/add', 'order_id=' . $order_info['order_id'] . '&product_id=' . $product['product_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/return/add', 'order_id=' . $order_info['order_id'] . '&product_id=' . $product['product_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/product', 'product_id=' . $product_info['product_id'].'&seller_store_id='.$seller_id)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/product', 'product_id=' . $product_info['product_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/cart')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/cart','seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/cart', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/cart', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/password', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/password', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/success')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/success', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/success')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/success', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/wishlist')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/wishlist', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/reset', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/reset', 'seller_store_id='.$seller_id,true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/reset', 'code=' . $code, true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/reset', 'code=' . $code.'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('common/home', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('extension/account/purpletree_multivendor/sellerstore/storeview', 'seller_store_id='.$seller_id,true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('common/home')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('extension/account/purpletree_multivendor/sellerstore/storeview', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('information/contact')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('information/contact', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/voucher/success')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/voucher/success', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/voucher', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/voucher', 'seller_store_id='.$seller_id,true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('information/information/agree', 'information_id=' . $this->config->get('config_account_id'), true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('information/information/agree', 'information_id=' . $this->config->get('config_account_id').'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/address/delete', 'address_id=' . $result['address_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/address/delete', 'address_id=' . $result['address_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/address/edit', 'address_id=' . $result['address_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/address/edit', 'address_id=' . $result['address_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/address/edit', 'address_id=' . $this->request->get['address_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/address/edit', 'address_id=' . $this->request->get['address_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/product', 'product_id=' . $product['product_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/product', 'product_id=' . $product['product_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/cart')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/cart','seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/checkout','',false)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/checkout','seller_store_id='.$seller_id,false)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('common/currency/currency', '', $this->request->server['HTTPS'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('common/currency/currency', 'seller_store_id='.$seller_id, $this->request->server['HTTPS'])]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link($route, $url, $this->request->server['HTTPS'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link($route, $url.'&seller_store_id='.$seller_id, $this->request->server['HTTPS'])]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('information/information', 'information_id=' . $result['information_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('information/information', 'information_id=' . $result['information_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/return/add', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/return/add', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('information/sitemap')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('information/sitemap', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/manufacturer')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/manufacturer','seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/special')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/special','seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/checkout', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/checkout', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/category', 'path=' . $child['category_id'] . '_' . $child_3['category_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/category', 'path=' . $child['category_id'] . '_' . $child_3['category_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('common/language/language', '', $this->request->server['HTTPS'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('common/language/language', 'seller_store_id='.$seller_id, $this->request->server['HTTPS'])]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/category', 'path=' . $category['category_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/category', 'path=' . $category['category_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/cart/edit', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/cart/edit', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/cart', 'remove=' . $key)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/cart', 'remove=' . $key.'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('product/product', 'product_id=' . $this->request->post['product_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/product', 'product_id=' . $this->request->post['product_id'].'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('product/product', 'product_id=' . $product['product_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/product', 'product_id=' . $product['product_id'].'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('$this->url->link('information/information/agree', 'information_id=' . $this->config->get('config_checkout_id'), true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('information/information/agree', 'information_id=' . $this->config->get('config_checkout_id').'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+	</file>
+	<file path="catalog/controller/blog/*.php">
+		<operation error="skip">
+			<search><![CDATA[
+			public function index() {
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+
+	</file>
+	<file path="catalog/controller/tool/*.php">
+		<operation error="skip">
+			<search><![CDATA[
+			public function index() {
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+
+	</file>
+	<file path="catalog/controller/startup/*.php">
+		<operation error="skip">
+			<search><![CDATA[
+			public function index() {
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+
+	</file>
+	<file path="catalog/controller/mail/*.php">
+		<operation error="skip">
+			<search><![CDATA[
+			public function index() {
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+
+	</file>
+	<file path="catalog/controller/information/*.php">
+		<operation error="skip">
+			<search><![CDATA[
+			public function index() {
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+
+	</file>
+	<file path="catalog/controller/event/*.php">
+		<operation error="skip">
+			<search><![CDATA[
+			public function index() {
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+
+	</file>
+	<file path="catalog/controller/error/*.php">
+		<operation error="skip">
+			<search><![CDATA[
+			public function index() {
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+
+	</file>
+	<file path="catalog/controller/api/*.php">
+		<operation error="skip">
+			<search><![CDATA[
+			public function index() {
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+
+	</file>
+	<file path="catalog/controller/account/*.php">
+		<operation error="skip">
+			<search><![CDATA[
+			public function
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[
+			protected function
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('product/manufacturer/info', 'manufacturer_id=' . $product_info['manufacturer_id']);]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/manufacturer/info', 'manufacturer_id=' . $product_info['manufacturer_id'] . 'seller_store_id='.$seller_id);]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . $url)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/manufacturer/info', 'manufacturer_id=' . $this->request->get['manufacturer_id'] . $url . 'seller_store_id='.$seller_id)]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/account', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/account', 'seller_store_id='.$seller_id, true)]]></add>
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('account/login', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/login', 'seller_store_id='.$seller_id, true)]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/edit', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/edit', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/password', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/password', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/address', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/address', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/wishlist', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/wishlist', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/reward', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/reward', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/return', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/return', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/transaction', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/transaction', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/recurring', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/recurring', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/newsletter', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/newsletter', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/address/add', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/address/add', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/forgotten', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/forgotten', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/register', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/register', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/logout', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/logout', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order', $url, true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[ $this->url->link('account/order', $url.'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order/info', 'order_id=' . $result['order_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order/info', 'order_id=' . $result['order_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order', 'page={page}', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order', 'page={page}'.'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order/info', 'order_id=' . $order_id, true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order/info', 'order_id=' . $order_id.'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order/info', 'order_id=' . $this->request->get['order_id'] . $url.'&seller_store_id='.$seller_id, true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order/info', 'order_id=' . $this->request->get['order_id'] . $url.'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/order/reorder', 'order_id=' . $order_id . '&order_product_id=' . $product['order_product_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/order/reorder', 'order_id=' . $order_id . '&order_product_id=' . $product['order_product_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/return/add', 'order_id=' . $order_info['order_id'] . '&product_id=' . $product['product_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/return/add', 'order_id=' . $order_info['order_id'] . '&product_id=' . $product['product_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/product', 'product_id=' . $product_info['product_id'].'&seller_store_id='.$seller_id)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/product', 'product_id=' . $product_info['product_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/cart')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/cart','seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/cart', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/cart', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/password', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/password', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/success')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/success', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/success')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/success', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/wishlist')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/wishlist', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/reset', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/reset', 'seller_store_id='.$seller_id,true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/reset', 'code=' . $code, true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/reset', 'code=' . $code.'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('common/home', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('extension/account/purpletree_multivendor/sellerstore/storeview', 'seller_store_id='.$seller_id,true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('common/home')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('extension/account/purpletree_multivendor/sellerstore/storeview', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('information/contact')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('information/contact', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/voucher/success')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/voucher/success', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/voucher', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/voucher', 'seller_store_id='.$seller_id,true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('information/information/agree', 'information_id=' . $this->config->get('config_account_id'), true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('information/information/agree', 'information_id=' . $this->config->get('config_account_id').'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/address/delete', 'address_id=' . $result['address_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/address/delete', 'address_id=' . $result['address_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/address/edit', 'address_id=' . $result['address_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/address/edit', 'address_id=' . $result['address_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/address/edit', 'address_id=' . $this->request->get['address_id'], true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/address/edit', 'address_id=' . $this->request->get['address_id'].'&seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/product', 'product_id=' . $product['product_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/product', 'product_id=' . $product['product_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/cart')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/cart','seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/checkout','',false)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/checkout','seller_store_id='.$seller_id,false)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('common/currency/currency', '', $this->request->server['HTTPS'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('common/currency/currency', 'seller_store_id='.$seller_id, $this->request->server['HTTPS'])]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link($route, $url, $this->request->server['HTTPS'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link($route, $url.'&seller_store_id='.$seller_id, $this->request->server['HTTPS'])]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('information/information', 'information_id=' . $result['information_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('information/information', 'information_id=' . $result['information_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('account/return/add', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('account/return/add', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('information/sitemap')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('information/sitemap', 'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/manufacturer')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/manufacturer','seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/special')]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/special','seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/checkout', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/checkout', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/category', 'path=' . $child['category_id'] . '_' . $child_3['category_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/category', 'path=' . $child['category_id'] . '_' . $child_3['category_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('common/language/language', '', $this->request->server['HTTPS'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('common/language/language', 'seller_store_id='.$seller_id, $this->request->server['HTTPS'])]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/category', 'path=' . $category['category_id'] . '_' . $child['category_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[$this->url->link('product/category', 'path=' . $category['category_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/category', 'path=' . $category['category_id'].'&seller_store_id='.$seller_id)]]></add>  
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/cart/edit', '', true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/cart/edit', 'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('checkout/cart', 'remove=' . $key)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('checkout/cart', 'remove=' . $key.'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('product/product', 'product_id=' . $this->request->post['product_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/product', 'product_id=' . $this->request->post['product_id'].'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('product/product', 'product_id=' . $product['product_id'])]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('product/product', 'product_id=' . $product['product_id'].'seller_store_id='.$seller_id)]]></add>  
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[$this->url->link('$this->url->link('information/information/agree', 'information_id=' . $this->config->get('config_checkout_id'), true)]]></search>
+			<add  position="replace" trim="true"><![CDATA[$this->url->link('information/information/agree', 'information_id=' . $this->config->get('config_checkout_id').'seller_store_id='.$seller_id, true)]]></add>  
+		</operation>
+	</file>
+	<file path="catalog/controller/extension/*.php">
+		<operation error="skip">
+			<search><![CDATA[
+			public function 
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+
+	</file>
+	<file path="catalog/controller/extension/payment/*.php">
+		<operation error="skip">
+			<search><![CDATA[
+			public function
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+
+	</file>
+	<file path="catalog/controller/extension/d_social_login/*.php">
+		<operation error="skip">
+			<search><![CDATA[
+			public function 
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+
+	</file>
+	<file path="catalog/controller/extension/module/*.php">
+	
+		<operation error="skip">
+			<search><![CDATA[
+			public function 
+			]]></search>
+		<ignoreif regex="true"><![CDATA[~(ControllerExtensionModuleDSocialLogin)~]]></ignoreif>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+
+	</file>
+	<file path="catalog/controller/extension/module/d_social_login.php">
+		<operation error="skip">
+			<search><![CDATA[
+		 public function index(){
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[
+		 public function login(){
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+<operation error="skip">
+			<search><![CDATA[
+		  public function register(){
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[
+	  public function reset() {
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>	
+		<operation error="skip">
+			<search><![CDATA[
+	   private function getForm($customer_data, $authentication_data) {
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation>
+			<operation error="skip">
+			<search><![CDATA[
+	   private function getForm($customer_data, $authentication_data) {
+			]]></search>
+			<add  position="after" trim="true"><![CDATA[
+			if (isset($this->request->get['seller_store_id'])){
+			$data['seller_id']=$this->request->get['seller_store_id'];
+			$seller_id =$this->request->get['seller_store_id'];
+		} else {$seller_id = '';}
+			]]></add>
+		</operation> 
+	</file>
+	<file path="catalog/view/theme/*/template/*/*.twig">
+		<operation error="skip">
+			<search><![CDATA[
+		cart.add(product_id,quantity);
+			]]></search>
+			<add  position="replace" trim="true"><![CDATA[
+			cart.add(product_id,quantity,{{ seller_id }});
+			]]></add> 
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[
+		cart.remove('{{ product.cart_id }}');
+			]]></search>
+			<add  position="replace" trim="true"><![CDATA[
+			cart.remove('{{ product.cart_id }}',{{ seller_id }});
+			]]></add> 
+		</operation>
+
+	</file>
+		<file path="catalog/view/theme/*/template/account/purpletree_multivendor/*.twig">
+		<operation error="skip">
+			<search><![CDATA[
+		cart.add(product_id,quantity);
+			]]></search>
+			<add  position="replace" trim="true"><![CDATA[
+			cart.add(product_id,quantity,{{ seller_id }});
+			]]></add>
+		</operation>
+
+	</file>
+</modification>

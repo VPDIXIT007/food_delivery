@@ -1,0 +1,154 @@
+<div class="position-footer-left">
+<h5 class="toggled title">{{ Contact }}</h5>
+ <ul class="list-unstyled" style="display: block;">
+           {# Seller Name #}
+		   {% if (module_purpletree_multivendor_seller_name) is not null %}
+                 <li>
+				 <div class="seller-name">
+						<h3 style="margin-top:10px;">{{ seller_name }}</h3>
+					</div>
+                </li>
+			{% endif %}
+					{% if seller_review_status %}
+						{% if store_rating.rating %}
+						<li>
+								<div class="rating-rewiew">
+										<div class="rating">
+												<h4 class="text-center"><strong> {{ store_rating.rating|number_format(1) }} </strong><br> <small>out of 5</small></h4>
+												<div class="stars">
+													{% for i in 1..5 %}
+													{% if store_rating.rating < i %} 
+														<span class="fa fa-stack star-seller"><i class="fa fa-star-o fa-stack-2x"></i></span> 
+													{% else %} 
+														<span class="fa fa-stack star-seller"><i class="fa fa-star fa-stack-2x" ></i><i class="fa fa-star-o fa-stack-2x"></i></span> {% endif %}
+													{% endfor %}
+												</div>
+										</div>
+								</div>
+						{% endif %}
+							 	<div class="reviews" style="font-size: 14px;color: #999;">
+									<a href="{{ store_review }}" target="_blank">{{ text_sellerreview }} ({{ store_rating['count'] }})</a>
+								</div>
+						</li>
+					{% endif %}
+				 
+					{% if (module_purpletree_multivendor_store_phone) is not null %}
+						  <li>	<div class="phone">
+									<i class="fa fa-phone"></i>
+									<div class="contact_site"> {{ store_phone }}</div>
+								</div>
+							 </li>
+					{% endif %}
+
+                {% if (module_purpletree_multivendor_store_email) is not null %}
+						<li>	<div class="email"><i class="fa fa-envelope"></i> 
+									<div class="contact_site">{{ store_email }}</div>
+								</div>
+						</li>		
+				{% endif %}
+                 
+				 	{% if (module_purpletree_multivendor_store_address) is not null %}
+						<li>
+								<div class="site"> <i class="fa fa-location-arrow"></i>
+								<div  class="contact_site" >{{ store_address }} {{ store_city }} {{ store_state }} {{ store_country }}</div>
+							</div>
+						</li>
+					{% endif %}
+               		 <li class="social-media">
+						{% if facebook_link %}
+						<a href="{{ facebook_link }}"   target="blank"><i class="fa fa-facebook"></i></a>
+						{% endif %}
+						{% if wesbsite_link %}
+						<a href="{{ wesbsite_link }}" target="blank"><i class="fa fa-globe" aria-hidden="true"></i></a>
+						{% endif %}
+						{% if instagram_link %}
+						<a href="{{ instagram_link }}"  target="blank"><i class="fa fa-instagram" aria-hidden="true"></i></a>
+						{% endif %}
+						{% if whatsapp_link %}
+						<a href="{{ whatsapp_link }}" class="whatsapp" aria-hidden="true" target="_blank"><i class="fa fa-whatsapp"></i></a>
+						{% endif %}
+					</li>
+            </ul>
+{# 
+<div class="seller_pannel_store">
+				
+					<div class="store_logo pts-text-center">
+						<img class="img-responsive m-auto" src="{{ store_logo }}">
+					</div>
+					{% if (module_purpletree_multivendor_seller_name) is not null %}
+					<div class="seller-name">
+						<h3 style="margin-top:10px;">{{ seller_name }}</h3>
+					</div>
+					{% endif %}
+					{% if seller_review_status %}
+					{% if store_rating.rating %}
+					<div class="rating pts-text-left">
+						{% for i in 1..5 %}
+						{% if store_rating.rating < i %} <span class="fa fa-stack star-seller"><i class="fa fa-star-o fa-stack-2x"></i></span> {% else %} <span class="fa fa-stack star-seller"><i class="fa fa-star fa-stack-2x" ></i><i class="fa fa-star-o fa-stack-2x"></i></span> {% endif %}
+						{% endfor %}({{ store_rating.rating|number_format(1) }})
+					</div>
+					{% else %}
+					{% for i in 1..5 %}
+					<span class="fa fa-stack star-seller"><i class="fa fa-star-o fa-stack-1x" ></i></span>
+					{% endfor %}({{ store_rating.rating|number_format(1) }})
+					{% endif %}
+					<div class="store-rating">
+						<a href="{{ store_review }}" target="_blank">{{ text_sellerreview }} ({{ store_rating['count'] }})</a>
+					</div>
+					{% endif %}
+					{% if (module_purpletree_multivendor_store_social_link) is not null %}
+					<div class="social-icons d-flex justify-content-between">
+						{% if facebook_link != '' %}
+						<a target="_blank" href="{{ facebook_link }}"><i class="fa fa-facebook-square" style="margin-left:-3px"></i></a> {% endif %}
+						{% if twitter_link != '' %}
+						<a target="_blank" href="{{ twitter_link  }}"><i class="fa fa-tumblr-square"></i></a>
+						{% endif %}
+						{% if google_link != '' %}
+						<a  target="_blank" href="{{ google_link }}"><i class="fa fa-google-plus-square"></i></a>
+						{% endif %}
+						{% if instagram_link != '' %}
+						<a  target="_blank" href="{{ instagram_link }}"><i class="fa fa-instagram"></i></a>
+						{% endif %}
+						{% if pinterest_link != '' %}
+						<a target="_blank" href="{{ pinterest_link }}"><i class="fa fa-pinterest-square"></i></a>
+						{% endif %}
+						{% if wesbsite_link != '' %}
+						<a target="_blank" href="{{ wesbsite_link }}"><i class="fa fa-globe"></i></a>
+						{% endif %}
+						
+						{% if whatsapp_link != '' %}
+						<a target="_blank" href="{{ whatsapp_link }}"><i class="fa fa-whatsapp"></i></a>
+						{% endif %}
+					</div>
+					{% endif %}
+					<div class="seller-info" style="">
+						<div class="contact-info">
+							{% if (module_purpletree_multivendor_store_email) is not null %}
+							<div class="seller-email">
+								<div><i class="fa fa-envelope" aria-hidden="true"></i> {{ store_email }}</div>
+							</div>
+							{% endif %}
+							{% if (module_purpletree_multivendor_store_phone) is not null %}
+							<div class="seller-phone">
+								<div><i class="fa fa-phone" aria-hidden="true"></i> {{ store_phone }}</div>
+							</div>
+							{% endif %}
+							{% if (module_purpletree_multivendor_store_address) is not null %}
+							<div class="seller-address">
+								<div><i class="fa fa-home" aria-hidden="true"></i>{{ store_address }}<p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ store_city }}{{ store_state }}<p/><p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ store_country }}{{ store_zipcode }}<p/></div>
+							</div>
+							{% endif %}
+						</div>
+											
+					</div>
+					
+				
+				
+				</div>
+
+ #}
+
+{% for module in modules %}
+{{ module }}
+{% endfor %}
+</div>

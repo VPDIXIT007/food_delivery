@@ -1,0 +1,120 @@
+<footer>
+	<div class="footer_bottom clearfix">
+		<div class="container">	
+			<div class="footer-bottom-inner">
+			 
+				<p class="copyright">{{ powered }}</p>	 
+                <span class="clear">&nbsp;&nbsp;</span>
+				<p class="copyright">
+	                        {% for information in informations %}
+					           <a href="{{ information.href }}"> {{ information.title }} </a>&nbsp;&nbsp;
+					          	{% endfor %}
+								 </p>	
+			</div>		
+		</div>	
+	</div>
+	{% for script in scripts %}
+		<script src="{{ script }}"></script>
+	{% endfor %}
+</footer>
+<!-- top scroll -->
+	<a href="#" class="scrollToTop back-to-top" data-toggle="tooltip" title="{{ text_backtop }}"></a>
+	<!-- FIRE BASE PUSH NOTIFICATIONS -->
+<script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.0.1/firebase-messaging.js"></script>
+<script>
+/*
+    var firebaseConfig = {
+            apiKey: "AIzaSyDsRoYUkVAmpjUeyjSQjxIcPSg8Us5WXF4",
+            authDomain: "el-order-58003.firebaseapp.com",
+            databaseURL: "https://el-order-58003.firebaseio.com",
+            projectId: "el-order-58003",
+            storageBucket: "el-order-58003.appspot.com",
+            messagingSenderId: "129287823104",
+            appId: "1:129287823104:web:849ac6770bbaaa478a1de5",
+            measurementId: "G-B6F3HYQQ13"
+        };*/
+		 var firebaseConfig = {
+    apiKey: "AIzaSyA-xZHyg5TfODQd36knDWPMsWT57z-R2Sg",
+    authDomain: "el-order-30130.firebaseapp.com",
+    databaseURL: "https://el-order-30130.firebaseio.com",
+    projectId: "el-order-30130",
+    storageBucket: "el-order-30130.appspot.com",
+    messagingSenderId: "277138525933",
+    appId: "1:277138525933:web:c1a80a3ed701293ede46e4",
+    measurementId: "G-183DPNZLJB"
+  };
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+    const messaging = firebase.messaging();
+
+    function IntitalizeFireBaseMessaging() {
+        // Add the public key generated from the console here.
+        
+        messaging.getToken({ vapidKey: "BD56_VxtCHHFHWV2X6h2sReadxxPqKGHXQcmGAy_OkLj4bgaS04cv1OcbNVJWPTIqqR5eAb4Ce_OHuHfBlNgJ-w" })
+         //   .requestPermission()
+            .then(function () {
+                console.log("Notification Permission");
+                return messaging.getToken();
+            })
+            .then(function (token) {
+                console.log("Token : "+token);
+              //  document.getElementById("token").innerHTML=token;
+	    $.ajax({
+		
+        url: 'index.php?route=common/header/pushnotifications',
+        type: 'post',
+        data: {token: token},
+        dataType: 'json',
+     
+        success: function() {
+       
+        },
+		 error: function() {
+     
+        },
+      
+    });
+            })
+            .catch(function (reason) {
+                console.log(reason);
+            });
+    }
+	
+    messaging.onMessage(function (payload) {
+        console.log(payload);
+		
+		$('#content').parent().before('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + payload.notification.body + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+		$('html, body').animate({ scrollTop: 0 }, 'slow');
+        const notificationOption={
+            body:payload.notification.body,
+            icon:payload.notification.icon
+        };
+
+        if(Notification.permission==="granted"){
+            var notification=new Notification(payload.notification.title,notificationOption);
+
+            notification.onclick=function (ev) {
+                ev.preventDefault();
+                window.open(payload.notification.click_action,'_blank');
+                notification.close();
+            }
+        }
+
+    });
+	
+    messaging.onTokenRefresh(function () {
+        messaging.getToken()
+            .then(function (newtoken) {
+                console.log("New Token : "+ newtoken);
+            })
+            .catch(function (reason) {
+                console.log(reason);
+            })
+    })
+    IntitalizeFireBaseMessaging();
+</script>
+<!-- FIRE BASE PUSH NOTIFICATIONS END --> 
+</body>
+</html>

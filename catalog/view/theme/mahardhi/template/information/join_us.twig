@@ -1,0 +1,97 @@
+{{ headerhome }}
+<div id="information-contact" class="container">
+  <ul class="breadcrumb">
+    {% for breadcrumb in breadcrumbs %}
+    <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+    {% endfor %}
+  </ul>
+  <div class="row">{{ column_left }}
+    {% if column_left and column_right %}
+    {% set class = 'col-sm-6' %}
+    {% elseif column_left or column_right %}
+    {% set class = 'col-sm-9' %}
+    {% else %}
+    {% set class = 'col-sm-12' %}
+    {% endif %}
+    <div id="content" class="{{ class }}">{{ content_top }}
+      <h1>{{ heading_title }}</h1>
+      <div class="row">
+        <div class="col-sm-12">
+       
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 contact-right">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+          <fieldset>
+            <legend>{{ text_contact }}</legend>
+            <div class="form-group required">
+              <label class="col-sm-2 control-label" for="input-name">{{ entry_name }}</label>
+              <div class="col-sm-10">
+                <input type="text" name="name" value="{{ name }}" id="input-name" class="form-control" />
+                {% if error_name %}
+                <div class="text-danger">{{ error_name }}</div>
+                {% endif %}
+              </div>
+            </div>
+			<div class="form-group ">
+              <label class="col-sm-2 control-label" for="input-name">{{ entry_address }}</label>
+              <div class="col-sm-10">
+                <input type="text" name="address" value="{{ address }}" id="input-address" class="form-control" />
+                {% if error_address %}
+                <div class="text-danger">{{ error_address }}</div>
+                {% endif %}
+              </div>
+            </div>
+			
+			<div class="form-group ">
+              <label class="col-sm-2 control-label" for="input-name">{{ entry_store_name }}</label>
+              <div class="col-sm-10">
+                <input type="text" name="store_name" value="{{ store_name }}" id="input-store_name" class="form-control" />
+                {% if error_store_name %}
+                <div class="text-danger">{{ error_store_name }}</div>
+                {% endif %}
+              </div>
+            </div>
+			
+            <div class="form-group ">
+              <label class="col-sm-2 control-label" for="input-email">{{ entry_email }}</label>
+              <div class="col-sm-10">
+                <input type="text" name="email" value="{{ email }}" id="input-email" class="form-control" />
+                {% if error_email %}
+                <div class="text-danger">{{ error_email }}</div>
+                {% endif %}
+              </div>
+            </div>
+			<div class="form-group required">
+              <label class="col-sm-2 control-label" for="input-phone-number">{{ entry_phone_number }}</label>
+              <div class="col-sm-10">
+                <input type="text" name="phone-number" value="{{ phone-number }}" id="input-phone-number" class="form-control" />
+                {% if error_phone_numer %}
+                <div class="text-danger">{{ error_phone_numer }}</div>
+                {% endif %}
+              </div>
+            </div>
+			
+			
+            <div class="form-group ">
+              <label class="col-sm-2 control-label" for="input-enquiry">{{ entry_massege }}</label>
+              <div class="col-sm-10">
+                <textarea name="massege" rows="10" id="input-massege" class="form-control">{{ massege }}</textarea>
+                {% if error_massege %}
+                <div class="text-danger">{{ error_massege }}</div>
+                {% endif %}
+              </div>
+            </div>
+            {{ captcha }}
+          </fieldset>
+          <div class="buttons clearfix">
+            <div class="pull-right">
+              <input class="btn btn-primary" type="submit" value="{{ button_submit }}" />
+            </div>
+          </div>
+        </form>
+      </div>
+      {{ content_bottom }}
+    </div>
+  </div>
+    {{ column_right }}</div>
+</div></div>
+{{ footerhome }}
