@@ -1,4 +1,13 @@
 <?php
+function dd($data, $die = true){
+	echo "<pre>";
+	print_r($data);
+	echo "</pre>";
+
+	if($die){
+		die(" ############### Vookm kom plasa #######");
+	}
+}
 // Version
 define('VERSION', '3.0.2.0');
 

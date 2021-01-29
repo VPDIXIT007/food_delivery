@@ -44,7 +44,7 @@ class ControllerCommonFooterBottom extends Controller {
 		$data['modules'] = array();
 
 		$modules = $this->model_design_layout->getLayoutModules($layout_id, 'footer_bottom');
-		trigger_error(print_r($modules,true));
+		//trigger_error(print_r($modules,true));
 			$this->load->model('catalog/information');
 
 		$data['informations'] = array();

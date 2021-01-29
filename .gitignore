@@ -6,6 +6,7 @@ admin/config.php
 
 !index.html
 
+image/*
 download/
 image/data/
 image/cache/
