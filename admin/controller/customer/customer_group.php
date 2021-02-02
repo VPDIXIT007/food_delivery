@@ -11,7 +11,7 @@ class ControllerCustomerCustomerGroup extends Controller {
 
 		$this->getList();
 	}
-
+ 
 	public function add() {
 		$this->load->language('customer/customer_group');
 
@@ -296,6 +296,8 @@ class ControllerCustomerCustomerGroup extends Controller {
 
 		if (isset($this->request->get['customer_group_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
 			$customer_group_info = $this->model_customer_customer_group->getCustomerGroup($this->request->get['customer_group_id']);
+			// added
+			$data['customer_group_info'] = $this->model_customer_customer_group->getCustomerGroup($this->request->get['customer_group_id']);
 		}
 
 		$this->load->model('localisation/language');

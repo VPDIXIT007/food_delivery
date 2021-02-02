@@ -1422,7 +1422,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 				$seller_id = $this->customer->getId();
 			}
 			$order_info = $this->model_extension_purpletree_multivendor_sellerorder->getOrder($order_id,$seller_id);
-			
+
 			if ($order_info) {
 				$this->model_extension_purpletree_multivendor_sellerorder->addOrderHistory($order_id,$seller_id, $this->request->post['order_status_id'], $this->request->post['comment'], $this->request->post['notify'], $this->request->post['override']);
 				

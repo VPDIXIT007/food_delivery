@@ -174,6 +174,7 @@ class ControllerCommonHeader extends Controller {
 		$data['register'] = $this->url->link('account/register', '', true);
 		$data['login'] = $this->url->link('account/login', '', true);
 		$data['order'] = $this->url->link('account/order', '', true);
+		$data['reward'] = $this->url->link('account/reward', '', true);
 		$data['transaction'] = $this->url->link('account/transaction', '', true);
 		$data['download'] = $this->url->link('account/download', '', true);
 		$data['logout'] = $this->url->link('account/logout', '', true);
@@ -245,7 +246,7 @@ class ControllerCommonHeader extends Controller {
 		}
 		
 		$data['header_top'] = $this->load->controller('common/header_top');
-		
+		 
 		return $this->load->view('common/header', $data);
 	}
 	public function pushnotifications() {

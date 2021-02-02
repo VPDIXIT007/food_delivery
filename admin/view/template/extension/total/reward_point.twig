@@ -28,7 +28,7 @@
       </div>
       <div class="panel-body">
         <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-total" class="form-horizontal">
-          <div class="form-group">
+          <div class="form-group hidden">
             <label class="col-sm-2 control-label" for="input-total"><span data-toggle="tooltip"
                 title="{{ help_total }}">{{ entry_total }}</span></label>
             <div class="col-sm-10">
@@ -36,7 +36,7 @@
                 placeholder="{{ entry_total }}" id="input-total" class="form-control" />
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group hidden">
             <label class="col-sm-2 control-label" for="input-point-value"><span data-toggle="tooltip"
                 title="A single point is equal to how much real currency, 1point = 1 usd">Point Value</span></label>
             <div class="col-sm-10">
@@ -44,7 +44,7 @@
                 placeholder="1" id="input-point-value" class="form-control" />
             </div>
           </div>
-          <div class="form-group">
+          <div class="form-group hidden">
             <label class="col-sm-2 control-label" for="input-fee">Invoice Text</label>
             <div class="col-sm-10">
               <input type="text" name="total_reward_point_text" value="{{ total_reward_point_text }}"

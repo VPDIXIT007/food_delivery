@@ -6,7 +6,7 @@ class ControllerAccountReward extends Controller {
 
 			$this->response->redirect($this->url->link('account/login', '', true));
 		}
-
+ 
 		$this->load->language('account/reward');
 
 		$this->document->setTitle($this->language->get('heading_title'));
@@ -48,6 +48,9 @@ class ControllerAccountReward extends Controller {
 		$reward_total = $this->model_account_reward->getTotalRewards();
 
 		$results = $this->model_account_reward->getRewards($filter_data);
+
+		$data['reward_history'] = $this->model_account_reward->getRewardHistory();
+
 
 		foreach ($results as $result) {
 			$data['rewards'][] = array(

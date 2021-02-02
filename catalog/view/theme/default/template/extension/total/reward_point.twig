@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-sm-12">
+    <hr>
+  </div>
+  <div class="col-sm-12">
+    <p>{{ heading_title }}</p>
+  </div>
+  <div class="col-sm-6">
+    <label>{{ entry_reward }}</label>
+    <div class="input-group btn-block" style="max-width: 250px;">
+      <input type="number" name="reward_point" id="reward_point" value="{{ point_used }}" size="1" class="form-control"
+        max="{{ max_point }}" min="0" placeholder="Reward Point" />
+      <span class="input-group-btn">
+        <button type="button" id="button-reward" data-toggle="tooltip" title="Apply"
+          class="btn btn-danger">Apply</button>
+      </span>
+    </div>
+    <label id="reward-response" class="text-danger"></label>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  $('#button-reward').on('click', function () {
+    $.ajax({
+      url: 'index.php?route=extension/total/reward_point/reward',
+      type: 'post',
+      data: 'reward_point=' + encodeURIComponent($('input[name=\'reward_point\']').val()),
+      dataType: 'json',
+      beforeSend: function () {
+        $('#reward-response').html('');
+        $('#button-reward').button('loading');
+      },
+      complete: function () {
+        $('#button-reward').button('reset');
+      },
+      success: function (json) {
+
+        if (json['error']) {
+          $('#reward-response').html(json['error']).removeClass("text-success").addClass("text-danger");;
+        }
+
+        if (json['success']) {
+          $("#reward_point").val(json['customer_point']);
+          $('#reward-response').html(json['success']).removeClass("text-danger").addClass("text-success");
+        }
+        $('#cart > ul').load('index.php?route=common/cart/info&seller_store_id={{ seller_store_id }} ul li');
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+      }
+    });
+  });
+</script>

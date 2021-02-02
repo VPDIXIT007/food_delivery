@@ -502,4 +502,36 @@ class ModelCheckoutOrder extends Model {
 			$this->cache->delete('product');
 		}
 	}
+	
+	//ac handle reward point after order confirm
+	public function handleRewardPoint()
+	{
+		$success_data['success'] = true;
+		if ($this->customer->getId() && isset($this->session->data['reward_point_data']['seller_group_id'])) {
+			$success_data['success'] = false;
+			$customer_id = $this->customer->getId();
+			$seller_customer_group_id = $this->session->data['reward_point_data']['seller_group_id'];
+			$point_used = $this->session->data['reward_point_data']['point_used'];
+			
+			//verify reward
+			$total_reward = $this->db->query("SELECT points FROM " . DB_PREFIX . "customer_store_reward WHERE customer_id = '" . (int)$customer_id . "' AND customer_group_id = $seller_customer_group_id LIMIT 1");
+
+			if($total_reward->num_rows){
+				if($total_reward->row['points'] >= $point_used){
+
+					$this->db->query("UPDATE " . DB_PREFIX . "customer_store_reward SET points = points-". (int)$point_used ." WHERE customer_id = '" . (int)$customer_id . "' AND customer_group_id = $seller_customer_group_id ");
+
+					$success_data['success'] = true;
+				}
+			}
+			
+			//clear related session
+			$this->session->data['customer_point'] = '';
+			$this->session->data['reward_point_data'] = '';
+			unset($this->session->data['customer_point']);
+			unset($this->session->data['reward_point_data']);
+		}
+		return $success_data;
+	}
+
 }

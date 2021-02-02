@@ -19,6 +19,13 @@ $_['entry_description'] = 'Description';
 $_['entry_approval']    = 'Approve New Customers';
 $_['entry_sort_order']  = 'Sort Order';
 
+$_['entry_reward_total']  = 'Order Total';
+$_['entry_reward_value']  = 'Point Value';
+$_['entry_reward_max']  = 'Point Max';
+$_['entry_reward_min']  = 'Point Min';
+$_['entry_reward_invoice']  = 'Invoice Text';
+$_['entry_reward_status']  = ' Status';
+
 // Help
 $_['help_approval']     = 'Customers must be approved by an administrator before they can login.';
 

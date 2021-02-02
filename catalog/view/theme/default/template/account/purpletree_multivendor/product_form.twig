@@ -38,6 +38,7 @@
 					<li id="ptsImageTab" class="nav-item"><a class="nav-link"  href="#tab-image" data-toggle="tab">{{ tab_image }}</a></li>
 					<!--<li id="ptsRewardTab" class="nav-item"><a  class="nav-link" href="#tab-reward" data-toggle="tab">{{ tab_reward }}</a></li>-->
 					<li id="ptsSEOTab" class="nav-item"><a  class="nav-link" href="#tab-seo" data-toggle="tab">{{ tab_seo }}</a></li>
+					<li id="ptsRewardTab" class="nav-item"><a href="#tab-reward" data-toggle="tab">{{ tab_reward }}</a></li>
 					<!-- Quick order -->
 					{% if quick_order_check == 1 %}
 					{% if not quick_order_tab_position %}
@@ -1271,7 +1272,7 @@
 							<tbody>
 								{% for store in stores %}
 								<tr>
-									<td class="pts-text-left">{{ store.name }}</td>
+				 					<td class="pts-text-left">{{ store.name }}</td>
 									<td class="pts-text-left">{% for language in languages %}
 										<div class="pts-input-group"><span class="pts-input-group-addon"><img src="catalog/language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
 											<input type="text" name="product_seo_url[{{ store.store_id }}][{{ language.language_id }}]" value="{% if product_seo_url[store.store_id][language.language_id] %}{{ product_seo_url[store.store_id][language.language_id] }}{% endif %}" placeholder="{{ entry_keyword }}" class="pts-form-control" />
@@ -1287,6 +1288,32 @@
 						</table>
 					</div>
 				</div>
+
+			 <div class="pts-tab-pane" id="tab-reward">
+              <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <td class="text-left"> {{ entry_customer_group }}</td>
+                      <td class="text-right">{{ entry_reward }}</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  
+                  {% for customer_group in customer_groups %}
+                  {% if customer_group['customer_group_id'] == 1 %}
+                  <tr>
+                    <td class="text-left">{{ customer_group.name }}</td>
+                    <td class="text-right"><input type="text" name="product_reward[{{ customer_group.customer_group_id }}][points]" value="{{ product_reward[customer_group.customer_group_id] ? product_reward[customer_group.customer_group_id].points }}" class="form-control" /></td>
+                  </tr>
+                  {% endif %}
+                  {% endfor %}
+                    </tbody>
+                  
+                </table>
+              </div>
+            </div>
+
 				<!-- Quick order -->
 			{% if quick_order_check == 1 %}	
 			<div class="pts-tab-pane {% if quick_order_tab_position %} active {% endif %}" id="tab-quick-order">

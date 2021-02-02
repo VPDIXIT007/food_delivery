@@ -48,6 +48,9 @@ class ControllerCheckoutPaymentAddress extends Controller {
 			$data['payment_address_custom_field'] = array();
 		}
 
+		//ac reward ui
+		$data['reward'] = $this->load->controller('extension/total/reward_point/show');
+
 		$this->response->setOutput($this->load->view('checkout/payment_address', $data));
 	}
 

@@ -731,7 +731,7 @@ $(document).delegate('#button-shipping-address', 'click', function() {
             } else {
 			var checkoutmethod = $('input[name=\'checkoutoption\']:checked').val(); 
                 $.ajax({
-                    url: 'index.php?route=checkout/confirm&checkoutmethod='+ checkoutmethod +'&seller_store_id='+ {{ seller_id }},
+                    url: 'index.php?route=checkout/confirm&checkoutmethod='+ checkoutmethod +'&seller_store_id={{ seller_id }}',
                     dataType: 'html',
                     complete: function() {
                         $('#button-payment-method').button('reset');
@@ -1198,7 +1198,7 @@ $('#step4').hide(); $('#step3').hide(); $('#step5').hide();
 $('input[type=radio][name=checkoutoption]').change(function() {
     if (this.value == 'dinein') {
        $('#step2').hide(); $('#step3').hide(); $('#step4').hide(); $('#step5').hide();
-	//   $('#step6').html('STEP 2: CONFIRM ORDER');
+	
 	   {% if lang == 'en' %} $('#step6').html('Step 2: CONFIRM ORDER'); {% else %} $('#step6').html('خطوة 2 : تاكيد الطلب'); {% endif %}
     }
     else  {

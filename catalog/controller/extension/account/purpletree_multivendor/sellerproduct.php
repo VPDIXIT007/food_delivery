@@ -1648,13 +1648,13 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerproduct extends Contr
 				$data['points'] = '';
 			}
 			
-			/* if (isset($this->request->post['product_reward'])) {
+			 if (isset($this->request->post['product_reward'])) {
 				$data['product_reward'] = $this->request->post['product_reward'];
 				} elseif (isset($this->request->get['product_id'])) {
 				$data['product_reward'] = $this->model_extension_purpletree_multivendor_sellerproduct->getProductRewards($this->request->get['product_id']);
 				} else {
 				$data['product_reward'] = array();
-			} */
+			} 
 			
 			$data['back'] = $this->url->link('extension/account/purpletree_multivendor/sellerproduct', '', true);
 			

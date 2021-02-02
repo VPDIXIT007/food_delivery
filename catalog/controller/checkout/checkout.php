@@ -2,10 +2,14 @@
 class ControllerCheckoutCheckout extends Controller {
 	public function index() {
 		
-			if (isset($this->request->get['seller_store_id'])){
+		//ac seller_id in session
+		$this->session->data['seller_store_id'] = 0;
+
+		if (isset($this->request->get['seller_store_id'])){
 			$data['seller_id']=$this->request->get['seller_store_id'];
 			$seller_id =$this->request->get['seller_store_id'];
-			$data['seller_id'] = $this->request->get['seller_store_id'];;
+			$data['seller_id'] = $this->request->get['seller_store_id'];
+			$this->session->data['seller_store_id']  = $seller_id;
 		}
 		// Validate cart has products and has stock.
 		if ((!$this->cart->hasProducts() && empty($this->session->data['vouchers']))) {
@@ -72,6 +76,18 @@ class ControllerCheckoutCheckout extends Controller {
 		} else {
 			$data['text_checkout_payment_method'] = sprintf($this->language->get('text_checkout_payment_method'), 3);
 			$data['text_checkout_confirm'] = sprintf($this->language->get('text_checkout_confirm'), 4);	
+		}
+
+		//ac check if reward enable
+		$this->load->model('extension/total/reward_point');
+		if ($this->customer->getId() && $this->config->get('total_reward_point_status') && $this->model_extension_total_reward_point->getPlanRewardStatus()) {
+				$this->load->language('extension/total/reward');
+			
+				$seller_store_id = $this->session->data['seller_store_id'];
+				$seller_group = $this->model_extension_total_reward_point->getSellerCustomerGroup($seller_store_id);
+				if(isset($seller_group['reward_status']) && $seller_group['reward_status'] && $this->cart->getSubTotal() >= $seller_group['reward_order_total']){
+					$data['text_checkout_payment_address'] .= " / Reward Point"; 
+				}
 		}
 
 		if (isset($this->session->data['error'])) {

@@ -725,7 +725,7 @@ class ModelExtensionPurpletreeMultivendorSellerproduct extends Model{
 				}
 			}
 			
-			/* if (isset($data['product_reward'])) {
+			 if (isset($data['product_reward'])) {
 				foreach ($data['product_reward'] as $customer_group_id => $product_reward) {
 					if(isset($product_reward['points'])) {
 						if ((int)$product_reward['points'] > 0) {
@@ -733,7 +733,7 @@ class ModelExtensionPurpletreeMultivendorSellerproduct extends Model{
 						}
 					}
 				}
-			} */
+			} 
 			
 			if (isset($data['product_layout'])) {
 				foreach ($data['product_layout'] as $store_id => $layout_id) {
@@ -772,7 +772,7 @@ class ModelExtensionPurpletreeMultivendorSellerproduct extends Model{
 					}
 				}
 			}
-			
+
 			$this->cache->delete('product');
 			
 			return $product_id;
@@ -1096,15 +1096,15 @@ class ModelExtensionPurpletreeMultivendorSellerproduct extends Model{
 				}
 			}
 			
-			//$this->db->query("DELETE FROM " . DB_PREFIX . "product_reward WHERE product_id = '" . (int)$product_id . "'");
+			$this->db->query("DELETE FROM " . DB_PREFIX . "product_reward WHERE product_id = '" . (int)$product_id . "'");
 			
-			/* if (isset($data['product_reward'])) {
+			 if (isset($data['product_reward'])) {
 				foreach ($data['product_reward'] as $customer_group_id => $value) {
 					if ((int)$value['points'] > 0) {
 						$this->db->query("INSERT INTO " . DB_PREFIX . "product_reward SET product_id = '" . (int)$product_id . "', customer_group_id = '" . (int)$customer_group_id . "', points = '" . (int)$value['points'] . "'");
 					}
 				}
-			} */
+			} 
 			
 			$this->db->query("DELETE FROM " . DB_PREFIX . "product_to_layout WHERE product_id = '" . (int)$product_id . "'");
 			
@@ -2063,6 +2063,20 @@ class ModelExtensionPurpletreeMultivendorSellerproduct extends Model{
 			}
 			
 		}
+		
+		public function getProductRewards($product_id) {
+			$product_reward_data = array();
+	
+			$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_reward WHERE product_id = '" . (int)$product_id . "'");
+	
+			foreach ($query->rows as $result) {
+				$product_reward_data[$result['customer_group_id']] = array('points' => $result['points']);
+			}
+	
+			return $product_reward_data;
+		}
+
+
 		/////////----END RESTRICT PRODUCTS BY CUSTOMER GROUP----///////////
 }
 ?>

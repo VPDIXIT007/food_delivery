@@ -51,6 +51,11 @@ class ModelAccountReward extends Model {
 			return $query->row['total'];
 		} else {
 			return 0;
-		}
+		} 
+	}
+
+	public function getRewardHistory(){
+		$query = $this->db->query("SELECT * FROM `oc_customer_store_reward` s LEFT JOIN `oc_customer_group_description` d ON s.customer_group_id=d.customer_group_id WHERE d.language_id =  '" . (int)$this->config->get('config_language_id') . "'");	
+		return $query->rows;	
 	}
 }

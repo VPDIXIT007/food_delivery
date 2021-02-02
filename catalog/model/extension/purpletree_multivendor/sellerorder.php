@@ -364,6 +364,7 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 		}
 		
 		public function addOrderHistory($order_id, $seller_id, $order_status_id, $comment = '', $notify = false, $override = false) {
+
 			$order_info = $this->getOrder($order_id,$seller_id);
 			
 			if ($order_info) { 
@@ -377,7 +378,43 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 					} else {
 					$safe = false;
 				}
-				
+
+				//TODO:get (5) dynamiclly
+				//ac atuo reward to customer as per store
+				if($order_status_id == 5){
+					$check_reward_count = $this->db->query("SELECT COUNT(*) as total FROM " . DB_PREFIX . "customer_reward WHERE customer_id = '" . (int)$order_info['customer_id'] . "' AND  order_id = '" . (int)$order_id . "' ")->row['total'];
+					if(!$check_reward_count){
+						$seller_info = $this->model_account_customer->getCustomer($seller_id);
+						$seller_store_info = $this->getsellerInfofororder($seller_id);
+						$seller_customer_group_id = $seller_info['customer_group_id'] ?? 0;
+						$order_customer_id = $order_info['customer_id'];
+						$order_points = 0;
+						$reward_description = "Order ID: #$order_id - ".$seller_store_info['store_name'];
+						if($seller_customer_group_id && $customer_info){
+							//oc_customer_store_reward.customer_id customer_group_id points
+							$total_point = 0;
+							$seller_order_products = $this->getSellerOrderProducts($order_id,$seller_id);
+							foreach($seller_order_products as $seller_order_product){
+								$total_point += $seller_order_product['reward'];
+							}
+							$order_points = $total_point;
+						}
+						if($order_points){
+							//update reward
+							$reward_query_row = $this->db->query("SELECT points FROM " . DB_PREFIX . "customer_store_reward WHERE customer_id = '" . (int)$order_customer_id . "' AND customer_group_id = $seller_customer_group_id LIMIT 1")->row;
+							if(isset($reward_query_row['points'])){
+								$total_point +=  $reward_query_row['points'];
+							}
+							$this->db->query("DELETE FROM " . DB_PREFIX . "customer_store_reward WHERE customer_id = '" . (int)$order_customer_id . "' AND customer_group_id = $seller_customer_group_id");
+		
+							$this->db->query("INSERT INTO " . DB_PREFIX . "customer_store_reward SET customer_id = '" . (int)$order_customer_id . "', customer_group_id = $seller_customer_group_id, points = $total_point");
+		
+							$this->db->query("INSERT INTO " . DB_PREFIX . "customer_reward SET customer_id = '" . (int)$order_customer_id . "', order_id = '" . (int)$order_id . "', points = '" . (int)$order_points . "', description = '" . $this->db->escape($reward_description) . "', date_added = NOW()");
+						}
+					}
+				}
+				//ac atuo reward to customer as per store end
+
 				// Only do the fraud check if the customer is not on the safe list and the order status is changing into the complete or process order status
 				if (!$safe && !$override && in_array($order_status_id, array_merge($this->config->get('config_processing_status'), $this->config->get('config_complete_status')))) {
 					// Anti-Fraud

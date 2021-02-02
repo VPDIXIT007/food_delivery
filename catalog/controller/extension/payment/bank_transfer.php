@@ -24,6 +24,17 @@ class ControllerExtensionPaymentBankTransfer extends Controller {
 			$this->load->language('extension/payment/bank_transfer');
 			
 			$this->load->model('checkout/order');
+			
+			//ac handle reward point
+			$reward_status = $this->model_checkout_order->handleRewardPoint();
+			if(!$reward_status['success']){
+				$json['redirect'] = $this->url->link('checkout/checkout&seller_store_id='. $seller_id );
+				$this->session->data['error'] = "You don't have enough point, please try again.";
+				
+				$this->response->addHeader('Content-Type: application/json');
+				$this->response->setOutput(json_encode($json));
+			}
+
 			if(isset($this->session->data['table_id'])) {
 			$tablenum = $this->db->query("SELECT * FROM ". DB_PREFIX ."table_manger WHERE id = '". $this->session->data['table_id'] ."'")->row;
 			$comment  = "TABLE NUMBER : ".$tablenum['table_no'];
