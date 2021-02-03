@@ -41,11 +41,11 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 				} else {
 				$filter_order_status = null;
 			}
-			if (isset($this->request->get['filter_admin_order_status'])) {
-				$filter_admin_order_status = $this->request->get['filter_admin_order_status'];
-				} else {
-				$filter_admin_order_status = null;
-			}
+			// if (isset($this->request->get['filter_admin_order_status'])) {
+			// 	$filter_admin_order_status = $this->request->get['filter_admin_order_status'];
+			// 	} else {
+			// 	$filter_admin_order_status = null;
+			// }
 			
 			if (isset($this->request->get['filter_date_from'])) {
 				$filter_date_from = $this->request->get['filter_date_from'];
@@ -59,6 +59,19 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 				} else {
 				$end_date = date('Y-m-d');
 				$filter_date_to = $end_date;
+			}
+
+			
+			if (isset($this->request->get['filter_time_from'])) {
+				$filter_time_from = $this->request->get['filter_time_from'];
+				}
+			
+			if (isset($this->request->get['filter_time_to'])) {
+				$filter_time_to = $this->request->get['filter_time_to'];
+				}
+			
+			if (isset($this->request->get['filter_table'])) {
+				$filter_table = $this->request->get['filter_table'];
 			}
 			
 			if (isset($this->request->get['page'])) {
@@ -88,6 +101,19 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 			if (isset($this->request->get['filter_date_to'])) {
 				$url .= '&filter_date_to=' . $this->request->get['filter_date_to'];
 			}
+
+			if(isset($this->request->get['filter_time_from'])){
+				$url .= '&filter_time_from=' . $this->request->get['filter_time_from'];
+			}
+
+			if(isset($this->request->get['filter_time_to'])){
+				$url .= '&filter_time_to=' . $this->request->get['filter_time_to'];
+			}
+
+			if(isset($this->request->get['filter_table'])){
+				$url .= '&filter_table=' . $this->request->get['filter_table'];
+			}
+
 			$data['breadcrumbs'] = array();
 			
 			$data['breadcrumbs'][] = array(
@@ -103,12 +129,15 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 			
 			$filter_data = array(
 			'filter_order_status'  => $filter_order_status,
-			'filter_admin_order_status'  => $filter_admin_order_status,
+			// 'filter_admin_order_status'  => $filter_admin_order_status,
 			'filter_date_from'    => $filter_date_from,
 			'filter_date_to' => $filter_date_to,
 			'start'                => ($page - 1) * $this->config->get('config_limit_admin'),
 			'limit'                => $this->config->get('config_limit_admin'),
-			'seller_id'            => $this->customer->getId()
+			'seller_id'            => $this->customer->getId(),
+			'filter_time_from' 	   => $filter_time_from,
+			'filter_time_to'	   => $filter_time_to,
+			'filter_table' 		   => $filter_table
 			);
 			$seller_id = $this->customer->getId();
 			
@@ -134,7 +163,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 						$totalall  = $this->model_extension_purpletree_multivendor_sellerorder->getTotalllseller($seller_id,$result['order_id'])['total'];
 					}
 				};
-				
+				 
 				if(isset($product_totals['total'])){
 					$total = $product_totals['total'];
 					} else {
@@ -217,6 +246,10 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 			$data['filter_admin_order_status'] = $filter_admin_order_status;
 			$data['filter_date_from'] = $filter_date_from;
 			$data['filter_date_to'] = $filter_date_to;
+
+			$data['filter_time_to'] = $filter_time_to;
+			$data['filter_time_from'] = $filter_time_from;
+			$data['filter_table'] = $filter_table;
 			
 			$this->load->model('extension/localisation/ptsorder_status');
 			
@@ -1587,5 +1620,292 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 			$this->response->setOutput(json_encode($json));
 			//return json_encode($json);
 		}
+ 
+		public function export(){
+			$cwd = getcwd();
+			$dir = 'library/purpletree_multivendor';
+			chdir( DIR_SYSTEM.$dir );
+			require_once( 'class_excel/PHPExcel/IOFactory.php' );
+			chdir( $cwd );
+
+			$fileName = 'PurpletreePoductExport';
+			$objPHPexl = new PHPExcel();
+			$objPHPexl->getProperties()->setCreator("PurpleTree")->setLastModifiedBy("purple")->setTitle("PurpleTree Software")->setSubject("Purpletree")->setDescription("PurpleTree")->setKeywords("Purple")->setCategory("Purple software");
+
+			$this->exportExcelData($objPHPexl,0);		
+			$objPHPexl->createSheet(); 
+			$cwd = getcwd();
+				$dir = 'library/purpletree_multivendor';
+				chdir( DIR_SYSTEM.$dir );
+				require_once( 'class_excel/PHPExcel/IOFactory.php' );
+				chdir( $cwd );
+
+			$objWriter = PHPExcel_IOFactory::createWriter($objPHPexl, 'Excel2007');
+				$objWriter->save(DIR_SYSTEM.'/library/purpletree_multivendor/export/'.$fileName.'.xlsx'); 
+				$attachment_location = DIR_SYSTEM."/library/purpletree_multivendor/export/".$fileName.".xlsx";
+
+				if (file_exists($attachment_location)) {
+					ob_end_clean(); // this is solution
+					header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
+					header("Cache-Control: public");
+					header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+					header("Content-Transfer-Encoding: Binary");
+					header("Content-Length:".filesize($attachment_location));
+					header("Content-Disposition: attachment; filename=my_orders.xlsx");
+					readfile($attachment_location);
+						exit();
+					$objWriter->save('php://output');
+					$this->session->data['success'] = $this->language->get('text_success');
+					die();
+					} else {
+					die("File not found.");
+				}
+
+		}
+
+		public function exportExcelData($objPHPexl,$sheetIndex){
+			$objPHPexl->setActiveSheetIndex($sheetIndex);
+			$tableName=array();
+			$exportData=array();
+
+			$this->document->addScriptpts('catalog/view/javascript/purpletree/jquery/datetimepicker/moment/moment.min.js'); 
+			$this->document->addScriptpts('catalog/view/javascript/purpletree/jquery/datetimepicker/moment/moment-with-locales.min.js'); 
+			$this->document->addScriptpts('catalog/view/javascript/purpletree/jquery/datetimepicker/bootstrap-datetimepicker.min.js'); 
+			$this->document->addStylepts('catalog/view/javascript/purpletree/jquery/datetimepicker/bootstrap-datetimepicker.min.css'); 
+			if (!$this->customer->isLogged()) {
+				$this->session->data['redirect'] = $this->url->link('extension/account/purpletree_multivendor/sellerorder', '', true);
+				
+				$this->response->redirect($this->url->link('account/login', '', true));
+			}
+			$this->load->model('extension/purpletree_multivendor/dashboard');
+			
+			$this->model_extension_purpletree_multivendor_dashboard->checkSellerApproval();
+			
+			$store_detail = $this->customer->isSeller();
+			if(!isset($store_detail['store_status'])){
+				$this->response->redirect($this->url->link('account/account', '', true));
+				}else{
+				if(isset($store_detail['store_status']) && $store_detail[  'multi_store_id'] != $this->config->get('config_store_id')){	
+					$this->response->redirect($this->url->link('account/account','', true));
+				}
+			}
+			
+			if(!$this->customer->validateSeller()) {
+				$this->load->language('purpletree_multivendor/ptsmultivendor');
+				$this->session->data['error_warning'] = $this->language->get('error_license');
+				$this->response->redirect($this->url->link('account/account', '', true));
+			}
+			$this->load->language('purpletree_multivendor/sellerorder');
+			
+			$this->load->model('extension/purpletree_multivendor/sellerorder');
+			
+			$data['seller_orders'] = array();
+			
+			if (isset($this->request->get['filter_order_status'])) {
+				$filter_order_status = $this->request->get['filter_order_status'];
+				} else {
+				$filter_order_status = null;
+			}
+			// if (isset($this->request->get['filter_admin_order_status'])) {
+			// 	$filter_admin_order_status = $this->request->get['filter_admin_order_status'];
+			// 	} else {
+			// 	$filter_admin_order_status = null;
+			// }
+			
+			if (isset($this->request->get['filter_date_from'])) {
+				$filter_date_from = $this->request->get['filter_date_from'];
+				} else {
+				$end_date = date('Y-m-d', strtotime("-30 days"));
+				$filter_date_from = $end_date;
+			}
+			
+			if (isset($this->request->get['filter_date_to'])) {
+				$filter_date_to = $this->request->get['filter_date_to'];
+				} else {
+				$end_date = date('Y-m-d');
+				$filter_date_to = $end_date;
+			}
+
+			
+			if (isset($this->request->get['filter_time_from'])) {
+				$filter_time_from = $this->request->get['filter_time_from'];
+				}
+			
+			if (isset($this->request->get['filter_time_to'])) {
+				$filter_time_to = $this->request->get['filter_time_to'];
+				}
+			
+			if (isset($this->request->get['filter_table'])) {
+				$filter_table = $this->request->get['filter_table'];
+			}
+			
+			if (isset($this->request->get['page'])) {
+				$page = $this->request->get['page'];
+				} else {
+				$page = 1;
+			}
+			if (isset($this->session->data['error_warning'])) {
+				$data['error_warning'] = $this->session->data['error_warning'];
+				
+				unset($this->session->data['error_warning']);
+				} else {
+				$data['error_warning'] = '';
+			}
+			$url ='';
+			if (isset($this->request->get['filter_order_status'])) {
+				$url .= '&filter_order_status=' . $this->request->get['filter_order_status'];
+			}
+			if (isset($this->request->get['filter_admin_order_status'])) {
+				$url .= '&filter_admin_order_status=' . $this->request->get['filter_admin_order_status'];
+			}
+			
+			if (isset($this->request->get['filter_date_from'])) {
+				$url .= '&filter_date_from=' . $this->request->get['filter_date_from'];
+			}
+			
+			if (isset($this->request->get['filter_date_to'])) {
+				$url .= '&filter_date_to=' . $this->request->get['filter_date_to'];
+			}
+
+			if(isset($this->request->get['filter_time_from'])){
+				$url .= '&filter_time_from=' . $this->request->get['filter_time_from'];
+			}
+
+			if(isset($this->request->get['filter_time_to'])){
+				$url .= '&filter_time_to=' . $this->request->get['filter_time_to'];
+			}
+
+			if(isset($this->request->get['filter_table'])){
+				$url .= '&filter_table=' . $this->request->get['filter_table'];
+			}
+
+			$data['breadcrumbs'] = array();
+			
+			$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('text_home'),
+			'href' => $this->url->link('common/home','',true)
+			);
+			
+			$data['breadcrumbs'][] = array(
+			'text' => $this->language->get('heading_title'),
+			'href' => $this->url->link('extension/account/purpletree_multivendor/sellerorder', $url, true)
+			);
+			
+			
+			$filter_data = array(
+			'filter_order_status'  => $filter_order_status,
+			// 'filter_admin_order_status'  => $filter_admin_order_status,
+			'filter_date_from'    => $filter_date_from,
+			'filter_date_to' => $filter_date_to,
+			'start'                => ($page - 1) * $this->config->get('config_limit_admin'),
+			'limit'                => $this->config->get('config_limit_admin'),
+			'seller_id'            => $this->customer->getId(),
+			'filter_time_from' 	   => $filter_time_from,
+			'filter_time_to'	   => $filter_time_to,
+			'filter_table' 		   => $filter_table,
+			'limit'							=> 1000
+			);
+			$seller_id = $this->customer->getId();
+			
+			$data['total_sale'] = 0;
+			$data['total_pay'] = 0;
+			$data['total_commission'] = 0;
+			
+			$total_sale = 0;
+			$total_commission = 0;
+			$total_payable = 0;
+			
+			$sellerstore = $this->customer->isSeller();
+			
+			$order_total = $this->model_extension_purpletree_multivendor_sellerorder->getTotalSellerOrders($filter_data);
+
+			$results = $this->model_extension_purpletree_multivendor_sellerorder->getSellerOrders($filter_data);
+	
+			foreach ($results as $result) {
+				$total = 0;
+				$totalall = 0;
+				$product_totals  = $this->model_extension_purpletree_multivendor_sellerorder->getSellerOrdersTotal($seller_id,$result['order_id']);
+				if(is_array($this->model_extension_purpletree_multivendor_sellerorder->getTotalllseller($seller_id,$result['order_id']))) {
+					if(isset($this->model_extension_purpletree_multivendor_sellerorder->getTotalllseller($seller_id,$result['order_id'])['total'])) {
+						$totalall  = $this->model_extension_purpletree_multivendor_sellerorder->getTotalllseller($seller_id,$result['order_id'])['total'];
+					}
+				};
+				 
+				if(isset($product_totals['total'])){
+					$total = $product_totals['total'];
+					} else {
+					$total = 0;
+				}
+				
+				$product_commission  = $this->model_extension_purpletree_multivendor_sellerorder->getSellerOrdersCommissionTotal($result['order_id'],$seller_id);
+				
+				$total_sale+= $total;
+				$orderstatus = 0;
+				if(null !== $this->config->get('module_purpletree_multivendor_commission_status')) {
+					$orderstatus = $this->config->get('module_purpletree_multivendor_commission_status');
+					} else {
+					$data['error_warning'] = $this->language->get('module_purpletree_multivendor_commission_status_warning');
+				}
+				if($result['admin_order_status_idd'] == $result['seller_order_status_idd'] && $result['seller_order_status_idd'] == $orderstatus && $result['admin_order_status_idd'] == $orderstatus) {
+					$total_payable += $total;
+					$total_commission+= $product_commission['total_commission'];
+				}
+				$tablenum = $this->db->query("SELECT * FROM ". DB_PREFIX ."table_manger WHERE id = '". $result['table_id'] ."'")->row;
+				$tables_num = $this->db->query("SELECT * FROM ". DB_PREFIX ."table_manger WHERE seller_id = '". $seller_id ."' AND status = 1")->rows;
+				$data['tables_num'] = $tables_num;
+			
+				$exportData[] = array(
+				'order_id'      => $result['order_id'],
+				'ordertype' => $result['ordertype'],
+				'table_num' => $tablenum['table_no'],
+				'order_status'  => $result['order_status'] ? $result['order_status'] : $this->language->get('text_missing'),
+				'total'         => $this->currency->format($totalall, $result['currency_code'], $result['currency_value']),
+				'date_added'    => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
+				'date_modified' => date($this->language->get('date_format_short'), strtotime($result['date_modified'])),
+				// 'product_comments'      => $result['product_comments'],
+				// 'seen'      => $result['seen'],
+				// 'commission'         => $this->currency->format($product_commission['total_commission'], $result['currency_code'], $result['currency_value']),
+				// 'shipping_code' => $result['shipping_code'],
+				// 'view'          => $this->url->link('extension/account/purpletree_multivendor/sellerorder/seller_order_info', 'order_id=' . $result['order_id'] . $url, true)
+				);
+
+				$tableName=array('A'=>'order_id','B'=>'ordertype','C'=>'table_num','D'=>'order_status','E'=>'total','F'=>'date_added','G'=>'date_modified');
+			}
+			if(!empty($tableName)){	
+				foreach($tableName as $key => $tbName)
+				{
+						$objPHPexl->getActiveSheet()->getStyle($key)->getNumberFormat()->setFormatCode( PHPExcel_Style_NumberFormat::FORMAT_TEXT );
+					
+					$objPHPexl->getActiveSheet()->setCellValue($key.'1',$tbName);	
+					$objPHPexl->getActiveSheet($sheetIndex)->getColumnDimension($key)->setWidth(strlen($tbName)+4);
+					$objPHPexl->getActiveSheet($sheetIndex)->getRowDimension(1)->setRowHeight(25);
+					$objPHPexl->getActiveSheet($sheetIndex)->getStyle($key.'1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+					$objPHPexl->getActiveSheet($sheetIndex)->getStyle($key.'1')->getAlignment()->setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+					$objPHPexl->getActiveSheet($sheetIndex)->getStyle($key.'1')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID);
+					$objPHPexl->getActiveSheet($sheetIndex)->getStyle($key.'1')->getFill()->getStartColor()->setARGB('800080');
+					$objPHPexl->getActiveSheet($sheetIndex)->getStyle($key.'1')->getBorders()->getAllBorders()->setBorderStyle(PHPExcel_Style_Border::BORDER_THIN)->getColor()->setRGB('D3D3D3'); 
+					$objPHPexl->getActiveSheet($sheetIndex)->getStyle($key.'1')->getFont()->setBold(true)->setName('Verdana')->setSize(10)->getColor()->setRGB('FFFFFF');
+				}
+			}
+			$objPHPexl->getActiveSheet()->freezePaneByColumnAndRow( 1, 2 );
+			$i=0;
+			if(!empty($exportData) && $exportData!=NULL){
+				foreach($exportData as $key => $exportData){
+					$ii = $i+2;	
+					if($tableName!=NULL){
+						
+						foreach($tableName as $k=>$v){
+							$objPHPexl->getActiveSheet()->setCellValue($k.''.$ii, $exportData[$v]);
+						}
+					}
+					$i++;
+				} 
+			}
+
+			
+			$objPHPexl->getActiveSheet()->setTitle('order');
+			
+
+		}	
 	}
 ?>

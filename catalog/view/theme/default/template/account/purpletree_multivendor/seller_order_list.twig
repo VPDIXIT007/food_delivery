@@ -40,6 +40,7 @@
 								</span></div>
 						</div>        
 					</div>
+				
 					<div class="pts-col-sm-4">
 						<div class="pts-form-group">
 							<label class="pts-control-label" for="input-order-status">{{ entry_order_status }}</label>
@@ -60,7 +61,30 @@
 							</select>
 						</div>
 					</div>
+						<div class="pts-col-sm-4">
+						<div class="pts-form-group">
+							<label class="pts-control-label" for="input-date-modified">{{ entry_time_from }}</label>
+							<div class="pts-input-group date d-flex d-flex" style="display: flex;">
+								<input type="time" name="filter_time_from" placeholder="{{ entry_time_from }}" value="{{ filter_time_from }}" id="input-date-to" class="pts-form-control" /></div>
+						</div>        
+					</div>
 					<div class="pts-col-sm-4">
+						<div class="pts-form-group">
+							<label class="pts-control-label" for="input-date-modified">{{ entry_time_to }}</label>
+							<div class="pts-input-group date d-flex d-flex" style="display: flex;">
+							 	<input type="time" name="filter_time_to" value="{{ filter_time_to }}" placeholder="{{ entry_time_to }}" id="input-date-to" class="pts-form-control" />
+								</div>
+						</div>        
+					</div>
+					<div class="pts-col-sm-4">
+						<div class="pts-form-group">
+							<label class="pts-control-label" for="input-date-modified">{{ entry_table_no }}</label>
+							<div class="pts-input-group date d-flex d-flex" style="display: flex;">
+								<input type="text" name="filter_table"  value="{{ filter_table }}" placeholder="{{ entry_table_no }}" id="input-date-to" class="pts-form-control" />
+								</div>
+						</div>        
+					</div>
+					{# <div class="pts-col-sm-4">
 						<div class="pts-form-group">
 							<label class="pts-control-label" for="input-admin-order-status">{{ entry_admin_order_status }}</label>
 							<select name="filter_admin_order_status" id="input-admin-order-status" class="pts-form-control">
@@ -79,23 +103,29 @@
 								{% endfor %}
 							</select>
 						</div>
-					</div>
+					</div> #}
 				</div>
 				<div class="pts-row">
-					<div class="pts-col-sm-10">
+					<div class="pts-col-sm-8">
 						{% if filter_date_from is not empty or filter_date_to is not empty or filter_order_status is not empty %}
 						<div class="pts-col-sm-4">{{ entry_total_sale }} <b>{{ total_sale }}</b></div>
 						<div class="pts-col-sm-4">{{ entry_total_pay }} <b>{{ total_pay }}</b><p><small>{{ for_completed_orders }}</small></p></div>
 						<div class="pts-col-sm-4">{{ entry_total_commission }} <b>{{ total_commission }}</b><p><small>{{ for_completed_orders }}</small></p></div>
 						{% endif %}
 					</div>
-					<div class="pts-col-sm-2">
-						<button type="button" id="pts-button-filter" class="pts-btn pts-btn-primary pts-pull-right"><i class="fa fa-filter"></i> {{ button_filter }}</button>
+					<div class="pts-col-sm-4">	
+					<input type="button" onclick="javascript:location.href='index.php?route=extension/account/purpletree_multivendor/sellerorder'" class="btn btn-primary ml-2 btn-sm" value="Reset">
+
+					<input type="button" id="pts-button-export" class="btn btn-primary ml-2 btn-sm" value="Export to Excel">
+						
+					<button type="button" id="pts-button-filter" class="btn btn-primary btn-sm"><i class="fa fa-filter"></i> {{ button_filter }}</button>
+						
+						
 					</div>
 				</div>
 			</div>
 			<div class="pts-table-responsive">
-				<table class="pts-table pts-table-bordered pts-table-hover">
+				<table id="testTable" class="pts-table pts-table-bordered pts-table-hover">
 					<thead>
 						<tr>
 							<td class="pts-text-left">{{ column_order_id }}</td>
@@ -103,7 +133,7 @@
 							<td class="pts-text-left">{{ column_customer }}</td>
 							<td class="pts-text-left">Table Number</td>
 							<td class="pts-text-left">{{ column_status }}</td>
-							<td class="pts-text-left">{{ column_admin_status }}</td>
+							{# <td class="pts-text-left">{{ column_admin_status }}</td> #}
 							
 							<td class="pts-text-left">{{ column_total }}</td>
 							<td class="pts-text-left">{{ column_date_added }}</td>
@@ -159,7 +189,7 @@
 		</div>
 	</div> 
 							<td class="pts-text-left">{{ order.order_status }}</td>
-							<td class="pts-text-left">{{ order.admin_order_status }}</td>
+							{# <td class="pts-text-left">{{ order.admin_order_status }}</td> #}
 							<td class="pts-text-left">{{ order.total }}</td>
 							<td class="pts-text-left">{{ order.date_added }}</td>
 							<td class="pts-text-left">{{ order.date_modified }}</td>
@@ -181,6 +211,21 @@
 		</div>
 	</div>
 </div>
+
+{# <script type="text/javascript">
+var tableToExcel = (function() {
+  var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>'
+    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
+    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
+  return function(table, name) {
+    if (!table.nodeType) table = document.getElementById(table)
+    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
+    window.location.href = uri + base64(format(template, ctx))
+  }
+})()
+</script> #}
+
 <script type="text/javascript"><!--
 		function changetable(orderid) {
 		
@@ -222,19 +267,33 @@
 		url = 'index.php?route=extension/account/purpletree_multivendor/sellerorder';
 		
 		var filter_order_status = $('select[name=\'filter_order_status\']').val();
-		var filter_admin_order_status = $('select[name=\'filter_admin_order_status\']').val();
+		var filter_time_from = $('input[name=\'filter_time_from\']').val();
+		var filter_time_to = $('input[name=\'filter_time_to\']').val();
+		var filter_table = $('input[name=\'filter_table\']').val();
+		//var filter_admin_order_status = $('select[name=\'filter_admin_order_status\']').val();
 		
 		if (filter_order_status != '*') {
 			url += '&filter_order_status=' + encodeURIComponent(filter_order_status);
 		}
-		if (filter_admin_order_status != '*') {
-			url += '&filter_admin_order_status=' + encodeURIComponent(filter_admin_order_status);
-		}
+		//if (filter_admin_order_status != '*') { url += '&filter_admin_order_status=' + encodeURIComponent(filter_admin_order_status);
+		//}
 		
 		var filter_date_from = $('input[name=\'filter_date_from\']').val();
 		
 		if (filter_date_from) {
 			url += '&filter_date_from=' + encodeURIComponent(filter_date_from);
+		}
+
+		if(filter_time_from){
+			url += '&filter_time_from=' + encodeURIComponent(filter_time_from);
+		}
+
+		if(filter_time_to){
+			url += '&filter_time_to=' + encodeURIComponent(filter_time_to);
+		}
+
+		if(filter_table){
+			url += '&filter_table=' + encodeURIComponent(filter_table);
 		}
 		
 		var filter_date_to = $('input[name=\'filter_date_to\']').val();
@@ -245,7 +304,53 @@
 		
 		location = url;
 	});
+
+	$('#pts-button-export').on('click', function() {
+		url = 'index.php?route=extension/account/purpletree_multivendor/sellerorder/export';
+		
+		var filter_order_status = $('select[name=\'filter_order_status\']').val();
+		var filter_time_from = $('input[name=\'filter_time_from\']').val();
+		var filter_time_to = $('input[name=\'filter_time_to\']').val();
+		var filter_table = $('input[name=\'filter_table\']').val();
+		//var filter_admin_order_status = $('select[name=\'filter_admin_order_status\']').val();
+		
+		if (filter_order_status != '*') {
+			url += '&filter_order_status=' + encodeURIComponent(filter_order_status);
+		}
+		//if (filter_admin_order_status != '*') { url += '&filter_admin_order_status=' + encodeURIComponent(filter_admin_order_status);
+		//}
+		
+		var filter_date_from = $('input[name=\'filter_date_from\']').val();
+		
+		if (filter_date_from) {
+			url += '&filter_date_from=' + encodeURIComponent(filter_date_from);
+		}
+
+		if(filter_time_from){
+			url += '&filter_time_from=' + encodeURIComponent(filter_time_from);
+		}
+
+		if(filter_time_to){
+			url += '&filter_time_to=' + encodeURIComponent(filter_time_to);
+		}
+
+		if(filter_table){
+			url += '&filter_table=' + encodeURIComponent(filter_table);
+		}
+		
+		var filter_date_to = $('input[name=\'filter_date_to\']').val();
+		
+		if (filter_date_to) {
+			url += '&filter_date_to=' + encodeURIComponent(filter_date_to);
+		}
+		
+		location = url;
+
+	});	
 //--></script>
+
+
+
 <script type="text/javascript"><!--
 	$('#input-date-from').datetimepicker({
 		pickTime: false

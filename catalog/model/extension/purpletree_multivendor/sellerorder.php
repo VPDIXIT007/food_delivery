@@ -20,7 +20,7 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 			return $query->rows;
 		}
 		public function getTotalSellerOrders($data= array()){
-			$sql = "SELECT COUNT(DISTINCT(pvo.order_id)) AS total FROM `" . DB_PREFIX . "order` o JOIN " . DB_PREFIX . "purpletree_vendor_orders pvo ON(pvo.order_id=o.order_id)";
+			$sql = "SELECT COUNT(DISTINCT(pvo.order_id)) AS total  FROM `" . DB_PREFIX . "order` o JOIN " . DB_PREFIX . "purpletree_vendor_orders pvo ON(pvo.order_id=o.order_id) LEFT JOIN oc_table_manger tm on tm.id=pvo.table_id";
 			
 			if (isset($data['filter_order_status'])) {
 				$implode = array();
@@ -64,19 +64,32 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 			if (!empty($data['filter_date_to'])) {
 				$sql .= " AND DATE(o.date_added) <= DATE('" . $this->db->escape($data['filter_date_to']) . "')";
 			}
+
+			if (!empty($data['filter_time_from'])) {
+				$sql .= " AND TIME(o.date_added) >= TIME('".$data['filter_time_from']."')";
+			}
+			
+			if (!empty($data['filter_time_to'])) {
+				$sql .= " AND TIME(o.date_added) <= TIME('".$data['filter_time_to']."')";
+			}
+
 			if(!isset($data['filter_date_from']) && !isset($data['filter_date_to'])){
 				$end_date = date('Y-m-d', strtotime("-30 days"));
 				$sql .= " AND DATE(o.date_added) >= '".$end_date."'";
 				$sql .= " AND DATE(o.date_added) <= '".date('Y-m-d')."'";
 			}
+
+			if (!empty($data['filter_table'])) {
+				$sql .= " AND tm.table_no = '". (int)$data['filter_table'] ."' ";
+			}
 			$query = $this->db->query($sql);
 			
 			return $query->row['total'];
 		}
-		
+ 		
 		public function getSellerOrders($data = array()) {
-			$sql = "SELECT pvo.table_id,pvo.ordertype,pvo.order_status_id AS seller_order_status_idd,pvo.seen, o.order_status_id AS admin_order_status_idd, o.order_id, CONCAT(o.firstname, ' ', o.lastname) AS customer, (SELECT os.name FROM " . DB_PREFIX . "order_status os WHERE os.order_status_id = pvo.order_status_id AND os.language_id = '" . (int)$this->config->get('config_language_id') . "') AS order_status, (SELECT os.name FROM " . DB_PREFIX . "order_status os WHERE os.order_status_id = o.order_status_id AND os.language_id = '" . (int)$this->config->get('config_language_id') . "') AS admin_order_status, o.shipping_code, o.total, o.currency_code, o.currency_value, o.date_added, o.date_modified FROM `" . DB_PREFIX . "order` o JOIN " . DB_PREFIX . "purpletree_vendor_orders pvo ON(pvo.order_id=o.order_id)";
-			
+			$sql = "SELECT pvo.table_id,(SELECT table_no FROM oc_table_manger tm WHERE tm.id = pvo.table_id LIMIT 1) as table_num, pvo.ordertype,pvo.order_status_id AS seller_order_status_idd,pvo.seen, o.order_status_id AS admin_order_status_idd, o.order_id, CONCAT(o.firstname, ' ', o.lastname) AS customer, (SELECT os.name FROM " . DB_PREFIX . "order_status os WHERE os.order_status_id = pvo.order_status_id AND os.language_id = '" . (int)$this->config->get('config_language_id') . "') AS order_status, (SELECT os.name FROM " . DB_PREFIX . "order_status os WHERE os.order_status_id = o.order_status_id AND os.language_id = '" . (int)$this->config->get('config_language_id') . "') AS admin_order_status, o.shipping_code, o.total, o.currency_code, o.currency_value, o.date_added, o.date_modified FROM `" . DB_PREFIX . "order` o JOIN " . DB_PREFIX . "purpletree_vendor_orders pvo ON(pvo.order_id=o.order_id)";
+
 			if (isset($data['filter_order_status'])) {
 				$implode = array();
 				
@@ -119,6 +132,15 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 			if (!empty($data['filter_date_to'])) {
 				$sql .= " AND DATE(pvo.created_at) <= DATE('" . $this->db->escape($data['filter_date_to']) . "')";
 			}
+
+			if (!empty($data['filter_time_from'])) {
+				$sql .= " AND TIME(o.date_added) >= TIME('".$data['filter_time_from']."')";
+			}
+			
+			if (!empty($data['filter_time_to'])) {
+				$sql .= " AND TIME(o.date_added) <= TIME('".$data['filter_time_to']."')";
+			}
+			
 			if(empty($data['filter_date_from']) && empty($data['filter_date_to'])){
 				$end_date = date('Y-m-d', strtotime("-30 days"));
 				$sql .= " AND DATE(pvo.created_at) >= '".$end_date."'";
@@ -135,6 +157,11 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 			);
 			
 			$sql .= " group by o.order_id";
+
+			//HAVING CHECK
+			if (!empty($data['filter_table'])) {
+				$sql .= " HAVING table_num = '". (int)$data['filter_table'] ."' ";
+			}
 			
 			if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
 				$sql .= " ORDER BY " . $this->db->escape($data['sort']);
@@ -159,9 +186,7 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 				
 				$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
 			}
-			
 			$query = $this->db->query($sql);
-			
 			return $query->rows;
 		}
 		
@@ -364,7 +389,7 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 		}
 		
 		public function addOrderHistory($order_id, $seller_id, $order_status_id, $comment = '', $notify = false, $override = false) {
-
+			dd($order_id);
 			$order_info = $this->getOrder($order_id,$seller_id);
 			
 			if ($order_info) { 
@@ -399,18 +424,16 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 							}
 							$order_points = $total_point;
 						}
-						if($order_points){
-							//update reward
-							$reward_query_row = $this->db->query("SELECT points FROM " . DB_PREFIX . "customer_store_reward WHERE customer_id = '" . (int)$order_customer_id . "' AND customer_group_id = $seller_customer_group_id LIMIT 1")->row;
-							if(isset($reward_query_row['points'])){
-								$total_point +=  $reward_query_row['points'];
-							}
-							$this->db->query("DELETE FROM " . DB_PREFIX . "customer_store_reward WHERE customer_id = '" . (int)$order_customer_id . "' AND customer_group_id = $seller_customer_group_id");
-		
-							$this->db->query("INSERT INTO " . DB_PREFIX . "customer_store_reward SET customer_id = '" . (int)$order_customer_id . "', customer_group_id = $seller_customer_group_id, points = $total_point");
-		
-							$this->db->query("INSERT INTO " . DB_PREFIX . "customer_reward SET customer_id = '" . (int)$order_customer_id . "', order_id = '" . (int)$order_id . "', points = '" . (int)$order_points . "', description = '" . $this->db->escape($reward_description) . "', date_added = NOW()");
+						//update reward
+						$reward_query_row = $this->db->query("SELECT points FROM " . DB_PREFIX . "customer_store_reward WHERE customer_id = '" . (int)$order_customer_id . "' AND customer_group_id = $seller_customer_group_id LIMIT 1")->row;
+						if(isset($reward_query_row['points'])){
+							$total_point +=  $reward_query_row['points'];
 						}
+						$this->db->query("DELETE FROM " . DB_PREFIX . "customer_store_reward WHERE customer_id = '" . (int)$order_customer_id . "' AND customer_group_id = $seller_customer_group_id");
+	
+						$this->db->query("INSERT INTO " . DB_PREFIX . "customer_store_reward SET customer_id = '" . (int)$order_customer_id . "', customer_group_id = $seller_customer_group_id, points = $total_point");
+	
+						$this->db->query("INSERT INTO " . DB_PREFIX . "customer_reward SET customer_id = '" . (int)$order_customer_id . "', order_id = '" . (int)$order_id . "', points = '" . (int)$order_points . "', description = '" . $this->db->escape($reward_description) . "', date_added = NOW()");
 					}
 				}
 				//ac atuo reward to customer as per store end

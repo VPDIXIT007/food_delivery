@@ -133,6 +133,10 @@ $_['entry_date_to']              = 'Date To';
 $_['entry_total_sale']          = 'Total Sale';
 $_['entry_total_pay']          = 'Total Payable Amount';
 $_['entry_total_commission']          = 'Total commission';
+$_['entry_time_from']          = 'Time From';
+$_['entry_time_to']          = 'Time To';
+$_['entry_table_no']          = 'Table Number';
+  
 
 //tab
 
@@ -142,7 +146,7 @@ $_['button_invoice_print']				= 'Print Invoice';
 $_['button_shipping_print']				= 'Print Shipping';
 $_['button_filter']				= 'Filter';
 
-// Help
+// Help   
 $_['help_override']              = 'If the customers order is being blocked from changing the order status due to an anti-fraud extension enable override.';
 
 // Error
