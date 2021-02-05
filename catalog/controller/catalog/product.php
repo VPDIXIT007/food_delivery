@@ -296,7 +296,8 @@ $this->cart->clear();
 				$total = $product_info['price'] * $quantity;
 				$total_price = $total;
 			$this->db->query("UPDATE " . DB_PREFIX . "purpletree_vendor_orders SET quantity = '" . (int)$quantity . "', unit_price = '" . (float)$product_info['price'] . "', total_price = '" . (float)$total_price . "', order_status_id = '" . (float)$purpletree_info['order_status_id'] . "', table_id = '" . (int)$purpletree_info['table_id'] . "', created_at = '" . $purpletree_info['created_at'] . "', updated_at = '" . $purpletree_info['updated_at'] . "' , ordertype = '" . $purpletree_info['ordertype'] . "',seen = '" . $purpletree_info['seen'] . "' WHERE order_id = '" . (int)$order_id . "' AND product_id = '" . (int)$product_info['product_id'] . "'  ");
-				$this->db->query("UPDATE " . DB_PREFIX . "order_product SET quantity = '" . (int)$quantity . "', price = '" . (float)$product_info['price'] . "', total = '" . (float)$total . "', tax = '" . (float)$product_info['tax'] . "', reward = '" . (int)$product_info['reward'] . "' WHERE order_id = '" . (int)$order_id . "' AND product_id = '" . (int)$product_info['product_id'] . "'");
+			
+				$this->db->query("UPDATE " . DB_PREFIX . "order_product SET quantity = '" . (int)$quantity . "', price = '" . (float)$product_info['price'] . "', total = '" . (float)$total . "', tax = '" . (float)$product_info['tax'] . "', reward = '" . (int)$product_info['reward']*$quantity . "' WHERE order_id = '" . (int)$order_id . "' AND product_id = '" . (int)$product_info['product_id'] . "'");
 			}
 			
 			// UPDATE TOTALS 

@@ -1,46 +1,77 @@
 {{ header }}
 <div class="pts-container container">
-<div class="pts-row d-flex row">{{ column_left }}
-		<div id="content" class="pts-col-sm-9 col-sm-9 pts-col-md-9 col-md-9 pts-col-lg-10 col-lg-10 pts-col-xs-12 col-xs-12"> 
+	<div class="pts-row d-flex row">{{ column_left }}
+		<div id="content"
+			class="pts-col-sm-9 col-sm-9 pts-col-md-9 col-md-9 pts-col-lg-10 col-lg-10 pts-col-xs-12 col-xs-12">
 			<div class="page-header">
-	{% if error_warning %}
-    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}</div>
-    {% endif %}
-    {% if success %}
-    <div class="alert pts-alert-success"><i class="fa fa-check-circle"></i> {{ success }}</div>
-    {% endif %}
-    <div class="container-fluid">
-     <h1>{{ heading_title }}</h1>
-      <ul class="breadcrumb">
-	  {% for breadcrumb in breadcrumbs %}
-                <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
-				{% endfor %}
-              </ul>
-    </div>
-  </div>
+				{% if error_warning %}
+				<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}</div>
+				{% endif %}
+				{% if success %}
+				<div class="alert pts-alert-success"><i class="fa fa-check-circle"></i> {{ success }}</div>
+				{% endif %}
+				<div class="row">
+					<div class="col-sm-6">
+						<h1>{{ heading_title }}</h1>
+						<ul class="breadcrumb">
+							{% for breadcrumb in breadcrumbs %}
+							<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+							{% endfor %}
+						</ul>
+					</div> {# order status start #}
+					<div class="col-sm-6 col-sm-6 text-right">
+						<form method="post" class="form-inline">
+							<div class="form-group pts-col-sm-3">
+								<label style="margin-top: 4px;">Order Status</label>
+							</div>
+							<div class="form-group pts-col-sm-4">
+								<select class="form-control">
+									{% for order_statuses in order_statuses %}
+									{% if order_statuses.order_status_id == order_status_id %}
+									<option value="{{ order_statuses.order_status_id }}" selected="selected">{{ order_statuses.name }}
+									</option>
+									{% else %}
+									<option value="{{ order_statuses.order_status_id }}">{{ order_statuses.name }}</option>
+									{% endif %}
+									{% endfor %}
+								</select>
+							</div>
+							<div class="form-group pts-col-sm-4">
+								<button type="submit" class="btn btn-primary mt-3">Submit</button>
+							</div>
+						</form>
+					</div>
+					{# order status end #}
+				</div>
+			</div>
 			<div class="pts-well">
 				<div class="pts-row">
 					<div class="pts-col-sm-4">
 						<div class="pts-form-group">
 							<label class="pts-control-label" for="input-date-added">{{ entry_date_from }}</label>
 							<div class="pts-input-group date d-flex d-flex" style="display: flex;">
-								<input type="text" name="filter_date_from" value="{{ filter_date_from }}" placeholder="{{ entry_date_from }}" data-date-format="YYYY-MM-DD" id="input-date-from" class="pts-form-control" />
+								<input type="text" name="filter_date_from" value="{{ filter_date_from }}"
+									placeholder="{{ entry_date_from }}" data-date-format="YYYY-MM-DD" id="input-date-from"
+									class="pts-form-control" />
 								<span class="pts-input-group-pts-btn">
 									<button type="button" class="pts-btn pts-btn-default"><i class="fa fa-calendar"></i></button>
-								</span></div>
+								</span>
+							</div>
 						</div>
 					</div>
 					<div class="pts-col-sm-4">
 						<div class="pts-form-group">
 							<label class="pts-control-label" for="input-date-modified">{{ entry_date_to }}</label>
 							<div class="pts-input-group date d-flex d-flex" style="display: flex;">
-								<input type="text" name="filter_date_to" value="{{ filter_date_to }}" placeholder="{{ entry_date_to }}" data-date-format="YYYY-MM-DD" id="input-date-to" class="pts-form-control" />
+								<input type="text" name="filter_date_to" value="{{ filter_date_to }}" placeholder="{{ entry_date_to }}"
+									data-date-format="YYYY-MM-DD" id="input-date-to" class="pts-form-control" />
 								<span class="pts-input-group-pts-btn">
 									<button type="button" class="pts-btn pts-btn-default"><i class="fa fa-calendar"></i></button>
-								</span></div>
-						</div>        
+								</span>
+							</div>
+						</div>
 					</div>
-				
+
 					<div class="pts-col-sm-4">
 						<div class="pts-form-group">
 							<label class="pts-control-label" for="input-order-status">{{ entry_order_status }}</label>
@@ -61,28 +92,32 @@
 							</select>
 						</div>
 					</div>
-						<div class="pts-col-sm-4">
+					<div class="pts-col-sm-4">
 						<div class="pts-form-group">
 							<label class="pts-control-label" for="input-date-modified">{{ entry_time_from }}</label>
 							<div class="pts-input-group date d-flex d-flex" style="display: flex;">
-								<input type="time" name="filter_time_from" placeholder="{{ entry_time_from }}" value="{{ filter_time_from }}" id="input-date-to" class="pts-form-control" /></div>
-						</div>        
+								<input type="time" name="filter_time_from" placeholder="{{ entry_time_from }}"
+									value="{{ filter_time_from }}" id="input-date-to" class="pts-form-control" />
+							</div>
+						</div>
 					</div>
 					<div class="pts-col-sm-4">
 						<div class="pts-form-group">
 							<label class="pts-control-label" for="input-date-modified">{{ entry_time_to }}</label>
 							<div class="pts-input-group date d-flex d-flex" style="display: flex;">
-							 	<input type="time" name="filter_time_to" value="{{ filter_time_to }}" placeholder="{{ entry_time_to }}" id="input-date-to" class="pts-form-control" />
-								</div>
-						</div>        
+								<input type="time" name="filter_time_to" value="{{ filter_time_to }}" placeholder="{{ entry_time_to }}"
+									id="input-date-to" class="pts-form-control" />
+							</div>
+						</div>
 					</div>
 					<div class="pts-col-sm-4">
 						<div class="pts-form-group">
 							<label class="pts-control-label" for="input-date-modified">{{ entry_table_no }}</label>
 							<div class="pts-input-group date d-flex d-flex" style="display: flex;">
-								<input type="text" name="filter_table"  value="{{ filter_table }}" placeholder="{{ entry_table_no }}" id="input-date-to" class="pts-form-control" />
-								</div>
-						</div>        
+								<input type="text" name="filter_table" value="{{ filter_table }}" placeholder="{{ entry_table_no }}"
+									id="input-date-to" class="pts-form-control" />
+							</div>
+						</div>
 					</div>
 					{# <div class="pts-col-sm-4">
 						<div class="pts-form-group">
@@ -109,32 +144,44 @@
 					<div class="pts-col-sm-8">
 						{% if filter_date_from is not empty or filter_date_to is not empty or filter_order_status is not empty %}
 						<div class="pts-col-sm-4">{{ entry_total_sale }} <b>{{ total_sale }}</b></div>
-						<div class="pts-col-sm-4">{{ entry_total_pay }} <b>{{ total_pay }}</b><p><small>{{ for_completed_orders }}</small></p></div>
-						<div class="pts-col-sm-4">{{ entry_total_commission }} <b>{{ total_commission }}</b><p><small>{{ for_completed_orders }}</small></p></div>
+						<div class="pts-col-sm-4">{{ entry_total_pay }} <b>{{ total_pay }}</b>
+							<p><small>{{ for_completed_orders }}</small></p>
+						</div>
+						<div class="pts-col-sm-4">{{ entry_total_commission }} <b>{{ total_commission }}</b>
+							<p><small>{{ for_completed_orders }}</small></p>
+						</div>
 						{% endif %}
 					</div>
-					<div class="pts-col-sm-4">	
-					<input type="button" onclick="javascript:location.href='index.php?route=extension/account/purpletree_multivendor/sellerorder'" class="btn btn-primary ml-2 btn-sm" value="Reset">
+					<div class="pts-col-sm-4">
+						<input type="button"
+							onclick="javascript:location.href='index.php?route=extension/account/purpletree_multivendor/sellerorder'"
+							class="btn btn-primary ml-2 btn-sm" value="Reset">
 
-					<input type="button" id="pts-button-export" class="btn btn-primary ml-2 btn-sm" value="Export to Excel">
-						
-					<button type="button" id="pts-button-filter" class="btn btn-primary btn-sm"><i class="fa fa-filter"></i> {{ button_filter }}</button>
-						
-						
+						<input type="button" id="pts-button-export" class="btn btn-primary ml-2 btn-sm" value="Export to Excel">
+
+						<button type="button" id="pts-button-filter" class="btn btn-primary btn-sm"><i class="fa fa-filter"></i> {{
+							button_filter }}</button>
+
+
 					</div>
 				</div>
 			</div>
+
+
 			<div class="pts-table-responsive">
 				<table id="testTable" class="pts-table pts-table-bordered pts-table-hover">
 					<thead>
 						<tr>
+							<td class="pts-text-left"><input type="checkbox"
+									onclick="$('input[name*=\'selected\']').prop('checked', this.checked);"
+									class="form-control order_status_box"></td>
 							<td class="pts-text-left">{{ column_order_id }}</td>
+							<td class="pts-text-left">{{ column_order_number }} Order No</td>
 							<td class="pts-text-left">Order Type</td>
 							<td class="pts-text-left">{{ column_customer }}</td>
 							<td class="pts-text-left">Table Number</td>
 							<td class="pts-text-left">{{ column_status }}</td>
 							{# <td class="pts-text-left">{{ column_admin_status }}</td> #}
-							
 							<td class="pts-text-left">{{ column_total }}</td>
 							<td class="pts-text-left">{{ column_date_added }}</td>
 							<td class="pts-text-left">{{ column_date_modified }}</td>
@@ -145,55 +192,62 @@
 						{% if seller_orders %}
 						{% for order in seller_orders %}
 						<tr {% if order.seen %} class="pts-neworder" {% endif %}>
+							<td><input type="checkbox" name="selected[]" class="form-control order_status_box"></td>
 							<td class="pts-text-left">{{ order.order_id }}</td>
+							<td class="pts-text-left">{{ "now"|date("mdY") }}-000{{ order.order_id }}</td>
 							<td class="pts-text-left">{{ order.ordertype }}</td>
 							<td class="pts-text-left">{{ order.customer }}</td>
-							
-						<td class="pts-text-left">{{order.table_num}} {% if order.table_num > 0 %}<button type="button" id="pts-button-edit" data-toggle="modal"  data-target="#myModal{{ order.order_id }}" class="pts-btn pts-btn-primary pts-pull-right"> Edit</button>{% endif %}</td>
+
+							<td class="pts-text-left">{{order.table_num}} {% if order.table_num > 0 %}<button type="button"
+									id="pts-button-edit" data-toggle="modal" data-target="#myModal{{ order.order_id }}"
+									class="pts-btn pts-btn-primary pts-pull-right"> Edit</button>{% endif %}</td>
 							<!-- Modal -->
-	<div class="modal fade" id="myModal{{ order.order_id }}" role="dialog">
-		<div class="modal-dialog ">
-	
-			<!-- Modal content-->
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Change table number for order :{{ order.order_id }}</h4>
-				</div>
-				<div class="modal-body">
-					<label>Table number :</label>
-					<!-- <input type="text" id="table_no{{ order.order_id }}" name="tableno" value=""> -->
-							{% if  order.table_num %}
-							<select name="filter_tablenum" id="table_no{{ order.order_id }}" class="pts-form-control" style="width: 50%;">
-								<option value="*">{{ text_all }}</option>
-								{% for tablenum in tables_num %}
-								{% if order.table_num == tablenum.table_no %}
-								<option value="{{ tablenum.table_no }}" selected="selected">{{ tablenum.table_no }}</option>
-								<div id="result"></div>
-								{% else %}
-								<option value="{{ tablenum.table_no }}">{{ tablenum.table_no }}</option>
-								{% endif %}
-								{% endfor %}
-							</select>
-							{% endif %}
+							<div class="modal fade" id="myModal{{ order.order_id }}" role="dialog">
+								<div class="modal-dialog ">
+
+									<!-- Modal content-->
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal">&times;</button>
+											<h4 class="modal-title">Change table number for order :{{ order.order_id }}</h4>
+										</div>
+										<div class="modal-body">
+											<label>Table number :</label>
+											<!-- <input type="text" id="table_no{{ order.order_id }}" name="tableno" value=""> -->
+											{% if order.table_num %}
+											<select name="filter_tablenum" id="table_no{{ order.order_id }}" class="pts-form-control"
+												style="width: 50%;">
+												<option value="*">{{ text_all }}</option>
+												{% for tablenum in tables_num %}
+												{% if order.table_num == tablenum.table_no %}
+												<option value="{{ tablenum.table_no }}" selected="selected">{{ tablenum.table_no }}</option>
+												<div id="result"></div>
+												{% else %}
+												<option value="{{ tablenum.table_no }}">{{ tablenum.table_no }}</option>
+												{% endif %}
+												{% endfor %}
+											</select>
+											{% endif %}
 
 
-					<button id="save{{ order.order_id }}" onclick="changetable({{ order.order_id }});" class="btn btn-default">Save</button>
-				   <div id="result"></div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				</div>
-			</div>
-	
-		</div>
-	</div> 
+											<button id="save{{ order.order_id }}" onclick="changetable({{ order.order_id }});"
+												class="btn btn-default">Save</button>
+											<div id="result"></div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+										</div>
+									</div>
+
+								</div>
+							</div>
 							<td class="pts-text-left">{{ order.order_status }}</td>
 							{# <td class="pts-text-left">{{ order.admin_order_status }}</td> #}
 							<td class="pts-text-left">{{ order.total }}</td>
 							<td class="pts-text-left">{{ order.date_added }}</td>
 							<td class="pts-text-left">{{ order.date_modified }}</td>
-							<td class="pts-text-left"><a href="{{ order.view }}" data-toggle="tooltip" title="{{ button_view }}" class="pts-btn pts-btn-info"><i class="fa fa-eye"></i></a></td>
+							<td class="pts-text-left"><a href="{{ order.view }}" data-toggle="tooltip" title="{{ button_view }}"
+									class="pts-btn pts-btn-info"><i class="fa fa-eye"></i></a></td>
 						</tr>
 						{% endfor %}
 						{% else %}
@@ -212,146 +266,133 @@
 	</div>
 </div>
 
-{# <script type="text/javascript">
-var tableToExcel = (function() {
-  var uri = 'data:application/vnd.ms-excel;base64,'
-    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body><table>{table}</table></body></html>'
-    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
-    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
-  return function(table, name) {
-    if (!table.nodeType) table = document.getElementById(table)
-    var ctx = {worksheet: name || 'Worksheet', table: table.innerHTML}
-    window.location.href = uri + base64(format(template, ctx))
-  }
-})()
-</script> #}
+<script type="text/javascript">
+	function changetable(orderid) {
 
-<script type="text/javascript"><!--
-		function changetable(orderid) {
-		
 		//var  tablenum = $('select[name=\'filter_tablenum\']').val();
-			
-		 tablenum = $("#table_no"+orderid).val();
-		
-		 $.ajax({
-		
-        url: 'index.php?route=extension/account/purpletree_multivendor/sellerorder/changetable',
-         dataType: 'text',
-		 //{tablenum: tablenum, orderid: orderid}
-		data: "tablenum="+ tablenum +"&orderid="+ orderid,
-		type : 'post',
-        beforeSend: function() {
-        	$('#save'+orderid).button('loading');
-		},
-        complete: function() {
-			$('#save'+orderid).button('reset');
-		
-        },
-         success: function(json) {
-		 if(json['success']) {
-			$("#result").html('<h4>order updated successfully</h4>');
 
-			} else {
-				$("#result").html('<h4>order updated successfully</h4>');
-				setTimeout(function() {
-                   location.reload(true);
-                }, 2000);
-			
+		tablenum = $("#table_no" + orderid).val();
+
+		$.ajax({
+
+			url: 'index.php?route=extension/account/purpletree_multivendor/sellerorder/changetable',
+			dataType: 'text',
+			//{tablenum: tablenum, orderid: orderid}
+			data: "tablenum=" + tablenum + "&orderid=" + orderid,
+			type: 'post',
+			beforeSend: function () {
+				$('#save' + orderid).button('loading');
+			},
+			complete: function () {
+				$('#save' + orderid).button('reset');
+
+			},
+			success: function (json) {
+				if (json['success']) {
+					$("#result").html('<h4>order updated successfully</h4>');
+
+				} else {
+					$("#result").html('<h4>order updated successfully</h4>');
+					setTimeout(function () {
+						location.reload(true);
+					}, 2000);
+
+				}
+			},
+			error: function (json) {
+				alert('error');
 			}
-		},
-		error: function(json) {
-		alert('error');}
 		});
-		}
-	$('#pts-button-filter').on('click', function() {
+	}
+	$('#pts-button-filter').on('click', function () {
 		url = 'index.php?route=extension/account/purpletree_multivendor/sellerorder';
-		
+
 		var filter_order_status = $('select[name=\'filter_order_status\']').val();
 		var filter_time_from = $('input[name=\'filter_time_from\']').val();
 		var filter_time_to = $('input[name=\'filter_time_to\']').val();
 		var filter_table = $('input[name=\'filter_table\']').val();
 		//var filter_admin_order_status = $('select[name=\'filter_admin_order_status\']').val();
-		
+
 		if (filter_order_status != '*') {
 			url += '&filter_order_status=' + encodeURIComponent(filter_order_status);
 		}
 		//if (filter_admin_order_status != '*') { url += '&filter_admin_order_status=' + encodeURIComponent(filter_admin_order_status);
 		//}
-		
+
 		var filter_date_from = $('input[name=\'filter_date_from\']').val();
-		
+
 		if (filter_date_from) {
 			url += '&filter_date_from=' + encodeURIComponent(filter_date_from);
 		}
 
-		if(filter_time_from){
+		if (filter_time_from) {
 			url += '&filter_time_from=' + encodeURIComponent(filter_time_from);
 		}
 
-		if(filter_time_to){
+		if (filter_time_to) {
 			url += '&filter_time_to=' + encodeURIComponent(filter_time_to);
 		}
 
-		if(filter_table){
+		if (filter_table) {
 			url += '&filter_table=' + encodeURIComponent(filter_table);
 		}
-		
+
 		var filter_date_to = $('input[name=\'filter_date_to\']').val();
-		
+
 		if (filter_date_to) {
 			url += '&filter_date_to=' + encodeURIComponent(filter_date_to);
 		}
-		
+
 		location = url;
 	});
 
-	$('#pts-button-export').on('click', function() {
+	$('#pts-button-export').on('click', function () {
 		url = 'index.php?route=extension/account/purpletree_multivendor/sellerorder/export';
-		
+
 		var filter_order_status = $('select[name=\'filter_order_status\']').val();
 		var filter_time_from = $('input[name=\'filter_time_from\']').val();
 		var filter_time_to = $('input[name=\'filter_time_to\']').val();
 		var filter_table = $('input[name=\'filter_table\']').val();
 		//var filter_admin_order_status = $('select[name=\'filter_admin_order_status\']').val();
-		
+
 		if (filter_order_status != '*') {
 			url += '&filter_order_status=' + encodeURIComponent(filter_order_status);
 		}
 		//if (filter_admin_order_status != '*') { url += '&filter_admin_order_status=' + encodeURIComponent(filter_admin_order_status);
 		//}
-		
+
 		var filter_date_from = $('input[name=\'filter_date_from\']').val();
-		
+
 		if (filter_date_from) {
 			url += '&filter_date_from=' + encodeURIComponent(filter_date_from);
 		}
 
-		if(filter_time_from){
+		if (filter_time_from) {
 			url += '&filter_time_from=' + encodeURIComponent(filter_time_from);
 		}
 
-		if(filter_time_to){
+		if (filter_time_to) {
 			url += '&filter_time_to=' + encodeURIComponent(filter_time_to);
 		}
 
-		if(filter_table){
+		if (filter_table) {
 			url += '&filter_table=' + encodeURIComponent(filter_table);
 		}
-		
+
 		var filter_date_to = $('input[name=\'filter_date_to\']').val();
-		
+
 		if (filter_date_to) {
 			url += '&filter_date_to=' + encodeURIComponent(filter_date_to);
 		}
-		
+
 		location = url;
 
-	});	
+	});
 //--></script>
 
 
 
-<script type="text/javascript"><!--
+<script type="text/javascript">
 	$('#input-date-from').datetimepicker({
 		pickTime: false
 	});
