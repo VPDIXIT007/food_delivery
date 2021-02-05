@@ -18,30 +18,7 @@
 							<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
 							{% endfor %}
 						</ul>
-					</div> {# order status start #}
-					<div class="col-sm-6 col-sm-6 text-right">
-						<form method="post" class="form-inline">
-							<div class="form-group pts-col-sm-3">
-								<label style="margin-top: 4px;">Order Status</label>
-							</div>
-							<div class="form-group pts-col-sm-4">
-								<select class="form-control">
-									{% for order_statuses in order_statuses %}
-									{% if order_statuses.order_status_id == order_status_id %}
-									<option value="{{ order_statuses.order_status_id }}" selected="selected">{{ order_statuses.name }}
-									</option>
-									{% else %}
-									<option value="{{ order_statuses.order_status_id }}">{{ order_statuses.name }}</option>
-									{% endif %}
-									{% endfor %}
-								</select>
-							</div>
-							<div class="form-group pts-col-sm-4">
-								<button type="submit" class="btn btn-primary mt-3">Submit</button>
-							</div>
-						</form>
-					</div>
-					{# order status end #}
+					</div> 
 				</div>
 			</div>
 			<div class="pts-well">
@@ -119,6 +96,19 @@
 							</div>
 						</div>
 					</div>
+					<div class="pts-col-sm-4">
+						<div class="pts-form-group">
+							<label class="pts-control-label" for="input-date-modified">{{ entry_Order_type ?? 'Order Type'  }}</label>
+							<div class="pts-input-group date d-flex d-flex" style="display: flex;">
+							<select name="order_type" class="form-control">
+								<option value="">{{ text_select }}</option>
+								<option>takeaway</option>
+								<option>dinein</option>								
+								<option>delivery</option>
+							</select>
+							</div>
+						</div>
+					</div>
 					{# <div class="pts-col-sm-4">
 						<div class="pts-form-group">
 							<label class="pts-control-label" for="input-admin-order-status">{{ entry_admin_order_status }}</label>
@@ -166,15 +156,40 @@
 					</div>
 				</div>
 			</div>
-
+			<div class="row">
+				{# order status start #}
+					<div class="col-sm-6 col-sm-6 col-sm-offset-6 text-right">
+							<div class="form-group pts-col-sm-3">
+								<label style="margin-top: 4px;">{{ entry_order_status }}</label>
+							</div>
+							<div class="form-group pts-col-sm-6">
+								<select class="form-control" id="multiple_order_status_id" >
+									{% for order_statuses in order_statuses %}
+									{% if order_statuses.order_status_id == order_status_id %}
+									<option value="{{ order_statuses.order_status_id }}" selected="selected">{{ order_statuses.name }}
+									</option>
+									{% else %}
+									<option value="{{ order_statuses.order_status_id }}">{{ order_statuses.name }}</option>
+									{% endif %}
+									{% endfor %}
+								</select>
+							</div>
+							<div class="form-group pts-col-sm-2">
+								<button type="button" formaction="{{ multiple_status_history }}" onclick="confirm('Are you sure?') ? $('#form-multiple-status').submit() : false;" id='pts-button-history'  class="btn btn-primary mt-3">{{ button_submit }}</button>
+							</div>
+					</div>
+					{# order status end #}
+			</div>
 
 			<div class="pts-table-responsive">
+				<form method="post" id="form-multiple-status" action={{ multiple_status_history }}> 
+					<input type="hidden" name="order_status_id">
 				<table id="testTable" class="pts-table pts-table-bordered pts-table-hover">
 					<thead>
 						<tr>
 							<td class="pts-text-left"><input type="checkbox"
-									onclick="$('input[name*=\'selected\']').prop('checked', this.checked);"
-									class="form-control order_status_box"></td>
+									onclick="$('input[name*=\'order_id\']').prop('checked', this.checked);"
+									class="form-control order_status_box" value=""></td>
 							<td class="pts-text-left">{{ column_order_id }}</td>
 							<td class="pts-text-left">{{ column_order_number }} Order No</td>
 							<td class="pts-text-left">Order Type</td>
@@ -188,11 +203,11 @@
 							<td class="pts-text-left">{{ column_action }}</td>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody> 
 						{% if seller_orders %}
 						{% for order in seller_orders %}
 						<tr {% if order.seen %} class="pts-neworder" {% endif %}>
-							<td><input type="checkbox" name="selected[]" class="form-control order_status_box"></td>
+							<td><input type="checkbox" value="{{ order.order_id }}" name="order_id[]" class="form-control order_status_box"></td>
 							<td class="pts-text-left">{{ order.order_id }}</td>
 							<td class="pts-text-left">{{ "now"|date("mdY") }}-000{{ order.order_id }}</td>
 							<td class="pts-text-left">{{ order.ordertype }}</td>
@@ -257,7 +272,10 @@
 						{% endif %}
 					</tbody>
 				</table>
+			</form>
+			
 			</div>
+			
 			<div class="pts-row">
 				<div class="pts-col-sm-6 pts-text-left">{{ pagination }}</div>
 				<div class="pts-col-sm-6 pts-text-right">{{ results }}</div>
@@ -267,6 +285,14 @@
 </div>
 
 <script type="text/javascript">
+$(document).ready(function(){
+	$("input[name=order_status_id]").val($("#multiple_order_status_id").val());
+$("#multiple_order_status_id").change(function(){
+	$("input[name=order_status_id]").val($(this).val());
+});
+});
+
+
 	function changetable(orderid) {
 
 		//var  tablenum = $('select[name=\'filter_tablenum\']').val();
@@ -311,6 +337,7 @@
 		var filter_time_from = $('input[name=\'filter_time_from\']').val();
 		var filter_time_to = $('input[name=\'filter_time_to\']').val();
 		var filter_table = $('input[name=\'filter_table\']').val();
+		var order_type = $('select[name=\'order_type\']').val();
 		//var filter_admin_order_status = $('select[name=\'filter_admin_order_status\']').val();
 
 		if (filter_order_status != '*') {
@@ -332,9 +359,13 @@
 		if (filter_time_to) {
 			url += '&filter_time_to=' + encodeURIComponent(filter_time_to);
 		}
-
+ 
 		if (filter_table) {
 			url += '&filter_table=' + encodeURIComponent(filter_table);
+		}
+		
+		if (order_type) {
+			url += '&order_type=' + encodeURIComponent(order_type);
 		}
 
 		var filter_date_to = $('input[name=\'filter_date_to\']').val();
@@ -390,7 +421,7 @@
 	});
 //--></script>
 
-
+ 
 
 <script type="text/javascript">
 	$('#input-date-from').datetimepicker({

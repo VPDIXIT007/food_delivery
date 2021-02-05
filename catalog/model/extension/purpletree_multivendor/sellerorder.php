@@ -20,7 +20,7 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 			return $query->rows;
 		}
 		public function getTotalSellerOrders($data= array()){
-			$sql = "SELECT COUNT(DISTINCT(pvo.order_id)) AS total  FROM `" . DB_PREFIX . "order` o JOIN " . DB_PREFIX . "purpletree_vendor_orders pvo ON(pvo.order_id=o.order_id) LEFT JOIN oc_table_manger tm on tm.id=pvo.table_id";
+			$sql = "SELECT COUNT(DISTINCT(pvo.order_id)) AS total, pvo.ordertype  FROM `" . DB_PREFIX . "order` o JOIN " . DB_PREFIX . "purpletree_vendor_orders pvo ON(pvo.order_id=o.order_id) LEFT JOIN oc_table_manger tm on tm.id=pvo.table_id";
 			
 			if (isset($data['filter_order_status'])) {
 				$implode = array();
@@ -71,6 +71,9 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 			
 			if (!empty($data['filter_time_to'])) {
 				$sql .= " AND TIME(o.date_added) <= TIME('".$data['filter_time_to']."')";
+			}
+			if (!empty($data['order_type'])) {
+				$sql .= " AND pvo.ordertype = '".$data['order_type']."'";
 			}
 
 			if(!isset($data['filter_date_from']) && !isset($data['filter_date_to'])){
@@ -141,6 +144,9 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 				$sql .= " AND TIME(o.date_added) <= TIME('".$data['filter_time_to']."')";
 			}
 			
+			if (!empty($data['order_type'])) {
+				$sql .= " AND pvo.ordertype = '".$data['order_type']."'";
+			}
 			if(empty($data['filter_date_from']) && empty($data['filter_date_to'])){
 				$end_date = date('Y-m-d', strtotime("-30 days"));
 				$sql .= " AND DATE(pvo.created_at) >= '".$end_date."'";
@@ -389,7 +395,6 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 		}
 		
 		public function addOrderHistory($order_id, $seller_id, $order_status_id, $comment = '', $notify = false, $override = false) {
-			dd($order_id);
 			$order_info = $this->getOrder($order_id,$seller_id);
 			
 			if ($order_info) { 

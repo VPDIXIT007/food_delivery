@@ -518,7 +518,6 @@ class ModelCheckoutOrder extends Model {
 
 			if($total_reward->num_rows){
 				if($total_reward->row['points'] >= $point_used){
-
 					$this->db->query("UPDATE " . DB_PREFIX . "customer_store_reward SET points = points-". (int)$point_used ." WHERE customer_id = '" . (int)$customer_id . "' AND customer_group_id = $seller_customer_group_id ");
 
 					$success_data['success'] = true;
@@ -532,6 +531,14 @@ class ModelCheckoutOrder extends Model {
 			unset($this->session->data['reward_point_data']);
 		}
 		return $success_data;
+	}
+
+	public function handleOrderNumber($order_id = 0, $seller_id = 0)
+	{
+		if($order_id && $seller_id){
+			$today = DATE("l");
+			dd($today);
+		}
 	}
 
 }

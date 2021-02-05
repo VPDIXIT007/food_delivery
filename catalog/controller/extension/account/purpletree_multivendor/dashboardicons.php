@@ -2,8 +2,27 @@
 class ControllerExtensionAccountPurpletreeMultivendorDashboardicons extends Controller {
 		private $error = array();
 		
+		public function handleOrderNumber($order_id = 0, $seller_id = 0)
+		{
+			if($order_id && $seller_id){
+				$today = DATE("l");
+				$get_seller_time = $this->db->query("SELECT * FROM " . DB_PREFIX . "purpletree_vendor_store_time WHERE store_id = (SELECT id FROM " . DB_PREFIX . "purpletree_vendor_stores WHERE seller_id = '". (int)$seller_id ."') AND day_name = '$today' ");
+				if($get_seller_time->num_rows){
+					$open_time = $get_seller_time->row['open_time'];
+					$close_time = $get_seller_time->row['close_time'];
+
+					$today_date = DATE("Y-m-d");
+					
+					$today_date = DATE("Y-m-d", strtotime("+17:20:33 Hours"));
+					dd($today_date);
+				}
+			}
+		}
+
 		public function index(){
 			
+			$this->handleOrderNumber(455, 24);
+
 			if (!$this->customer->isLogged()) {
 				$this->session->data['redirect'] = $this->url->link('extension/account/purpletree_multivendor/dashboardicons', '', true);
 				

@@ -74,6 +74,9 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 				$filter_table = $this->request->get['filter_table'];
 			}
 			
+			if (isset($this->request->get['order_type'])) {
+				$order_type = $this->request->get['order_type'];
+			}
 			if (isset($this->request->get['page'])) {
 				$page = $this->request->get['page'];
 				} else {
@@ -114,6 +117,9 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 				$url .= '&filter_table=' . $this->request->get['filter_table'];
 			}
 
+			if(isset($this->request->get['order_type'])){
+				$url .= '&order_type=' . $this->request->get['order_type'];
+			}
 			$data['breadcrumbs'] = array();
 			
 			$data['breadcrumbs'][] = array(
@@ -125,7 +131,8 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 			'text' => $this->language->get('heading_title'),
 			'href' => $this->url->link('extension/account/purpletree_multivendor/sellerorder', $url, true)
 			);
-			
+
+			$data['multiple_status_history'] = $this->url->link('extension/account/purpletree_multivendor/sellerorder/multiple_status_history', $url, true);
 			
 			$filter_data = array(
 			'filter_order_status'  => $filter_order_status,
@@ -137,7 +144,8 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 			'seller_id'            => $this->customer->getId(),
 			'filter_time_from' 	   => $filter_time_from,
 			'filter_time_to'	   => $filter_time_to,
-			'filter_table' 		   => $filter_table
+			'filter_table' 		   => $filter_table,
+			'order_type'           => $order_type
 			);
 			$seller_id = $this->customer->getId();
 			
@@ -197,13 +205,13 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 				'order_status'  => $result['order_status'] ? $result['order_status'] : $this->language->get('text_missing'),
 				'total'         => $this->currency->format($totalall, $result['currency_code'], $result['currency_value']),
 				'commission'         => $this->currency->format($product_commission['total_commission'], $result['currency_code'], $result['currency_value']),
-				'date_added'    => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
-				'date_modified' => date($this->language->get('date_format_short'), strtotime($result['date_modified'])),
+				'date_added'    => date($this->language->get('datetime_format'), strtotime($result['date_added'])),
+				'date_modified' => date($this->language->get('datetime_format'), strtotime($result['date_modified'])),
 				'shipping_code' => $result['shipping_code'],
 				'view'          => $this->url->link('extension/account/purpletree_multivendor/sellerorder/seller_order_info', 'order_id=' . $result['order_id'] . $url, true)
 				);
 			}
-			
+		 
 			if(!empty($results)){
 				$data['total_sale'] = $this->currency->format($total_sale, $results[0]['currency_code'], $results[0]['currency_value']);
 				$data['total_pay'] = $this->currency->format(($total_payable-$total_commission), $results[0]['currency_code'], $results[0]['currency_value']);
@@ -216,7 +224,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 				$data['total_pay'] = $this->currency->format(($total_payable-$total_commission), $currency_detail['code'], $currency_detail['value']);
 				$data['total_commission'] = $this->currency->format($total_commission, $currency_detail['code'], $currency_detail['value']);
 			}
-			
+
 			$this->document->setTitle($this->language->get('heading_title'));
 			
 			$data['heading_title'] = $this->language->get('heading_title');
@@ -886,7 +894,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 				// API login
 				
 			}
-			
+ 		
 			$data['column_left'] = $this->load->controller('extension/account/purpletree_multivendor/common/column_left');
 			$data['footer'] = $this->load->controller('extension/account/purpletree_multivendor/common/footer');
 			$data['header'] = $this->load->controller('extension/account/purpletree_multivendor/common/header');
@@ -1901,11 +1909,83 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 					$i++;
 				} 
 			}
-
-			
 			$objPHPexl->getActiveSheet()->setTitle('order');
-			
-
 		}	
+
+		
+		public function multiple_status_history() {
+			
+			$order_id_status = $this->request->post['order_status_id'];
+			$order_ids = $this->request->post['order_id'];
+			
+			if($order_id_status && $order_ids){
+
+				$this->load->language('purpletree_multivendor/sellerorder');
+			
+				$this->load->model('extension/purpletree_multivendor/dashboard');
+				
+				$this->model_extension_purpletree_multivendor_dashboard->checkSellerApproval();
+
+				$this->load->model('extension/purpletree_multivendor/sellerorder');
+
+				$json = array();
+
+				foreach($order_ids as $order_id){
+
+					
+					
+					
+					// /* if (!isset($this->session->data['api_id'])) {
+					// 	$json['error'] = $this->language->get('error_permission');
+					// } else { */
+					// // Add keys for missing post vars
+					// $keys = array(
+					// 'order_status_id',
+					// 'notify',
+					// 'override',
+					// 'comment'
+					// );
+					
+					// foreach ($keys as $key) {
+					// 	if (!isset($this->request->post[$key])) {
+					// 		$this->request->post[$key] = '';
+					// 	}
+					// }
+				
+					
+					if (isset($this->request->get['seller_id'])) {
+						$seller_id = $this->request->get['seller_id'];
+						} else {
+						$seller_id = $this->customer->getId();
+					}
+
+					$order_info = $this->model_extension_purpletree_multivendor_sellerorder->getOrder($order_id,$seller_id);
+		
+					if ($order_info) {
+						$this->model_extension_purpletree_multivendor_sellerorder->addOrderHistory($order_id,$seller_id, $order_id_status);
+						
+						$json['success'] = $this->language->get('text_success');
+						} 
+					//}
+						// PUSH NOTIFICATION
+					$push = $this->sendNotification($order_id,$order_id_status);
+					
+					// PUSH NOTIFICATION END
+					if (isset($this->request->server['HTTP_ORIGIN'])) {
+						$this->response->addHeader('Access-Control-Allow-Origin: ' . $this->request->server['HTTP_ORIGIN']);
+						$this->response->addHeader('Access-Control-Allow-Methods: GET, PUT, POST, DELETE, OPTIONS');
+						$this->response->addHeader('Access-Control-Max-Age: 1000');
+						$this->response->addHeader('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+					}
+					
+					$this->response->addHeader('Content-Type: application/json');
+					$this->response->setOutput(json_encode($json));
+				}
+			}
+
+			$this->response->redirect($this->url->link('extension/account/purpletree_multivendor/sellerorder'));
+		
+			
+		}
 	}
 ?>
