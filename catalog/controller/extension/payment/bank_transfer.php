@@ -24,9 +24,10 @@ class ControllerExtensionPaymentBankTransfer extends Controller {
 			$this->load->language('extension/payment/bank_transfer');
 			
 			$this->load->model('checkout/order');
-			
+
 			//ac handle reward point // Order number
 			$this->model_checkout_order->handleOrderNumber($this->session->data['order_id'], $seller_id);
+			
 			$reward_status = $this->model_checkout_order->handleRewardPoint();
 			if(!$reward_status['success']){
 				$json['redirect'] = $this->url->link('checkout/checkout&seller_store_id='. $seller_id );

@@ -73,7 +73,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 			if (isset($this->request->get['filter_table'])) {
 				$filter_table = $this->request->get['filter_table'];
 			}
-			
+
 			if (isset($this->request->get['order_type'])) {
 				$order_type = $this->request->get['order_type'];
 			}
@@ -211,7 +211,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 				'view'          => $this->url->link('extension/account/purpletree_multivendor/sellerorder/seller_order_info', 'order_id=' . $result['order_id'] . $url, true)
 				);
 			}
-		 
+			
 			if(!empty($results)){
 				$data['total_sale'] = $this->currency->format($total_sale, $results[0]['currency_code'], $results[0]['currency_value']);
 				$data['total_pay'] = $this->currency->format(($total_payable-$total_commission), $results[0]['currency_code'], $results[0]['currency_value']);
@@ -258,6 +258,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 			$data['filter_time_to'] = $filter_time_to;
 			$data['filter_time_from'] = $filter_time_from;
 			$data['filter_table'] = $filter_table;
+			$data['order_type'] = $order_type;
 			
 			$this->load->model('extension/localisation/ptsorder_status');
 			
@@ -276,7 +277,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 			$data['column_left'] = $this->load->controller('extension/account/purpletree_multivendor/common/column_left');
 			$data['footer'] = $this->load->controller('extension/account/purpletree_multivendor/common/footer');
 			$data['header'] = $this->load->controller('extension/account/purpletree_multivendor/common/header');
-			
+
 			$this->response->setOutput($this->load->view('account/purpletree_multivendor/seller_order_list', $data));
 		}	
 		
@@ -1466,7 +1467,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 
 			if ($order_info) {
 				$this->model_extension_purpletree_multivendor_sellerorder->addOrderHistory($order_id,$seller_id, $this->request->post['order_status_id'], $this->request->post['comment'], $this->request->post['notify'], $this->request->post['override']);
-				
+
 				$json['success'] = $this->language->get('text_success');
 				} else {
 				$json['error'] = $this->language->get('error_not_found');
@@ -1746,7 +1747,11 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 			if (isset($this->request->get['filter_table'])) {
 				$filter_table = $this->request->get['filter_table'];
 			}
-			
+
+			if (isset($this->request->get['order_type'])) {
+				$order_type = $this->request->get['order_type'];
+			}
+
 			if (isset($this->request->get['page'])) {
 				$page = $this->request->get['page'];
 				} else {
@@ -1787,6 +1792,10 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 				$url .= '&filter_table=' . $this->request->get['filter_table'];
 			}
 
+			if(isset($this->request->get['order_type'])){
+				$url .= '&order_type=' . $this->request->get['order_type'];
+			}
+
 			$data['breadcrumbs'] = array();
 			
 			$data['breadcrumbs'][] = array(
@@ -1811,7 +1820,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 			'filter_time_from' 	   => $filter_time_from,
 			'filter_time_to'	   => $filter_time_to,
 			'filter_table' 		   => $filter_table,
-			'limit'							=> 1000
+			'order_type'		   => $order_type
 			);
 			$seller_id = $this->customer->getId();
 			
@@ -1865,6 +1874,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 				$exportData[] = array(
 				'order_id'      => $result['order_id'],
 				'ordertype' => $result['ordertype'],
+				'customer' => '',
 				'table_num' => $tablenum['table_no'],
 				'order_status'  => $result['order_status'] ? $result['order_status'] : $this->language->get('text_missing'),
 				'total'         => $this->currency->format($totalall, $result['currency_code'], $result['currency_value']),
@@ -1877,7 +1887,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 				// 'view'          => $this->url->link('extension/account/purpletree_multivendor/sellerorder/seller_order_info', 'order_id=' . $result['order_id'] . $url, true)
 				);
 
-				$tableName=array('A'=>'order_id','B'=>'ordertype','C'=>'table_num','D'=>'order_status','E'=>'total','F'=>'date_added','G'=>'date_modified');
+				$tableName=array('A'=>'order_id','B'=>'ordertype','C'=>'customer','D'=>'table_num','E'=>'order_status','F'=>'total','G'=>'date_added','H'=>'date_modified');
 			}
 			if(!empty($tableName)){	
 				foreach($tableName as $key => $tbName)

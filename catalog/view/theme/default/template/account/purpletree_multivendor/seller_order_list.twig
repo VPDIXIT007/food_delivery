@@ -102,9 +102,9 @@
 							<div class="pts-input-group date d-flex d-flex" style="display: flex;">
 							<select name="order_type" class="form-control">
 								<option value="">{{ text_select }}</option>
-								<option>takeaway</option>
-								<option>dinein</option>								
-								<option>delivery</option>
+								<option {% if order_type == 'takeaway' %} selected 	{% endif %} >takeaway</option>
+								<option {% if order_type == 'dinein' %}  selected	{% endif %}>dinein</option>								
+								<option {% if order_type == 'delivery' %}  selected	{% endif %}>delivery</option>
 							</select>
 							</div>
 						</div>
@@ -384,6 +384,7 @@ $("#multiple_order_status_id").change(function(){
 		var filter_time_from = $('input[name=\'filter_time_from\']').val();
 		var filter_time_to = $('input[name=\'filter_time_to\']').val();
 		var filter_table = $('input[name=\'filter_table\']').val();
+		var order_type = $('select[name=\'order_type\']').val();
 		//var filter_admin_order_status = $('select[name=\'filter_admin_order_status\']').val();
 
 		if (filter_order_status != '*') {
@@ -414,6 +415,10 @@ $("#multiple_order_status_id").change(function(){
 
 		if (filter_date_to) {
 			url += '&filter_date_to=' + encodeURIComponent(filter_date_to);
+		}
+
+		if (order_type) {
+			url += '&order_type=' + encodeURIComponent(order_type);
 		}
 
 		location = url;
