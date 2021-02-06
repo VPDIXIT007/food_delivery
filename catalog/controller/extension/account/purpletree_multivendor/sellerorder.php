@@ -197,6 +197,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 			
 				$data['seller_orders'][] = array(
 				'order_id'      => $result['order_id'],
+				'order_no'		 => $result['order_no'],
 				'table_num' => $tablenum['table_no'],
 				'product_comments'      => $result['product_comments'],
 				'ordertype' => $result['ordertype'],
@@ -211,7 +212,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 				'view'          => $this->url->link('extension/account/purpletree_multivendor/sellerorder/seller_order_info', 'order_id=' . $result['order_id'] . $url, true)
 				);
 			}
-			
+
 			if(!empty($results)){
 				$data['total_sale'] = $this->currency->format($total_sale, $results[0]['currency_code'], $results[0]['currency_value']);
 				$data['total_pay'] = $this->currency->format(($total_payable-$total_commission), $results[0]['currency_code'], $results[0]['currency_value']);

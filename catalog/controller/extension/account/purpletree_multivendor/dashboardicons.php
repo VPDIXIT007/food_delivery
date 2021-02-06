@@ -20,9 +20,9 @@ class ControllerExtensionAccountPurpletreeMultivendorDashboardicons extends Cont
 						$close_day = DATE("Y-m-d $close_time");
 					}
 	
-					$total_orders = $this->db->query("SELECT COUNT(*) as total FROM `" . DB_PREFIX . "purpletree_vendor_orders` WHERE `date_added` >= '$open_day' AND `date_added` <= '$close_day' AND seller_id = (SELECT seller_id FROM " . DB_PREFIX . "purpletree_vendor_stores WHERE id = '". (int)$seller_store_id ."') AND order_status_id > 0");
+					$total_orders = $this->db->query("SELECT COUNT(DISTINCT order_id) as total, ((NOW() >= '$open_day' ) AND (NOW() <= '$close_day' )) as _in FROM `" . DB_PREFIX . "purpletree_vendor_orders` WHERE `date_added` >= '$open_day' AND `date_added` <= '$close_day' AND seller_id = (SELECT seller_id FROM " . DB_PREFIX . "purpletree_vendor_stores WHERE id = '". (int)$seller_store_id ."') AND order_status_id > 0");
 
-					if($total_orders->row['total']){
+					if($total_orders->row['total'] || $total_orders->row['_in']){
 						$order_number = str_pad($total_orders->row['total']+1,  4, "0", STR_PAD_LEFT);
 					
 						$this->db->query("UPDATE " . DB_PREFIX . "purpletree_vendor_orders SET order_no = '$order_number' WHERE order_id = '". (int)$order_id ."' ");

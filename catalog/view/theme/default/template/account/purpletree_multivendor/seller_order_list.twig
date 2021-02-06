@@ -209,7 +209,7 @@
 						<tr {% if order.seen %} class="pts-neworder" {% endif %}>
 							<td><input type="checkbox" value="{{ order.order_id }}" name="order_id[]" class="form-control order_status_box"></td>
 							<td class="pts-text-left">{{ order.order_id }}</td>
-							<td class="pts-text-left">{{ "now"|date("mdY") }}-000{{ order.order_id }}</td>
+							<td class="pts-text-left">{{ order.order_no }}</td>
 							<td class="pts-text-left">{{ order.ordertype }}</td>
 							<td class="pts-text-left">{{ order.customer }}</td>
 
