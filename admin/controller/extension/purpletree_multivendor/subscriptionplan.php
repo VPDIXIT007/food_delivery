@@ -75,6 +75,10 @@ class ControllerExtensionPurpletreeMultivendorSubscriptionplan extends Controlle
 					$this->request->post['enable_point_system']=0;	
 				}
 
+				if(!isset($this->request->post['enable_theme_setting'])){
+					$this->request->post['enable_theme_setting']=0;	
+				}
+
 				if(!isset($this->request->post['default_subscription_plan'])){
 					$this->request->post['default_subscription_plan']=0;	
 				}
@@ -84,7 +88,7 @@ class ControllerExtensionPurpletreeMultivendorSubscriptionplan extends Controlle
 				$this->session->data['success'] = $this->language->get('text_success');
 				
 				$url = '';
-				
+				 
 				if (isset($this->request->get['sort'])) {
 					$url .= '&sort=' . $this->request->get['sort'];
 				}
@@ -102,7 +106,7 @@ class ControllerExtensionPurpletreeMultivendorSubscriptionplan extends Controlle
 			
 			$this->getForm();
 		}
-		
+		 
 		public function delete() {
 			if (!$this->customer->validateSeller()) {
 				$this->load->language('purpletree_multivendor/ptsmultivendor');
@@ -400,6 +404,14 @@ class ControllerExtensionPurpletreeMultivendorSubscriptionplan extends Controlle
 				$data['enable_point_system'] = $plan_info['enable_point_system'];
 				} else {
 				$data['enable_point_system'] = '';
+			}
+			
+			if (isset($this->request->post['enable_theme_setting'])) {
+				$data['enable_theme_setting'] = $this->request->post['enable_theme_setting'];
+				} elseif (!empty($plan_info)) {
+				$data['enable_theme_setting'] = $plan_info['enable_theme_setting'];
+				} else {
+				$data['enable_theme_setting'] = '';
 			}
 			
 			if (isset($this->request->post['joining_fee'])) {

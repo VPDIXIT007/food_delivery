@@ -2,46 +2,8 @@
 class ControllerExtensionAccountPurpletreeMultivendorDashboardicons extends Controller {
 		private $error = array();
 
-		public function handleOrderNumber($order_id = 0, $seller_store_id = 0)
-		{
-			if($order_id && $seller_store_id){
-				$today = DATE("l");
-				$get_seller_time = $this->db->query("SELECT * FROM " . DB_PREFIX . "purpletree_vendor_store_time WHERE store_id = '". (int)$seller_store_id ."' AND day_name = '$today' ");
-				if($get_seller_time->num_rows){
-					$open_time = $get_seller_time->row['open_time'];
-					$close_time = $get_seller_time->row['close_time'];
-	
-					//Open day
-					$open_day = DATE("Y-m-d $open_time");
-					//Close day
-					if(strtotime($open_time) > strtotime($close_time)){
-						$close_day = DATE("Y-m-d $close_time",strtotime('+1 day'));
-					}else{
-						$close_day = DATE("Y-m-d $close_time");
-					}
-	
-					$total_orders = $this->db->query("SELECT COUNT(DISTINCT order_id) as total, ((NOW() >= '$open_day' ) AND (NOW() <= '$close_day' )) as _in FROM `" . DB_PREFIX . "purpletree_vendor_orders` WHERE `date_added` >= '$open_day' AND `date_added` <= '$close_day' AND seller_id = (SELECT seller_id FROM " . DB_PREFIX . "purpletree_vendor_stores WHERE id = '". (int)$seller_store_id ."') AND order_status_id > 0");
-
-					if($total_orders->row['total'] || $total_orders->row['_in']){
-						$order_number = str_pad($total_orders->row['total']+1,  4, "0", STR_PAD_LEFT);
-					
-						$this->db->query("UPDATE " . DB_PREFIX . "purpletree_vendor_orders SET order_no = '$order_number' WHERE order_id = '". (int)$order_id ."' ");
-						$this->db->query("UPDATE " . DB_PREFIX . "order SET order_no = '$order_number' WHERE order_id = '". (int)$order_id ."' ");
-
-					}else{
-						//No working working
-						$order_number = str_pad($order_id,  4, "0", STR_PAD_LEFT);
-						$this->db->query("UPDATE " . DB_PREFIX . "purpletree_vendor_orders SET order_no = '$order_number' WHERE order_id = '". (int)$order_id ."' ");
-						$this->db->query("UPDATE " . DB_PREFIX . "order SET order_no = '$order_number' WHERE order_id = '". (int)$order_id ."' ");
-					}
-				}
-			}
-		}
-
 		public function index(){
 
-			//$this->handleOrderNumber("461",'11');
-		
 			if (!$this->customer->isLogged()) {
 				$this->session->data['redirect'] = $this->url->link('extension/account/purpletree_multivendor/dashboardicons', '', true);
 				

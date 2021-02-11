@@ -34,14 +34,16 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerstore extends Control
 		}
 
 		
-		
+		$this->load->model('extension/purpletree_multivendor/subscriptionplan');
 		$this->load->model('extension/purpletree_multivendor/vendor');
 		
 		$store_detail = $this->customer->isSeller();
 		$data['bannerwidth'] = $this->config->get('theme_mahardhi_image_bannerslider_width');
 			$data['bannerheight'] = $this->config->get('theme_mahardhi_image_bannerslider_height');
 		$store_id = (isset($store_detail['id'])?$store_detail['id']:'');		
-		  
+		
+
+
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			$path = 'admin/ptsseller/';
 			$file = "";
@@ -86,6 +88,66 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerstore extends Control
 				}
 				$this->model_extension_purpletree_multivendor_vendor->updateVacationProductByOff($this->customer->getId());
 			}
+
+		// colors
+		if(isset($this->request->post['theme_mahardhi_primary_color'])){
+			$color['theme_mahardhi_primary_color'] =  $this->request->post['theme_mahardhi_primary_color'];
+		}
+		else{
+			$color['theme_mahardhi_primary_color'] =  '';
+		}
+		
+		if(isset($this->request->post['theme_mahardhi_primary_hover_color'])){
+			$color['theme_mahardhi_primary_hover_color'] =  $this->request->post['theme_mahardhi_primary_hover_color'];
+		}
+		else{
+			$color['theme_mahardhi_primary_hover_color'] =  '';
+		}
+		
+		if(isset($this->request->post['theme_mahardhi_secondary_color'])){
+			$color['theme_mahardhi_secondary_color'] =  $this->request->post['theme_mahardhi_secondary_color'];
+		}
+		else{
+			$color['theme_mahardhi_secondary_color'] =  '';
+		}
+		
+		if(isset($this->request->post['theme_mahardhi_secondary_hover_color'])){
+			$color['theme_mahardhi_secondary_hover_color'] =  $this->request->post['theme_mahardhi_secondary_hover_color'];
+		}
+		else{
+			$color['theme_mahardhi_secondary_hover_color'] =  '';
+		}
+		
+		if(isset($this->request->post['theme_mahardhi_secondary_light_color'])){
+			$color['theme_mahardhi_secondary_light_color'] =  $this->request->post['theme_mahardhi_secondary_light_color'];
+		}
+		else{
+			$color['theme_mahardhi_secondary_light_color'] =  '';
+		}
+		
+		if(isset($this->request->post['theme_mahardhi_background_color'])){
+			$color['theme_mahardhi_background_color'] = $this->request->post['theme_mahardhi_background_color'];
+		}
+		else{
+			$color['theme_mahardhi_background_color'] = '';
+		}
+		
+		if(isset($this->request->post['whatsatheme_mahardhi_border_colorpp_link'])){
+			$color['theme_mahardhi_border_color'] =  $this->request->post['theme_mahardhi_border_color'];
+		}
+		else{
+			$color['theme_mahardhi_border_color'] = '';
+		}
+
+		$color_json = array();
+		
+		if(count($color)){
+		$color_json = json_encode($color);
+			$sql = "UPDATE ".DB_PREFIX."purpletree_vendor_stores SET theme_setting_color='".$color_json."' WHERE id='".$store_id."'";
+			$this->db->query($sql);
+		}
+
+
 			$this->model_extension_purpletree_multivendor_vendor->editStore($store_id, $this->request->post,$file);
 			///vacation
 				$this->model_extension_purpletree_multivendor_vendor->storeTime($store_id, $this->request->post);
@@ -515,6 +577,15 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerstore extends Control
 		} else { 
 			$data['seller_name'] = '';
 		}
+
+		if (isset($this->request->post['api_token'])) { 
+			$data['api_token'] = $this->request->post['api_token'];
+		} elseif (!empty($seller_info)) { 
+			$data['api_token'] = $seller_info['api_token'];
+		} else { 
+			$data['api_token'] = '';
+		}
+		
 				if (isset($this->request->post['store_live_chat_enable'])) { 
 			$data['store_live_chat_enable'] = $this->request->post['store_live_chat_enable'];
 		} elseif (!empty($seller_info)) { 
@@ -727,7 +798,69 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerstore extends Control
 			$data['vacation'] = '';
 		}		
 		//paypal
-				
+
+		// colors
+		if($seller_info['theme_setting_color']){
+
+			$theme_color = json_decode($seller_info['theme_setting_color'],1);
+
+			if(isset($this->request->post['theme_mahardhi_primary_color'])){
+				$data['theme_mahardhi_primary_color'] =  $this->request->post['theme_mahardhi_primary_color'];
+			} else{
+				$data['theme_mahardhi_primary_color'] =  $theme_color['theme_mahardhi_primary_color'];
+			}
+			
+			if(isset($this->request->post['theme_mahardhi_primary_hover_color'])){
+				$data['theme_mahardhi_primary_hover_color'] =  $this->request->post['theme_mahardhi_primary_hover_color'];
+			}
+			else{
+				$data['theme_mahardhi_primary_hover_color'] =  $theme_color['theme_mahardhi_primary_hover_color'];
+			}
+			
+			if(isset($this->request->post['theme_mahardhi_secondary_color'])){
+				$data['theme_mahardhi_secondary_color'] =  $this->request->post['theme_mahardhi_secondary_color'];
+			}
+			else{
+				$data['theme_mahardhi_secondary_color'] =  $theme_color['theme_mahardhi_secondary_color'];;
+			}
+			
+			if(isset($this->request->post['theme_mahardhi_secondary_hover_color'])){
+				$data['theme_mahardhi_secondary_hover_color'] =  $this->request->post['theme_mahardhi_secondary_hover_color'];
+			}
+			else{
+				$data['theme_mahardhi_secondary_hover_color'] =  $theme_color['theme_mahardhi_secondary_hover_color'];;
+			}
+			
+			if(isset($this->request->post['theme_mahardhi_secondary_light_color'])){
+				$data['theme_mahardhi_secondary_light_color'] =  $this->request->post['theme_mahardhi_secondary_light_color'];
+			}
+			else{
+				$data['theme_mahardhi_secondary_light_color'] =  $theme_color['theme_mahardhi_secondary_light_color'];;
+			}
+			
+			if(isset($this->request->post['theme_mahardhi_background_color'])){
+				$data['theme_mahardhi_background_color'] = $this->request->post['theme_mahardhi_background_color'];
+			}
+			else{
+				$data['theme_mahardhi_background_color'] = $theme_color['theme_mahardhi_background_color'];;
+			}
+			
+			if(isset($this->request->post['theme_mahardhi_border_color'])){
+				$data['theme_mahardhi_border_color'] =  $this->request->post['theme_mahardhi_border_color'];
+			}
+			else{
+				$data['theme_mahardhi_border_color'] = $theme_color['theme_mahardhi_border_color'];;
+			}
+		}
+			
+		//Custom ttheme
+		$plan_info = $this->model_extension_purpletree_multivendor_subscriptionplan->getCurrentPlan($this->customer->getId());
+		if(isset($plan_info['enable_theme_setting'])){
+			$data['enable_theme_setting'] = $plan_info['enable_theme_setting'];
+		}else{
+			$data['enable_theme_setting'] = 0;
+		}
+
 		if (isset($this->request->post['store_logo'])) {
 			$data['store_logo'] = $this->request->post['store_logo'];
 		} elseif (!empty($seller_info)) {
@@ -786,6 +919,9 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerstore extends Control
 		} else {
 			$data['whatsapp_link'] = '';
 		}
+
+		
+
 		$results = $this->model_extension_purpletree_multivendor_vendor->getAssingedCategories();
 
 		if(!empty($results)){
@@ -852,7 +988,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerstore extends Control
 				'sort_order' => $slide['sort_order']
 				);
 			}
-/*
+        /*
 		if (isset($this->request->post['store_banner']) && is_file(DIR_IMAGE . $this->request->post['store_banner'])) {
 			$data['banner_thumb'] = $this->model_tool_image->resize($this->request->post['store_banner'], 100, 100);
 		} elseif (!empty($seller_info) && is_file(DIR_IMAGE . $seller_info['store_banner'])) {
@@ -979,6 +1115,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerstore extends Control
 		} else {
 			$data['account_custom_field'] = array();
 		}
+
 		$this->load->model('tool/upload');
 		if(!empty($data['custom_fields'])) {
 			foreach ($data['custom_fields'] as $custom_field) {
@@ -1000,6 +1137,8 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerstore extends Control
 			}
 			}
 		}
+ 
+	
 
 		$this->document->addScriptpts('catalog/view/javascript/purpletree/jquery/datetimepicker/moment/moment.min.js'); 
 		$this->document->addScriptpts('catalog/view/javascript/purpletree/jquery/datetimepicker/moment/moment-with-locales.min.js'); 
@@ -1015,7 +1154,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerstore extends Control
 
 	public function downloadAttachment()
 	{
-		
+		 
 		$file="ptsseller/".$this->request->get["document"]; //file location 
 		
         if(file_exists($file)) {
@@ -1745,7 +1884,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerstore extends Control
 				
 			}
 			
-///// Start Menu 
+         ///// Start Menu 
 		$seller_store_id='';
 		if(isset($this->request->get['seller_store_id'])){
 				$seller_store_id=$this->request->get['seller_store_id'];
@@ -3292,6 +3431,35 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerstore extends Control
 			return $this->config->get('config_url') . 'image/' . $image_new;
 		}
 	}
+
+
+	public function reset_color(){
+		if ($this->request->server['REQUEST_METHOD'] == 'POST'){
+			$sql = "UPDATE ".DB_PREFIX."purpletree_vendor_stores SET theme_setting_color='' WHERE id='".$this->request->post['store_id']."'";
+			$this->db->query($sql);
+			
+			$data['success'] = 1;
+			echo json_encode($data);
+		}
+		else{
+			$data['error'] = 0;
+		}
+	}
+
+	public function generate_api_token(){
+		$json['success'] = 0;
+		if ($this->request->server['REQUEST_METHOD'] == 'POST'){
+			$api_token = md5(time());
+			$sql = "UPDATE ".DB_PREFIX."purpletree_vendor_stores SET api_token='".$api_token."' WHERE id='".$this->request->post['store_id']."'";
+			$this->db->query($sql);
+			
+			$json['success'] = 1;
+			$json['api_token'] = $api_token;
+		}	
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
+	}
+
 }
 if (! function_exists('array_column')) {
     function array_column(array $input, $columnKey, $indexKey = null) {

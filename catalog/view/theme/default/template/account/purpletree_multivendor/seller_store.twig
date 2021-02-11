@@ -22,9 +22,10 @@
 			<ul class="pts-nav pts-nav-tabs nav nav-tabs">	
 					<li id="ptsGeneralTab" class="nav-item active"><a class="nav-link"  href="#tab-general" data-toggle="tab">General</a></li>
 					<li id="ptsSlidesTab" class="nav-item"><a class="nav-link"  href="#tab-slides" data-toggle="tab">Slider Banner</a></li>
+					<li id="ptsSlidesTab" class="nav-item"><a class="nav-link"  href="#tab-setting" data-toggle="tab">Theme Setting</a></li>
 					
 				</ul>
-				<div class="pts-tab-pane tab-pane active" id="tab-general">
+			<div class="pts-tab-pane tab-pane active" id="tab-general">
 				<fieldset>
 					<div class="pts-form-group required">
 						<label class="pts-col-sm-2 pts-control-label" for="input-storename">{{ entry_name }}</label>
@@ -42,6 +43,17 @@
 							{% endif %}
 						</div>
 					</div>
+
+					<div class="pts-form-group">
+						<label class="pts-col-sm-2 pts-control-label" for="input-storename">API Token</label>
+						<div class="pts-col-sm-4">
+							<input type="text" name="api_token" readonly value="{{ api_token }}" placeholder="API Token" id="input-storename" class="pts-form-control" />
+						</div>
+						<div class="pts-col-sm-2">
+							<button type="button" class="btn btn-primary _generate_api_token">Generate</button>
+						</div>
+					</div>
+
 					<div class="pts-form-group">
 						<label class="pts-col-sm-2 pts-control-label">{{ entry_storelogo }}</label>
 						<div class="pts-col-sm-10"><a href="" id="thumb-image" data-toggle="image" class="img-thumbnail img-left"><img src="{{ thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
@@ -615,7 +627,8 @@
 							
 						</div>
 					</div>
-				</fieldset>--></div>
+				</fieldset>-->
+			</div>
 				<div class="pts-tab-pane tab-pane" id="tab-slides">
 				
 					<div class="pts-table-responsive">
@@ -651,6 +664,71 @@
 						</table>
 					</div>
 				</div>
+
+		<div class="pts-tab-pane tab-pane" id="tab-setting" style="display: none;">
+			<div class="pts-table-responsive">
+			{% if enable_theme_setting %}
+			<h3>Color <button type="button" class="btn btn-primary pull-right _theme-color-reset">Reset</button></h3>
+			
+			<legend>{{ text_color }}</legend>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-primary-color">{{ entry_primary_color ?? "Primary Color" }}</label>
+                <div class="col-sm-1">
+                    <input class="form-control" type="color" name="theme_mahardhi_primary_color" value="{{ theme_mahardhi_primary_color ?? "#222222" }}" id="input-primary-color" style="padding: 0 2px;">
+                </div>
+            </div>   
+<br>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-primary-hover-color">{{ entry_primary_hover_color ?? "Primary Hover Color" }}</label>
+                <div class="col-sm-1">
+                    <input class="form-control" type="color" name="theme_mahardhi_primary_hover_color" value="{{ theme_mahardhi_primary_hover_color ?? "#ffffff" }}" id="input-primary-hover-color" style="padding: 0 2px;">
+                </div>
+            </div>   
+<br>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-secondary-color">{{ entry_secondary_color ?? "Secondary Color" }}</label>
+                <div class="col-sm-1">
+                    <input class="form-control" type="color" name="theme_mahardhi_secondary_color" value="{{ theme_mahardhi_secondary_color ?? "#ef271f" }}" id="input-secondary-color" style="padding: 0 2px;">
+                </div>
+            </div>  
+<br>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-secondary-hover-color">{{ entry_secondary_hover_color ?? "Secondary Hover Color" }}</label>
+                <div class="col-sm-1">
+                    <input class="form-control" type="color" name="theme_mahardhi_secondary_hover_color" value="{{ theme_mahardhi_secondary_hover_color ?? "#04030f" }}" id="input-secondary-hover-color" style="padding: 0 2px;">
+                </div>
+            </div>  
+<br>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-secondary-light-color">{{ entry_secondary_light_color ?? "Secondary Light Color" }}</label>
+                <div class="col-sm-1">
+                    <input class="form-control" type="color" name="theme_mahardhi_secondary_light_color" value="{{ theme_mahardhi_secondary_light_color ?? "#7d7d7d" }}" id="input-secondary-light-color" style="padding: 0 2px;">
+                </div>
+            </div>  
+ <br>
+             <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-background-color">{{ entry_background_color ?? "Background Color" }}</label>
+                <div class="col-sm-1">
+                    <input class="form-control" type="color" name="theme_mahardhi_background_color" value="{{ theme_mahardhi_background_color ?? "#f9fafe" }}" id="input-background-color" style="padding: 0 2px;">
+                </div>
+            </div> 
+<br>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="input-border-color">{{ entry_border_color ?? "Border Color" }}</label>
+                <div class="col-sm-1">
+                    <input class="form-control" type="color" name="theme_mahardhi_border_color" value="{{ theme_mahardhi_border_color ?? "#b9bab8" }}" id="input-border-color" style="padding: 0 2px;">
+                </div>
+            </div>   
+            {% else %}
+						<div class="col-sm-12 text-center">
+						<h3> <em class="fa fa-lock"></em> Theme setting is locked for this plan!</h3>
+						<br>
+						<br>
+						</div>
+						{% endif %}
+					</div>
+				</div>
+
 				<div class="buttons clearfix">
 					<div class="pts-pull-left"><a href="{{ back }}" class="pts-btn pts-btn-default">{{ button_back }}</a></div>
 					<div class="pts-pull-right">
@@ -749,6 +827,61 @@ image_row = image_row - 1 ;
 		country('{{ store_country }}','{{ store_state }}');
 	})
 //--></script>
+
+<script>
+$("._theme-color-reset").click(function(){
+		let element = $(this);
+			$.ajax({
+				url: 'index.php?route=extension/account/purpletree_multivendor/sellerstore/reset_color',
+				type: 'post',
+				data: {reset : 'reset', store_id : {{ store_id }}},
+				dataType: 'json',
+				beforeSend: function() {
+					$(element).button('loading'); 
+				},
+				complete: function() {
+					$(element).button('reset');
+				},
+				success: function(json) {
+					if (json['success']) {
+						location.reload(true);
+					}
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				}
+			});
+});
+
+$("._generate_api_token").click(function(){
+			let element = $(this);
+
+		$.ajax({
+				url: 'index.php?route=extension/account/purpletree_multivendor/sellerstore/generate_api_token',
+				type: 'post',
+				data: {store_id : '{{ store_id }}'},
+				beforeSend: function() {
+					$(element).button('loading');
+				},
+				complete: function() {
+					$(element).button('reset');
+				},
+				success: function(json) {
+					console.log(json);
+					if (json['success']) {
+						$("input[name=api_token]").val(json['api_token']);
+					}else{
+						alert('Please refresh the page and try again!');
+					}
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				}
+			});
+});	
+
+</script>
+
 <script type="text/javascript"><!--
 $('button[id^=\'button-custom-field\']').on('click', function() {
 	var element = this;

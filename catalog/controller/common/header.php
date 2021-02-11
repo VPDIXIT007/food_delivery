@@ -199,8 +199,28 @@ class ControllerCommonHeader extends Controller {
 			} else {
 				$data['search'] = $this->load->controller('common/search');
 			}
-
+ 
 			// colors
+			$this->load->model('extension/purpletree_multivendor/subscriptionplan');
+			$plan_info = $this->model_extension_purpletree_multivendor_subscriptionplan->getCurrentPlan($seller_info['seller_id']);
+			if(isset($plan_info['enable_theme_setting'])){
+				$data['enable_theme_setting'] = $plan_info['enable_theme_setting'];
+			}else{
+				$data['enable_theme_setting'] = 0;
+			}
+
+			if($data['enable_theme_setting'] && isset($sellerid) && !empty($seller_info['theme_setting_color'])) {
+				$arr = json_decode($seller_info['theme_setting_color'], true);
+				// colors
+				$primaryColor = $arr['theme_mahardhi_primary_color'];
+				$primaryHoverColor = $arr['theme_mahardhi_primary_hover_color'];
+				$secondaryColor = $arr['theme_mahardhi_secondary_color'];
+				$secondaryHoverColor = $arr['theme_mahardhi_secondary_hover_color'];
+				$secondaryLightColor =  $arr['theme_mahardhi_secondary_light_color'];
+				$backgroundColor = $arr['theme_mahardhi_background_color'];
+				$borderColor = $arr['theme_mahardhi_border_color'];
+			}
+			else{
 		  	$primaryColor = $this->config->has('theme_mahardhi_primary_color') ? $this->config->get('theme_mahardhi_primary_color') : '#222222';
 		  	$primaryHoverColor = $this->config->has('theme_mahardhi_primary_hover_color') ? $this->config->get('theme_mahardhi_primary_hover_color') : '#ffffff';
 		  	$secondaryColor = $this->config->has('theme_mahardhi_secondary_color') ? $this->config->get('theme_mahardhi_secondary_color') : '#79b530';
@@ -208,7 +228,7 @@ class ControllerCommonHeader extends Controller {
 		  	$secondaryLightColor = $this->config->has('theme_mahardhi_secondary_light_color') ? $this->config->get('theme_mahardhi_secondary_light_color') : '#7d7d7d';
 		  	$backgroundColor = $this->config->has('theme_mahardhi_background_color') ? $this->config->get('theme_mahardhi_background_color') : '#f5f5f5';
 		  	$borderColor = $this->config->has('theme_mahardhi_border_color') ? $this->config->get('theme_mahardhi_border_color') : '#dddddd';
-
+			}
 			$data['inline_style'] = html_entity_decode('<style>
 				:root {
 					--primary-color: ' . $primaryColor . ';
