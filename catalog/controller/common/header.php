@@ -7,6 +7,7 @@ class ControllerCommonHeader extends Controller {
 		$lang = $this->language->get('code'); 
 		$data['analytics'] = array();
 		$sellerstore = $this->request->get["seller_store_id"];
+		$data['sellerstore'] = $sellerstore;
 		//opining timeing
 		$seller_info_social = $this->model_extension_purpletree_multivendor_vendor->getStoreSocial($sellerstore);
 		if (!empty($seller_info_social) && isset($seller_info_social['facebook_link'])) {
@@ -128,6 +129,7 @@ class ControllerCommonHeader extends Controller {
 		$data['direction'] = $this->language->get('direction');
 		if(isset($this->session->data['tracking_order_id'])){
 		$data['tracking_order_id'] = $this->session->data['tracking_order_id'];
+		$data['tracking_order_no'] = $this->session->data['tracking_order_no'];
 		}
 
 		$data['name'] = $this->config->get('config_name');

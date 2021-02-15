@@ -3446,20 +3446,6 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerstore extends Control
 		}
 	}
 
-	public function generate_api_token(){
-		$json['success'] = 0;
-		if ($this->request->server['REQUEST_METHOD'] == 'POST'){
-			$api_token = md5(time());
-			$sql = "UPDATE ".DB_PREFIX."purpletree_vendor_stores SET api_token='".$api_token."' WHERE id='".$this->request->post['store_id']."'";
-			$this->db->query($sql);
-			
-			$json['success'] = 1;
-			$json['api_token'] = $api_token;
-		}	
-		$this->response->addHeader('Content-Type: application/json');
-		$this->response->setOutput(json_encode($json));
-	}
-
 }
 if (! function_exists('array_column')) {
     function array_column(array $input, $columnKey, $indexKey = null) {

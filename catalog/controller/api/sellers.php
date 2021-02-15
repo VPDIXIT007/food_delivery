@@ -107,7 +107,15 @@ class ControllerApiSellers extends Controller {
         'next_page' =>  ($next_page > $toal_page)? 0 : $next_page,
       );
 
-      $json['orders'] = $results;
+			$orders = array();
+			foreach ($results as $order) {
+				$order_product = $this->model_common_ac->getSellerOrderProducts($order['order_id'], $seller_id);
+				$orders[] = array(
+					'data' => $order,
+					'order_items' => $order_product
+				);
+			}
+      $json['orders'] = $orders;
 
     }else{
       $json['error']['warning'] = $this->language->get('error_invalid');

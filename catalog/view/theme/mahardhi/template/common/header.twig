@@ -195,7 +195,7 @@
 				<div class="modal-body">
 					<div class="form-group">
 						<label for="exampleInputEmail1">{{ order_no }}</label>
-						<input type="text"  id="order_no" aria-describedby="emailHelp" name="orderno" value="{% if tracking_order_id %} {{tracking_order_id}} {% endif %}">
+						<input type="text"  id="order_no" aria-describedby="emailHelp" name="orderno" value="{% if tracking_order_no %} {{tracking_order_no}} {% endif %}">
 						<button onclick="trackorder();">{{ track }}</button>
 					</div>
 					<div id="result"></div>
@@ -210,8 +210,8 @@
 
 	<script>
 
-	{% if tracking_order_id %}
-		var trackno = {{ tracking_order_id }};
+	{% if tracking_order_no %}
+		var trackno = {{ tracking_order_no }};
 		if(trackno){
 			$(".linkedin").on('click',function(){
                  trackorder();
@@ -226,11 +226,14 @@
 					url: 'index.php?route=order_tracking/order_tracking/track',
 					type: 'post',
 					dateType: 'json',
-					data: { order_no : orderno },
+					data: { order_no : orderno, sellerstore:'{{ sellerstore }}' },
 					success: function (json) { 
-						
-
-						$('#result').html('<div class="orderstatus">Order Status : ' + json['name'] + '</div>');
+						if(json.success){
+							console.log(json['status_name']['name']);
+							$('#result').html('<div class="orderstatus">Order Status : ' + json['status_name']['name'] + '</div>');
+						}else{
+							$('#result').html('<div class="orderstatus">' + json['message'] + '</div>');
+						}
 					}
 				});
 			};

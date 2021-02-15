@@ -353,6 +353,9 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 				$data['text_reward'] = $this->language->get('text_reward');
 				$data['text_affiliate'] = $this->language->get('text_affiliate');
 				$data['text_order'] = sprintf($this->language->get('text_order'), $this->request->get['order_id']);
+				
+				$data['text_order_no'] = sprintf($this->language->get('text_order'), $order_info['order_no']);
+
 				$data['text_payment_address'] = $this->language->get('text_payment_address');
 				$data['text_shipping_address'] = $this->language->get('text_shipping_address');
 				$data['text_comment'] = $this->language->get('text_comment');
@@ -977,12 +980,12 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 				} elseif (isset($this->request->get['order_id'])) {
 				$orders[] = $this->request->get['order_id'];
 			}
-			
+			 
 			$seller_id = $this->customer->getId();
 			
 			foreach ($orders as $order_id) {
 				$order_info = $this->model_extension_purpletree_multivendor_sellerorder->getOrder($order_id,$seller_id);
-				
+				$seller_info = $this->model_extension_purpletree_multivendor_sellerorder->getsellerInfofororder($seller_id);
 				if ($order_info) {
 					$store_info = $this->model_setting_setting->getSetting('config', $order_info['store_id']);
 					
@@ -1048,7 +1051,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 					'country'   => $order_info['payment_country']
 					);
 					
-					$payment_address = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));
+					$payment_address = str_replace(array("\r\n", "\r", "\n"), ', ', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), ', ', trim(str_replace($find, $replace, $format))));
 					
 					if ($order_info['shipping_address_format']) {
 						$format = $order_info['shipping_address_format'];
@@ -1082,7 +1085,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 					'country'   => $order_info['shipping_country']
 					);
 					
-					$shipping_address = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));
+					$shipping_address = str_replace(array("\r\n", "\r", "\n"), ',', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), ',', trim(str_replace($find, $replace, $format))));
 					
 					$this->load->model('tool/upload');
 					
@@ -1164,6 +1167,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 					}
 					$data['orders'][] = array(
 					'order_id'	       => $order_id.'-'.$seller_id,
+					'order_no'	       => $order_info['order_no'],
 					'invoice_no'       => $invoice_no,
 					'date_added'       => date($this->language->get('date_format_short'), strtotime($order_info['date_added'])),
 					'store_name'       => $order_info['store_name'],
@@ -1181,14 +1185,67 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 					'product'          => $product_data,
 					'voucher'          => $voucher_data,
 					'total'            => $total_data,
-					'comment'          => nl2br($order_info['comment'])
+					'comment'          => nl2br($order_info['comment']),
+					'payment_name'          => $order_info['payment_firstname'].' '.$order_info['payment_lastname'],
+					'barcode'          => dirname($_SERVER['PHP_SELF']).'/image/cache/catalog/barcode-100x100.png',
+					'store_logo'	   => HTTP_SERVER.'/image/'.$seller_info['store_logo']
 					);
 				}
-			}
+			} 
 			$data['HTTPS_SERVER'] = HTTPS_SERVER;
+
+			
+			include_once(DIR_SYSTEM . 'library/phpqrcode/qrlib.php');
+		  if ($this->request->server['HTTPS']) {
+			  $server = $this->config->get('config_ssl');
+		  } else {
+			  $server = $this->config->get('config_url');
+		  }
+	  $tempDir = DIR_IMAGE.'qrcodes/';
+	  $store_detail = $this->customer->isSeller();
+		  
+	  $codeContents = HTTPS_SERVER.'index.php?route=extension/account/purpletree_multivendor/sellerstore/storeview&seller_store_id='.$store_detail['id'];
+	  
+	  $fileName = '249_file_'.md5($store_detail['id']).'.png';
+	  
+	  $pngAbsoluteFilePath = $tempDir.$fileName;
+	  
+	  $this->load->model('extension/purpletree_multivendor/vendor');
+		  $seller_info = $this->model_extension_purpletree_multivendor_vendor->getStore($store_detail['id']);
+	  $urlRelativeFilePath = '/image/qrcodes/'.$fileName;
+		// end of processing here
+		  $debugLog = ob_get_contents();
+	  // generating
+	   
+		QRcode::png($codeContents, $pngAbsoluteFilePath,QR_ECLEVEL_M,10);
+		 $QR = imagecreatefrompng($pngAbsoluteFilePath);
+
+		list($widthlogo, $heightlogo) = getimagesize(DIR_IMAGE.$seller_info['store_logo']);
+	   $out2 = imagecreatetruecolor($width1, $height1);
+	   $whity = imagecolorallocate($out2, 255, 255, 255);
+	   imagefill($out2, 0, 0, $whity);
+	   imagecopyresampled($out2, $logotmp, 0, 0, 0, 0, $width1, $height1, $width1, $height1);
+	   imagecopyresampled($out2, $logo, 0, $height1/$heightlogo, 0, 0, $width1, $height1, $widthlogo, $heightlogo);
+
+	  list($newwidth, $newheight) = getimagesize($pngAbsoluteFilePath);
+	  $out = imagecreatetruecolor($width, $height);
+	  
+	  imagecopyresampled($out, $bg, 0, 0, 0, 0, $width, $height, $width, $height);
+	  imagecopyresampled($out, $QR, $width/5 - 100, $height/4 - 85, 0, 0, $newwidth, $newheight, $newwidth, $newheight);
+	  imagecopyresampled($out, $out2, $width/4 + 60, $height/3 + 40, 0, 0, $width1, $height1, $width1, $height1);
+  
+  
+	  imagejpeg($out, DIR_IMAGE.'qrcodes/'.$fileName, 100);
+	  
+	   
+	  $json= array();
+	  $data['filename'] = HTTP_SERVER."image/qrcodes/".$fileName;
+	  $data['filepath'] = '/image/qrcodes/';
+	 
+
 			$this->response->setOutput($this->load->view('account/purpletree_multivendor/order_invoice', $data));
 		}
-		
+
 		public function shipping() {
 			if (!$this->customer->isLogged()) {
 				$this->session->data['redirect'] = $this->url->link('extension/account/purpletree_multivendor/sellerorder', '', true);

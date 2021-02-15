@@ -18,7 +18,7 @@
 		{% if error_warning %}
 		<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
 			<button type="button" class="close" data-dismiss="alert">&times;</button>
-		</div>
+		</div> 
 		{% endif %}
 		<div class="well card p-3 mb-3">
 			<div class="row">
@@ -69,6 +69,20 @@
 									<input type="hidden" name="seller_id" value="{{ seller_id }}" />
 								</div>
 							</div>
+
+							<div class="form-group row required">
+								<label class="col-sm-2 control-label col-form-label" for="input-storename"> API Token</label>
+								<div class="col-sm-4">
+									<input type="text" name="api_token" readonly value="{{ api_token }}"  placeholder="API Token" id="input-name" class="form-control" />
+									<input type="hidden" name="seller_name" value="{{ seller_name }}" />
+									<input type="hidden" name="seller_id" value="{{ seller_id }}" />
+								</div>
+								<div class="col-sm-2">
+									<button type="button" class="btn btn-primary _generate_api_token">Generate</button>
+								</div>
+							</div>
+
+
 							<div class="form-group row required">
 								<label class="col-sm-2 control-label col-form-label" for="input-storename">{{ entry_storename }}</label>
 								<div class="col-sm-10">
@@ -1190,5 +1204,35 @@ function holiday() {
 	});
 	holiday_row++;
 }
+
+
+$("._generate_api_token").click(function(){
+			let element = $(this);
+
+		$.ajax({
+				url: 'index.php?route=extension/purpletree_multivendor/stores/generate_api_token&user_token={{ user_token }}',
+				type: 'post',
+				data: {store_id : '{{ store_id }}'},
+				beforeSend: function() {
+					$(element).button('loading');
+				},
+				complete: function() {
+					$(element).button('reset');
+				},
+				success: function(json) {
+					console.log(json);
+					if (json['success']) {
+						$("input[name=api_token]").val(json['api_token']);
+					}else{
+						alert('Please refresh the page and try again!');
+					}
+				},
+				error: function(xhr, ajaxOptions, thrownError) {
+					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+				}
+			});
+});	
+
+
 </script>
 {{ footer }} 

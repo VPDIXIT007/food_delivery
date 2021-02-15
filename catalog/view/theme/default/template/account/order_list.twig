@@ -20,7 +20,7 @@
         <table class="table table-bordered table-hover">
           <thead>
             <tr>
-              <td class="text-right">{{ column_order_id }}</td>
+              <td class="text-right">{{ text_order_no }} </td>
               <td class="text-left">{{ column_customer }}</td>
               <td class="text-right">{{ column_product }}</td>
               <td class="text-left">{{ column_status }}</td>
@@ -32,7 +32,7 @@
           <tbody>
            {% for order in orders %}
             <tr>
-              <td class="text-right">#{{ order.order_id }}</td>
+              <td class="text-right">#{{ order.order_no }}</td>
               <td class="text-left">{{ order.name }}</td>
               <td class="text-right">{{ order.products }}</td>
               <td class="text-left">{{ order.status }}</td>

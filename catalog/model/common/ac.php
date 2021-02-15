@@ -79,7 +79,8 @@ class ModelCommonAc extends Model
   }
   
   public function getSellerOrders($data = array()) {
-    $sql = "SELECT pvo.table_id,(SELECT table_no FROM oc_table_manger tm WHERE tm.id = pvo.table_id LIMIT 1) as table_num, pvo.ordertype,pvo.order_status_id AS seller_order_status_idd,pvo.seen, o.order_status_id AS admin_order_status_idd, o.order_id, CONCAT(o.firstname, ' ', o.lastname) AS customer, (SELECT os.name FROM " . DB_PREFIX . "order_status os WHERE os.order_status_id = pvo.order_status_id AND os.language_id = '" . (int)$this->config->get('config_language_id') . "') AS order_status, (SELECT os.name FROM " . DB_PREFIX . "order_status os WHERE os.order_status_id = o.order_status_id AND os.language_id = '" . (int)$this->config->get('config_language_id') . "') AS admin_order_status, o.shipping_code, o.total, o.currency_code, o.currency_value, o.date_added, o.date_modified, o.order_no FROM `" . DB_PREFIX . "order` o JOIN " . DB_PREFIX . "purpletree_vendor_orders pvo ON(pvo.order_id=o.order_id)";
+    $order_cloumn = "o.order_id, o.firstname, o.lastname, o.email, o.telephone, o.payment_firstname, o.payment_lastname, o.payment_address_1, o.payment_address_2, o.payment_city,o.payment_postcode, o.payment_country,o.payment_zone,o.payment_method, o.shipping_firstname, o.shipping_lastname, o.shipping_company, o.shipping_address_1, o.shipping_address_2, o.shipping_city, o.shipping_postcode, o.shipping_country, o.shipping_zone, o.shipping_method ";
+    $sql = "SELECT $order_cloumn,pvo.ordertype,pvo.order_status_id AS seller_order_status_idd,pvo.seen,(SELECT os.name FROM " . DB_PREFIX . "order_status os WHERE os.order_status_id = pvo.order_status_id AND os.language_id = '" . (int)$this->config->get('config_language_id') . "') AS order_status, o.shipping_code, o.total, o.currency_code, o.currency_value, o.date_added, o.date_modified, o.order_no FROM `" . DB_PREFIX . "order` o JOIN " . DB_PREFIX . "purpletree_vendor_orders pvo ON(pvo.order_id=o.order_id)";
 
     if (isset($data['filter_order_status'])) {
       $implode = array();
@@ -181,6 +182,11 @@ class ModelCommonAc extends Model
       $sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
     }
     $query = $this->db->query($sql);
+    return $query->rows;
+  }
+
+  public function getSellerOrderProducts($order_id,$seller_id){
+    $query = $this->db->query("SELECT op.* ,pvo.product_comments,(SELECT CONCAT(c.firstname, ' ', c.lastname) FROM " . DB_PREFIX . "customer c WHERE c.customer_id = pvo.seller_id) as seller_name, pvo.seller_id, pvo.shipping, (SELECT upc FROM " . DB_PREFIX . "product p WHERE p.product_id = op.product_id) as upc FROM " . DB_PREFIX . "order_product op JOIN " . DB_PREFIX . "purpletree_vendor_orders pvo ON(pvo.order_id=op.order_id AND pvo.product_id=op.product_id) WHERE op.order_id = '" . (int)$order_id . "' AND pvo.seller_id = '".(int)$seller_id."' GROUP BY op.order_product_id");
     return $query->rows;
   }
 }

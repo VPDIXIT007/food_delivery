@@ -33,6 +33,9 @@ class ControllerCheckoutSuccess extends Controller {
 		if($order_id) {
 			$data['order_id'] = $order_id;
 		}
+		if($this->session->data['tracking_order_no']){
+			$data['order_id'] = $this->session->data['tracking_order_no'];
+		}
 		$data['breadcrumbs'][] = array(
 			'text' => $this->language->get('text_home'),
 			'href' => $this->url->link('common/home')

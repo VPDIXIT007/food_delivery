@@ -214,7 +214,7 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 		}
 		
 		public function getOrder($order_id,$seller_id){
-			$sql = "SELECT *,o.order_status_id AS admin_order_status_id, (SELECT CONCAT(c.firstname, ' ', c.lastname) FROM " . DB_PREFIX . "customer c WHERE c.customer_id = o.customer_id) AS customer, (SELECT os.name FROM " . DB_PREFIX . "order_status os WHERE os.order_status_id = o.order_status_id AND os.language_id = '" . (int)$this->config->get('config_language_id') . "') AS order_status FROM `" . DB_PREFIX . "order` o JOIN " . DB_PREFIX . "purpletree_vendor_orders pvo ON(pvo.order_id=o.order_id) WHERE o.order_id = '" . (int)$order_id . "'";
+			$sql = "SELECT *,o.order_no,o.order_status_id AS admin_order_status_id, (SELECT CONCAT(c.firstname, ' ', c.lastname) FROM " . DB_PREFIX . "customer c WHERE c.customer_id = o.customer_id) AS customer, (SELECT os.name FROM " . DB_PREFIX . "order_status os WHERE os.order_status_id = o.order_status_id AND os.language_id = '" . (int)$this->config->get('config_language_id') . "') AS order_status FROM `" . DB_PREFIX . "order` o JOIN " . DB_PREFIX . "purpletree_vendor_orders pvo ON(pvo.order_id=o.order_id) WHERE o.order_id = '" . (int)$order_id . "'";
 			if(!empty($seller_id)){
 				$sql .=" AND pvo.seller_id = '".(int)$seller_id."'";
 			}
@@ -364,7 +364,8 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 				'user_agent'              => $order_query->row['user_agent'],
 				'accept_language'         => $order_query->row['accept_language'],
 				'date_added'              => $order_query->row['date_added'],
-				'date_modified'           => $order_query->row['date_modified']
+				'date_modified'           => $order_query->row['date_modified'],
+				'order_no'           => $order_query->row['order_no']
 				);
 				} else {
 				return;
@@ -1427,7 +1428,7 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 			$this->db->query("UPDATE `" . DB_PREFIX . "purpletree_vendor_orders` SET seen = '0' WHERE seller_id = '" . (int)$seller_id . "' AND order_id =".(int)$order_id);
 		}
 		public function getsellerInfofororder($sellerid) { 	
-		    $query = $this->db->query("SELECT pvs.store_name, pvs.id AS store_id FROM " . DB_PREFIX . "purpletree_vendor_stores pvs  WHERE pvs.seller_id = '" . (int)$sellerid . "'");    
+		    $query = $this->db->query("SELECT pvs.store_logo,pvs.store_name, pvs.id AS store_id FROM " . DB_PREFIX . "purpletree_vendor_stores pvs  WHERE pvs.seller_id = '" . (int)$sellerid . "'");    
 			return $query->row;
 			
 		}

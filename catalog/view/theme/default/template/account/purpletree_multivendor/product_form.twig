@@ -48,7 +48,7 @@
 					<!-- End Quick order -->
 				</ul>
 				<div class="pts-tab-content">
-					<div class="pts-tab-pane tab-pane {% if quick_order_tab_position %} {% else %}active {% endif %}" id="tab-general">
+					<div class="pts-tab-pane tab-pane {% if quick_order_tab_position %} {% else %} active {% endif %}" id="tab-general">
 						<ul class="pts-nav pts-nav-tabs nav nav-tabs" id="language">
 							<input type="hidden" name="seller_name" value="{{ seller_name }}">
 							{% for language in languages %}
@@ -222,12 +222,12 @@
 								<input type="text" name="sku" value="{{ sku }}" placeholder="{{ entry_sku }}" id="input-sku" class="pts-form-control" />
 							</div>
 						</div> -->
-						<!-- <div class="pts-form-group row">
+						<div class="pts-form-group row">
 							<label class="pts-col-sm-2 col-form-label" for="input-upc"><span data-toggle="tooltip" title="{{ help_upc }}">{{ entry_upc }}</span></label>
 							<div class="pts-col-sm-10">
 								<input type="text" name="upc" value="{{ upc }}" placeholder="{{ entry_upc }}" id="input-upc" class="pts-form-control" />
 							</div>
-						</div> -->
+						</div>
 						<!-- <div class="pts-form-group row">
 							<label class="pts-col-sm-2 col-form-label" for="input-ean"><span data-toggle="tooltip" title="{{ help_ean }}">{{ entry_ean }}</span></label>
 							<div class="pts-col-sm-10">

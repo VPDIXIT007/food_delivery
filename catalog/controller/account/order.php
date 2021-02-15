@@ -12,7 +12,7 @@ class ControllerAccountOrder extends Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
 		
 		$url = '';
-
+ 
 		if (isset($this->request->get['page'])) {
 			$url .= '&page=' . $this->request->get['page'];
 		}
@@ -41,7 +41,7 @@ class ControllerAccountOrder extends Controller {
 		}
 
 		$data['orders'] = array();
-
+ 
 		$this->load->model('account/order');
 
 		$order_total = $this->model_account_order->getTotalOrders();
@@ -54,6 +54,7 @@ class ControllerAccountOrder extends Controller {
 
 			$data['orders'][] = array(
 				'order_id'   => $result['order_id'],
+				'order_no'   => $result['order_no'],
 				'name'       => $result['firstname'] . ' ' . $result['lastname'],
 				'status'     => $result['status'],
 				'date_added' => date($this->language->get('date_format_short'), strtotime($result['date_added'])),
@@ -158,6 +159,7 @@ class ControllerAccountOrder extends Controller {
 			}
 
 			$data['order_id'] = $this->request->get['order_id'];
+			$data['order_no'] = $order_info['order_no'];
 			$data['date_added'] = date($this->language->get('date_format_short'), strtotime($order_info['date_added']));
 
 			if ($order_info['payment_address_format']) {

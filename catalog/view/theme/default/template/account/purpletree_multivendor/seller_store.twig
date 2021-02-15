@@ -45,16 +45,6 @@
 					</div>
 
 					<div class="pts-form-group">
-						<label class="pts-col-sm-2 pts-control-label" for="input-storename">API Token</label>
-						<div class="pts-col-sm-4">
-							<input type="text" name="api_token" readonly value="{{ api_token }}" placeholder="API Token" id="input-storename" class="pts-form-control" />
-						</div>
-						<div class="pts-col-sm-2">
-							<button type="button" class="btn btn-primary _generate_api_token">Generate</button>
-						</div>
-					</div>
-
-					<div class="pts-form-group">
 						<label class="pts-col-sm-2 pts-control-label">{{ entry_storelogo }}</label>
 						<div class="pts-col-sm-10"><a href="" id="thumb-image" data-toggle="image" class="img-thumbnail img-left"><img src="{{ thumb }}" alt="" title="" data-placeholder="{{ placeholder }}" /></a>
 							<input type="hidden" name="store_logo" value="{{ store_logo }}" id="input-storelogo" />
@@ -668,7 +658,7 @@
 		<div class="pts-tab-pane tab-pane" id="tab-setting" style="display: none;">
 			<div class="pts-table-responsive">
 			{% if enable_theme_setting %}
-			<h3>Color <button type="button" class="btn btn-primary pull-right _theme-color-reset">Reset</button></h3>
+			<h3>Color <button type="button" class="btn btn-primary pull-right _theme-color-reset">Reset to default theme</button></h3>
 			
 			<legend>{{ text_color }}</legend>
             <div class="form-group">
@@ -830,6 +820,8 @@ image_row = image_row - 1 ;
 
 <script>
 $("._theme-color-reset").click(function(){
+	var r = confirm("Are you sure you want to reset theme ?");
+	if(r==true){
 		let element = $(this);
 			$.ajax({
 				url: 'index.php?route=extension/account/purpletree_multivendor/sellerstore/reset_color',
@@ -851,34 +843,9 @@ $("._theme-color-reset").click(function(){
 					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
 				}
 			});
+	}		
 });
 
-$("._generate_api_token").click(function(){
-			let element = $(this);
-
-		$.ajax({
-				url: 'index.php?route=extension/account/purpletree_multivendor/sellerstore/generate_api_token',
-				type: 'post',
-				data: {store_id : '{{ store_id }}'},
-				beforeSend: function() {
-					$(element).button('loading');
-				},
-				complete: function() {
-					$(element).button('reset');
-				},
-				success: function(json) {
-					console.log(json);
-					if (json['success']) {
-						$("input[name=api_token]").val(json['api_token']);
-					}else{
-						alert('Please refresh the page and try again!');
-					}
-				},
-				error: function(xhr, ajaxOptions, thrownError) {
-					alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-				}
-			});
-});	
 
 </script>
 
