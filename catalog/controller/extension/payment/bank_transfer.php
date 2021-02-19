@@ -68,6 +68,13 @@ class ControllerExtensionPaymentBankTransfer extends Controller {
 			$firetoken = $this->db->query("SELECT * FROM ". DB_PREFIX ."pushnotifications WHERE session_id = '". $sessionorder['session_id'] ."'")->row;
 				trigger_error(print_r($firetoken,true));
 		//	$statusname = $this->db->query("SELECT * FROM ". DB_PREFIX ."order_status WHERE order_status_id = '". $order_status_id ."' and language_id = '". (int)$this->config->get('config_language_id') ."'")->row;
+		      
+			//save in notification 
+			$message = "YOU HAVE A NEW ORDER #$order_id PLEASE PROCESS ASAP";
+			$notification_sql = "INSERT INTO oc_fcm_notification SET `session_id` = '".$customer_id['seller_id']."', `payload` = '".$message."', `status` = '0' ";
+			$this->db->query($notification_sql);
+			$notification_id = $this->db->getLastId();
+
     $url ="https://fcm.googleapis.com/fcm/send";
 
     $fields=array(
@@ -77,7 +84,11 @@ class ControllerExtensionPaymentBankTransfer extends Controller {
             "title"=>'El-Order Notifications',//$_REQUEST['title'],
             "icon"=>$_REQUEST['icon'],
             "click_action"=>"https://el-order.com"
-        )
+        ),
+				"data" => array(
+					"type" => "call_waiter",
+					"notification_id" => $notification_id
+				)
     );
 
     $headers=array(
