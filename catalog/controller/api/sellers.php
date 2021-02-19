@@ -46,18 +46,26 @@ class ControllerApiSellers extends Controller {
 			
 			if (isset($this->request->get['filter_time_from'])) {
 				$filter_time_from = $this->request->get['filter_time_from'];
+				}else{
+					$filter_time_from = '';
 				}
 			
 			if (isset($this->request->get['filter_time_to'])) {
 				$filter_time_to = $this->request->get['filter_time_to'];
+				}else{
+					$filter_time_to = '';
 				}
 			
 			if (isset($this->request->get['filter_table'])) {
 				$filter_table = $this->request->get['filter_table'];
+			}else{
+				$filter_table = '';
 			}
 
 			if (isset($this->request->get['order_type'])) {
 				$order_type = $this->request->get['order_type'];
+			}else{
+				$order_type = '';
 			}
 			
       if (isset($this->request->get['page'])) {
@@ -72,6 +80,20 @@ class ControllerApiSellers extends Controller {
 				$limit = $this->config->get('config_limit_admin');
 			}
 
+
+			if (isset($this->request->get['filter_order_id'])) {
+				$filter_order_id = $this->request->get['filter_order_id'];
+			}else{
+				$filter_order_id = '';
+			}
+
+			if (isset($this->request->get['filter_order_no'])) {
+				$filter_order_no = $this->request->get['filter_order_no'];
+			}else{
+				$filter_order_no = '';
+			}
+
+
       $filter_data = array(
         'filter_order_status'  => $filter_order_status,
         'filter_date_from'    => $filter_date_from,
@@ -82,7 +104,9 @@ class ControllerApiSellers extends Controller {
         'filter_time_from' 	   => $filter_time_from,
         'filter_time_to'	   => $filter_time_to,
         'filter_table' 		   => $filter_table,
-        'order_type'           => $order_type
+        'order_type'           => $order_type,
+				'filter_order_id'			=> $filter_order_id,
+				'filter_order_no'			=> $filter_order_no
       );
 
       $order_total = $this->model_common_ac->getTotalSellerOrders($filter_data);

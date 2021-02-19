@@ -45,6 +45,14 @@ class ModelCommonAc extends Model
       $sql .= " AND pvo.seller_id ='".(int)$data['seller_id']."'";
     }
     
+    if($data['filter_order_no']){
+      $sql .= " AND o.order_no LIKE '".$data['filter_order_no']."'";
+    }
+
+    if(!empty($data['filter_order_id'])){
+      $sql .= " AND o.order_id = '".(int)$data['filter_order_id']."'";
+    }
+    
     if (!empty($data['filter_date_from'])) {
       $sql .= " AND DATE(o.date_added) >= DATE('" . $this->db->escape($data['filter_date_from']) . "')";
     }
@@ -117,6 +125,14 @@ class ModelCommonAc extends Model
       $sql .= " AND pvo.seller_id ='".(int)$data['seller_id']."'";
     }
     
+    if($data['filter_order_no']){
+      $sql .= " AND o.order_no LIKE '".$data['filter_order_no']."'";
+    }
+
+    if(!empty($data['filter_order_id'])){
+      $sql .= " AND o.order_id = '".(int)$data['filter_order_id']."'";
+    }
+
     if (!empty($data['filter_date_from'])) {
       $sql .= " AND DATE(pvo.created_at) >= DATE('" . $this->db->escape($data['filter_date_from']) . "')";
     }
