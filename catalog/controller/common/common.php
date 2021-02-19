@@ -61,8 +61,7 @@ class ControllerCommonCommon extends Controller {
 		}
 	}
 
-  public function clearCallPushNotification()
-  {
+  public function clearCallPushNotification(){
     $customer_id = $this->customer->getId();
 
     $notification_sql = "DELETE FROM `oc_fcm_notification` WHERE `session_id` = '$customer_id' AND `status` = '1'";
@@ -71,8 +70,7 @@ class ControllerCommonCommon extends Controller {
     return true;
   }
 
-  public function markCallPushNotification()
-  {
+  public function markCallPushNotification(){
     if(isset($this->request->post['notification_id']) && isset($this->request->post['notification_status'])){
       $notification_id = $this->request->post['notification_id'];
       $status = $this->request->post['notification_status'];
