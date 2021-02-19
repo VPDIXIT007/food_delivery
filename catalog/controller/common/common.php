@@ -1,8 +1,7 @@
 <?php
 class ControllerCommonCommon extends Controller {
 
-  public function sendCallPushNotification()
-	{
+  public function sendCallPushNotification(){
 		if (isset($this->request->post['seller_store_id']) && $this->session->data['table_id']){
 			
 			$type = $this->request->post['call_type'];
