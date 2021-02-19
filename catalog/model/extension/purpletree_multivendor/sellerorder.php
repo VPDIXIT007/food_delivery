@@ -57,6 +57,14 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 				$sql .= " AND pvo.seller_id ='".(int)$data['seller_id']."'";
 			}
 			
+			if(!empty($data['filter_order_no'])){
+				$sql .= " AND o.order_no LIKE '".$data['filter_order_no']."'";
+			}
+
+			if(!empty($data['filter_order_id'])){
+				$sql .= " AND o.order_id = '".(int)$data['filter_order_id']."'";
+			}
+
 			if (!empty($data['filter_date_from'])) {
 				$sql .= " AND DATE(o.date_added) >= DATE('" . $this->db->escape($data['filter_date_from']) . "')";
 			}
@@ -126,6 +134,14 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 			
 			if(!empty($data['seller_id'])){
 				$sql .= " AND pvo.seller_id ='".(int)$data['seller_id']."'";
+			}
+
+			if($data['filter_order_no']){
+				$sql .= " AND o.order_no LIKE '".$data['filter_order_no']."'";
+			}
+
+			if(!empty($data['filter_order_id'])){
+				$sql .= " AND o.order_id = '".(int)$data['filter_order_id']."'";
 			}
 			
 			if (!empty($data['filter_date_from'])) {
@@ -214,7 +230,7 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 		}
 		
 		public function getOrder($order_id,$seller_id){
-			$sql = "SELECT *,o.order_no,o.order_status_id AS admin_order_status_id, (SELECT CONCAT(c.firstname, ' ', c.lastname) FROM " . DB_PREFIX . "customer c WHERE c.customer_id = o.customer_id) AS customer, (SELECT os.name FROM " . DB_PREFIX . "order_status os WHERE os.order_status_id = o.order_status_id AND os.language_id = '" . (int)$this->config->get('config_language_id') . "') AS order_status FROM `" . DB_PREFIX . "order` o JOIN " . DB_PREFIX . "purpletree_vendor_orders pvo ON(pvo.order_id=o.order_id) WHERE o.order_id = '" . (int)$order_id . "'";
+			$sql = "SELECT *,pvo.ordertype,o.order_no,o.order_status_id AS admin_order_status_id, (SELECT CONCAT(c.firstname, ' ', c.lastname) FROM " . DB_PREFIX . "customer c WHERE c.customer_id = o.customer_id) AS customer, (SELECT os.name FROM " . DB_PREFIX . "order_status os WHERE os.order_status_id = o.order_status_id AND os.language_id = '" . (int)$this->config->get('config_language_id') . "') AS order_status FROM `" . DB_PREFIX . "order` o JOIN " . DB_PREFIX . "purpletree_vendor_orders pvo ON(pvo.order_id=o.order_id) WHERE o.order_id = '" . (int)$order_id . "'";
 			if(!empty($seller_id)){
 				$sql .=" AND pvo.seller_id = '".(int)$seller_id."'";
 			}
@@ -295,6 +311,7 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 				return array(
 				'order_id'                => $order_query->row['order_id'],
 				'invoice_no'              => $order_query->row['invoice_no'],
+				'ordertype'              => $order_query->row['ordertype'],
 				'invoice_prefix'          => $order_query->row['invoice_prefix'],
 				'store_id'                => $order_query->row['store_id'],
 				'store_name'              => $order_query->row['store_name'],
@@ -373,7 +390,7 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 		}
 		
 		public function getSellerOrderProducts($order_id,$seller_id){
-			$query = $this->db->query("SELECT op.* ,pvo.product_comments,(SELECT CONCAT(c.firstname, ' ', c.lastname) FROM " . DB_PREFIX . "customer c WHERE c.customer_id = pvo.seller_id) as seller_name, pvo.seller_id, pvo.shipping FROM " . DB_PREFIX . "order_product op JOIN " . DB_PREFIX . "purpletree_vendor_orders pvo ON(pvo.order_id=op.order_id AND pvo.product_id=op.product_id) WHERE op.order_id = '" . (int)$order_id . "' AND pvo.seller_id = '".(int)$seller_id."' GROUP BY op.order_product_id");
+			$query = $this->db->query("SELECT op.* ,pvo.order_no,pvo.product_comments,(SELECT CONCAT(c.firstname, ' ', c.lastname) FROM " . DB_PREFIX . "customer c WHERE c.customer_id = pvo.seller_id) as seller_name, pvo.seller_id, pvo.shipping FROM " . DB_PREFIX . "order_product op JOIN " . DB_PREFIX . "purpletree_vendor_orders pvo ON(pvo.order_id=op.order_id AND pvo.product_id=op.product_id) WHERE op.order_id = '" . (int)$order_id . "' AND pvo.seller_id = '".(int)$seller_id."' GROUP BY op.order_product_id");
 			return $query->rows;
 		}
 		

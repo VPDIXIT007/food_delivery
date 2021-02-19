@@ -18,7 +18,7 @@
 							<li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
 							{% endfor %}
 						</ul>
-					</div> 
+					</div>
 				</div>
 			</div>
 			<div class="pts-well">
@@ -98,14 +98,32 @@
 					</div>
 					<div class="pts-col-sm-4">
 						<div class="pts-form-group">
-							<label class="pts-control-label" for="input-date-modified">{{ entry_Order_type ?? 'Order Type'  }}</label>
+							<label class="pts-control-label" for="input-date-modified">{{ entry_Order_type ?? 'Order Type' }}</label>
 							<div class="pts-input-group date d-flex d-flex" style="display: flex;">
-							<select name="order_type" class="form-control">
-								<option value="">{{ text_select }}</option>
-								<option {% if order_type == 'takeaway' %} selected 	{% endif %} >takeaway</option>
-								<option {% if order_type == 'dinein' %}  selected	{% endif %}>dinein</option>								
-								<option {% if order_type == 'delivery' %}  selected	{% endif %}>delivery</option>
-							</select>
+								<select name="order_type" class="form-control">
+									<option value="">{{ text_select }}</option>
+									<option {% if order_type=='takeaway' %} selected {% endif %}>takeaway</option>
+									<option {% if order_type=='dinein' %} selected {% endif %}>dinein</option>
+									<option {% if order_type=='delivery' %} selected {% endif %}>delivery</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="pts-col-sm-4">
+						<div class="pts-form-group">
+							<label class="pts-control-label" for="input-date-modified">{{ text_order_no }}</label>
+							<div class="pts-input-group date d-flex d-flex" style="display: flex;">
+								<input type="number" name="filter_order_no" value="{{ filter_order_no }}"
+									placeholder="{{ text_order_no }}" id="input-order_no" class="pts-form-control" />
+							</div>
+						</div>
+					</div>
+					<div class="pts-col-sm-4">
+						<div class="pts-form-group">
+							<label class="pts-control-label" for="input-date-modified">{{ text_order_id }}</label>
+							<div class="pts-input-group date d-flex d-flex" style="display: flex;">
+								<input type="number" name="filter_order_id" value="{{ filter_order_id }}"
+									placeholder="{{ text_order_id }}" id="input-order_id" class="pts-form-control" />
 							</div>
 						</div>
 					</div>
@@ -158,124 +176,127 @@
 			</div>
 			<div class="row">
 				{# order status start #}
-					<div class="col-sm-6 col-sm-6 col-sm-offset-6 text-right">
-							<div class="form-group pts-col-sm-3">
-								<label style="margin-top: 4px;">{{ entry_order_status }}</label>
-							</div>
-							<div class="form-group pts-col-sm-6">
-								<select class="form-control" id="multiple_order_status_id" >
-									{% for order_statuses in order_statuses %}
-									{% if order_statuses.order_status_id == order_status_id %}
-									<option value="{{ order_statuses.order_status_id }}" selected="selected">{{ order_statuses.name }}
-									</option>
-									{% else %}
-									<option value="{{ order_statuses.order_status_id }}">{{ order_statuses.name }}</option>
-									{% endif %}
-									{% endfor %}
-								</select>
-							</div>
-							<div class="form-group pts-col-sm-2">
-								<button type="button" formaction="{{ multiple_status_history }}" onclick="confirm('Are you sure?') ? $('#form-multiple-status').submit() : false;" id='pts-button-history'  class="btn btn-primary mt-3">{{ button_submit }}</button>
-							</div>
+				<div class="col-sm-6 col-sm-6 col-sm-offset-6 text-right">
+					<div class="form-group pts-col-sm-3">
+						<label style="margin-top: 4px;">{{ entry_order_status }}</label>
 					</div>
-					{# order status end #}
+					<div class="form-group pts-col-sm-6">
+						<select class="form-control" id="multiple_order_status_id">
+							{% for order_statuses in order_statuses %}
+							{% if order_statuses.order_status_id == order_status_id %}
+							<option value="{{ order_statuses.order_status_id }}" selected="selected">{{ order_statuses.name }}
+							</option>
+							{% else %}
+							<option value="{{ order_statuses.order_status_id }}">{{ order_statuses.name }}</option>
+							{% endif %}
+							{% endfor %}
+						</select>
+					</div>
+					<div class="form-group pts-col-sm-2">
+						<button type="button" formaction="{{ multiple_status_history }}"
+							onclick="confirm('Are you sure?') ? $('#form-multiple-status').submit() : false;" id='pts-button-history'
+							class="btn btn-primary mt-3">{{ button_submit }}</button>
+					</div>
+				</div>
+				{# order status end #}
 			</div>
 
 			<div class="pts-table-responsive">
-				<form method="post" id="form-multiple-status" action={{ multiple_status_history }}> 
+				<form method="post" id="form-multiple-status" action={{ multiple_status_history }}>
 					<input type="hidden" name="order_status_id">
-				<table id="testTable" class="pts-table pts-table-bordered pts-table-hover">
-					<thead>
-						<tr>
-							<td class="pts-text-left"><input type="checkbox"
-									onclick="$('input[name*=\'order_id\']').prop('checked', this.checked);"
-									class="form-control order_status_box" value=""></td>
-							<td class="pts-text-left">{{ column_order_id }}</td>
-							<td class="pts-text-left">{{ column_order_number }} Order No</td>
-							<td class="pts-text-left">Order Type</td>
-							<td class="pts-text-left">{{ column_customer }}</td>
-							<td class="pts-text-left">Table Number</td>
-							<td class="pts-text-left">{{ column_status }}</td>
-							{# <td class="pts-text-left">{{ column_admin_status }}</td> #}
-							<td class="pts-text-left">{{ column_total }}</td>
-							<td class="pts-text-left">{{ column_date_added }}</td>
-							<td class="pts-text-left">{{ column_date_modified }}</td>
-							<td class="pts-text-left">{{ column_action }}</td>
-						</tr>
-					</thead>
-					<tbody> 
-						{% if seller_orders %}
-						{% for order in seller_orders %}
-						<tr {% if order.seen %} class="pts-neworder" {% endif %}>
-							<td><input type="checkbox" value="{{ order.order_id }}" name="order_id[]" class="form-control order_status_box"></td>
-							<td class="pts-text-left">{{ order.order_id }}</td>
-							<td class="pts-text-left">{{ order.order_no }}</td>
-							<td class="pts-text-left">{{ order.ordertype }}</td>
-							<td class="pts-text-left">{{ order.customer }}</td>
+					<table id="testTable" class="pts-table pts-table-bordered pts-table-hover">
+						<thead>
+							<tr>
+								<td class="pts-text-left"><input type="checkbox"
+										onclick="$('input[name*=\'order_id\']').prop('checked', this.checked);"
+										class="form-control order_status_box" value=""></td>
+								<td class="pts-text-left">{{ column_order_id }}</td>
+								<td class="pts-text-left">{{ column_order_number }} Order No</td>
+								<td class="pts-text-left">Order Type</td>
+								<td class="pts-text-left">{{ column_customer }}</td>
+								<td class="pts-text-left">Table Number</td>
+								<td class="pts-text-left">{{ column_status }}</td>
+								{# <td class="pts-text-left">{{ column_admin_status }}</td> #}
+								<td class="pts-text-left">{{ column_total }}</td>
+								<td class="pts-text-left">{{ column_date_added }}</td>
+								<td class="pts-text-left">{{ column_date_modified }}</td>
+								<td class="pts-text-left">{{ column_action }}</td>
+							</tr>
+						</thead>
+						<tbody>
+							{% if seller_orders %}
+							{% for order in seller_orders %}
+							<tr {% if order.seen %} class="pts-neworder" {% endif %}>
+								<td><input type="checkbox" value="{{ order.order_id }}" name="order_id[]"
+										class="form-control order_status_box"></td>
+								<td class="pts-text-left">{{ order.order_id }}</td>
+								<td class="pts-text-left">{{ order.order_no }}</td>
+								<td class="pts-text-left">{{ order.ordertype }}</td>
+								<td class="pts-text-left">{{ order.customer }}</td>
 
-							<td class="pts-text-left">{{order.table_num}} {% if order.table_num > 0 %}<button type="button"
-									id="pts-button-edit" data-toggle="modal" data-target="#myModal{{ order.order_id }}"
-									class="pts-btn pts-btn-primary pts-pull-right"> Edit</button>{% endif %}</td>
-							<!-- Modal -->
-							<div class="modal fade" id="myModal{{ order.order_id }}" role="dialog">
-								<div class="modal-dialog ">
+								<td class="pts-text-left">{{order.table_num}} {% if order.table_num > 0 %}<button type="button"
+										id="pts-button-edit" data-toggle="modal" data-target="#myModal{{ order.order_id }}"
+										class="pts-btn pts-btn-primary pts-pull-right"> Edit</button>{% endif %}</td>
+								<!-- Modal -->
+								<div class="modal fade" id="myModal{{ order.order_id }}" role="dialog">
+									<div class="modal-dialog ">
 
-									<!-- Modal content-->
-									<div class="modal-content">
-										<div class="modal-header">
-											<button type="button" class="close" data-dismiss="modal">&times;</button>
-											<h4 class="modal-title">Change table number for order :{{ order.order_id }}</h4>
-										</div>
-										<div class="modal-body">
-											<label>Table number :</label>
-											<!-- <input type="text" id="table_no{{ order.order_id }}" name="tableno" value=""> -->
-											{% if order.table_num %}
-											<select name="filter_tablenum" id="table_no{{ order.order_id }}" class="pts-form-control"
-												style="width: 50%;">
-												<option value="*">{{ text_all }}</option>
-												{% for tablenum in tables_num %}
-												{% if order.table_num == tablenum.table_no %}
-												<option value="{{ tablenum.table_no }}" selected="selected">{{ tablenum.table_no }}</option>
-												<div id="result"></div>
-												{% else %}
-												<option value="{{ tablenum.table_no }}">{{ tablenum.table_no }}</option>
+										<!-- Modal content-->
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal">&times;</button>
+												<h4 class="modal-title">Change table number for order :{{ order.order_id }}</h4>
+											</div>
+											<div class="modal-body">
+												<label>Table number :</label>
+												<!-- <input type="text" id="table_no{{ order.order_id }}" name="tableno" value=""> -->
+												{% if order.table_num %}
+												<select name="filter_tablenum" id="table_no{{ order.order_id }}" class="pts-form-control"
+													style="width: 50%;">
+													<option value="*">{{ text_all }}</option>
+													{% for tablenum in tables_num %}
+													{% if order.table_num == tablenum.table_no %}
+													<option value="{{ tablenum.table_no }}" selected="selected">{{ tablenum.table_no }}</option>
+													<div id="result"></div>
+													{% else %}
+													<option value="{{ tablenum.table_no }}">{{ tablenum.table_no }}</option>
+													{% endif %}
+													{% endfor %}
+												</select>
 												{% endif %}
-												{% endfor %}
-											</select>
-											{% endif %}
 
 
-											<button id="save{{ order.order_id }}" onclick="changetable({{ order.order_id }});"
-												class="btn btn-default">Save</button>
-											<div id="result"></div>
+												<button id="save{{ order.order_id }}" onclick="changetable({{ order.order_id }});"
+													class="btn btn-default">Save</button>
+												<div id="result"></div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+											</div>
 										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-										</div>
+
 									</div>
-
 								</div>
-							</div>
-							<td class="pts-text-left">{{ order.order_status }}</td>
-							{# <td class="pts-text-left">{{ order.admin_order_status }}</td> #}
-							<td class="pts-text-left">{{ order.total }}</td>
-							<td class="pts-text-left">{{ order.date_added }}</td>
-							<td class="pts-text-left">{{ order.date_modified }}</td>
-							<td class="pts-text-left"><a href="{{ order.view }}" data-toggle="tooltip" title="{{ button_view }}"
-									class="pts-btn pts-btn-info"><i class="fa fa-eye"></i></a></td>
-						</tr>
-						{% endfor %}
-						{% else %}
-						<tr>
-							<td class="pts-text-center" colspan="9">{{ text_no_results }}</td>
-						</tr>
-						{% endif %}
-					</tbody>
-				</table>
-			</form>
-			
+								<td class="pts-text-left">{{ order.order_status }}</td>
+								{# <td class="pts-text-left">{{ order.admin_order_status }}</td> #}
+								<td class="pts-text-left">{{ order.total }}</td>
+								<td class="pts-text-left">{{ order.date_added }}</td>
+								<td class="pts-text-left">{{ order.date_modified }}</td>
+								<td class="pts-text-left"><a href="{{ order.view }}" data-toggle="tooltip" title="{{ button_view }}"
+										class="pts-btn pts-btn-info"><i class="fa fa-eye"></i></a></td>
+							</tr>
+							{% endfor %}
+							{% else %}
+							<tr>
+								<td class="pts-text-center" colspan="9">{{ text_no_results }}</td>
+							</tr>
+							{% endif %}
+						</tbody>
+					</table>
+				</form>
+
 			</div>
-			
+
 			<div class="pts-row">
 				<div class="pts-col-sm-6 pts-text-left">{{ pagination }}</div>
 				<div class="pts-col-sm-6 pts-text-right">{{ results }}</div>
@@ -285,12 +306,12 @@
 </div>
 
 <script type="text/javascript">
-$(document).ready(function(){
-	$("input[name=order_status_id]").val($("#multiple_order_status_id").val());
-$("#multiple_order_status_id").change(function(){
-	$("input[name=order_status_id]").val($(this).val());
-});
-});
+	$(document).ready(function () {
+		$("input[name=order_status_id]").val($("#multiple_order_status_id").val());
+		$("#multiple_order_status_id").change(function () {
+			$("input[name=order_status_id]").val($(this).val());
+		});
+	});
 
 
 	function changetable(orderid) {
@@ -338,6 +359,8 @@ $("#multiple_order_status_id").change(function(){
 		var filter_time_to = $('input[name=\'filter_time_to\']').val();
 		var filter_table = $('input[name=\'filter_table\']').val();
 		var order_type = $('select[name=\'order_type\']').val();
+		var filter_order_id = $('input[name=\'filter_order_id\']').val();
+		var filter_order_no = $('input[name=\'filter_order_no\']').val();
 		//var filter_admin_order_status = $('select[name=\'filter_admin_order_status\']').val();
 
 		if (filter_order_status != '*') {
@@ -359,13 +382,21 @@ $("#multiple_order_status_id").change(function(){
 		if (filter_time_to) {
 			url += '&filter_time_to=' + encodeURIComponent(filter_time_to);
 		}
- 
+
 		if (filter_table) {
 			url += '&filter_table=' + encodeURIComponent(filter_table);
 		}
-		
+
 		if (order_type) {
 			url += '&order_type=' + encodeURIComponent(order_type);
+		}
+
+		if (filter_order_id) {
+			url += '&filter_order_id=' + encodeURIComponent(filter_order_id);
+		}
+
+		if (filter_order_no) {
+			url += '&filter_order_no=' + encodeURIComponent(filter_order_no);
 		}
 
 		var filter_date_to = $('input[name=\'filter_date_to\']').val();
@@ -426,7 +457,7 @@ $("#multiple_order_status_id").change(function(){
 	});
 //--></script>
 
- 
+
 
 <script type="text/javascript">
 	$('#input-date-from').datetimepicker({

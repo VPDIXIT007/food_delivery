@@ -63,7 +63,7 @@ $_['entry_meta_description'] = 'Meta Tag Description';
 $_['entry_keyword']          = 'SEO URL';
 $_['entry_model']            = 'Model';
 $_['entry_sku']              = 'SKU';
-$_['entry_upc']              = 'UPC';
+$_['entry_upc']              = 'UPC (External Product ID)';
 $_['entry_ean']              = 'EAN';
 $_['entry_jan']              = 'JAN';
 $_['entry_isbn']             = 'ISBN';
@@ -134,7 +134,7 @@ $_['tab_seo']                    = 'SEO';
 // Help
 $_['help_keyword']           = 'Do not use spaces, instead replace spaces with - and make sure the SEO URL is globally unique.';
 $_['help_sku']               = 'Stock Keeping Unit';
-$_['help_upc']               = 'Universal Product Code';
+$_['help_upc']               = 'External Product ID';
 $_['help_ean']               = 'European Article Number';
 $_['help_jan']               = 'Japanese Article Number';
 $_['help_isbn']              = 'International Standard Book Number';

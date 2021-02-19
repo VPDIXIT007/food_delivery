@@ -58,6 +58,7 @@ $_['button_list']           = 'List';
 $_['button_grid']           = 'Grid';
 $_['button_map']            = 'View Google Map';
 $_['text_order_no']         = 'Order No';
+$_['column_quantity_xs']    = 'Qty';
 
 // Error
 $_['error_exception']       = 'Error Code(%s): %s in %s on line %s';

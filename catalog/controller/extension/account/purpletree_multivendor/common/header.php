@@ -55,6 +55,16 @@ class ControllerExtensionAccountPurpletreeMultivendorCommonHeader extends Contro
 			$server = $this->config->get('config_url');
 		}
 		$data['base'] = $server;
+		
+		$notification_sql = "SELECT * FROM oc_fcm_notification WHERE `session_id` = '".$this->customer->getId()."' ORDER BY notification_id DESC LIMIT 50 ";
+		$fcm_notifications =	$this->db->query($notification_sql);
+		
+		$notification_count_sql = "SELECT COUNT(*) as total FROM oc_fcm_notification WHERE `session_id` = '".$this->customer->getId()."' AND `status` = 0 LIMIT 50 ";
+
+		$data['fcm_notifications']['count'] = ($this->db->query($notification_count_sql)->row['total'])?$this->db->query($notification_count_sql)->row['total'] : 0;
+		$data['fcm_notifications']['items'] = $fcm_notifications->rows;
+		$data['fcm_notifications']['item_count'] = $fcm_notifications->num_rows;
+		
 		return $this->load->view('account/purpletree_multivendor/header', $data);
 	}
 }

@@ -268,7 +268,12 @@ class ControllerCommonHeader extends Controller {
 		}
 		
 		$data['header_top'] = $this->load->controller('common/header_top');
-		 
+		
+		$data['session_table_id'] = 0;
+		if(isset($this->session->data['table_id']) && $this->session->data['table_id']){
+			$data['session_table_id'] = $this->session->data['table_id'];
+		}
+
 		return $this->load->view('common/header', $data);
 	}
 	public function pushnotifications() {
