@@ -14,6 +14,14 @@
 		<div class="container">
 			{% for order in orders %}
 			<div style="page-break-after: always;">
+				<table class="table">
+					<tbody>
+						<tr>
+							<td><img src="{{ order.store_logo }}" class="img-responsive" style="width: 100px; display: block;margin-left: auto;  margin-right: auto;"></td>
+						</tr>
+					</tbody>
+				</table>
+				
 				<h1>{{ text_picklist }} #{{ order.order_id }}</h1>
 				<table class="table table-bordered">
 					<thead>
