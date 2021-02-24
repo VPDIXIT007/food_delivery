@@ -63,6 +63,7 @@ $_['text_category_featured_products'] = 'Category Featured Products: ';
 //text
 $_['text_invoice_id'] = 'Invoice ID';
 $_['text_admin_storename'] = 'Admin Store Name';
+$_['text_company_name'] = 'Company Name';
 $_['text_address'] = 'Address';
 $_['text_telephone'] = 'Telephone';
 $_['text_email'] = 'Email';

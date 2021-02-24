@@ -873,6 +873,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSubscriptionplan extends Co
 			$data['text_grand_total']=$this->language->get('text_grand_total');	
 			//$data['module_purpletree_multivendor_paypal']=$this->language->get('module_purpletree_multivendor_paypal');
 			
+		
 			$data['invoice_id']=$invoice_id;
 			
 			if(isset($invoice_id)){
@@ -921,6 +922,8 @@ class ControllerExtensionAccountPurpletreeMultivendorSubscriptionplan extends Co
 			$this->load->model('extension/purpletree_multivendor/vendor');
 	        $cus_seller_email  = $this->model_extension_purpletree_multivendor_vendor->getCustomerEmailId($this->customer->getId());
 			
+			$data['sellerstore'] = $this->url->link('extension/account/purpletree_multivendor/sellerstore/storeview&seller_store_id='.$seller_store['id'], '', true);
+
 			$data['store_info']=array(
 			'name' => $seller_store['store_name'],
 			'address'=> $seller_store['store_address'],
@@ -1378,6 +1381,8 @@ class ControllerExtensionAccountPurpletreeMultivendorSubscriptionplan extends Co
 			$data['button_renew']='Renew';
 			$text_yes = $this->language->get('text_yes');
 			$text_no = $this->language->get('text_no');
+
+			
 			$data['multiple_subscription_plan']=0;
 			if($this->config->get('module_purpletree_multivendor_multiple_subscription_plan_active')){
 				$data['multiple_subscription_plan']=$this->config->get('module_purpletree_multivendor_multiple_subscription_plan_active');	

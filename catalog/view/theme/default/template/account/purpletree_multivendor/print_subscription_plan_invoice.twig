@@ -16,7 +16,7 @@
 				<table class="table">
 					<tbody>
 						<tr>
-							<td><img src="/image/catalog/el_order_logo_1.png" class="img-responsive" style="width: 220px; display: block;margin-left: auto;  margin-right: auto;"></td>
+							<td><img src="/image/catalog/el_order_logo_1.png" class="img-responsive" style="width: 100px; display: block;margin-left: auto;  margin-right: auto;"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -32,7 +32,7 @@
 							<td style="width: 50%;">
 								{% if admin_info %}
 								<div class="pts-col-sm-6 admin-store">
-									<p><strong>{{ text_admin_storename }}: </strong>{{ admin_info.name }}</p>
+									<p><strong>{{ text_company_name }}: </strong>{{ admin_info.name }}</p>
 									<p><strong>{{ text_address }}: </strong>{{ admin_info.address }}</p>
 									<p><strong>{{ text_telephone }}: </strong>{{ admin_info.telephone }}</p>
 									<p><strong>{{ text_email }}: </strong>{{ admin_info.email }}</p>
@@ -48,6 +48,7 @@
 									<p><strong>{{ text_address }}: </strong>{{ store_info.address }}</p>
 									<p><strong>{{ text_telephone }}: </strong>{{ store_info.telephone }}</p>
 									<p><strong>{{ text_email }}: </strong>{{ store_info.email }}</p>
+									<p><strong>{{ text_website }}: </strong> <a href="{{ sellerstore }}" target="_blank"> {{ sellerstore }} </a></p>
 								</div>
 								{% endif %}
 							</td>

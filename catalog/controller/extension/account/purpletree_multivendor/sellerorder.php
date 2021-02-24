@@ -1478,6 +1478,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 					'store_email'      => $store_email,
 					'store_telephone'  => $store_telephone,
 					'store_fax'        => $store_fax,
+					'customer'         => $order_info['customer'],
 					'email'            => $order_info['email'],
 					'telephone'        => $order_info['telephone'],
 					'shipping_address' => $shipping_address,
