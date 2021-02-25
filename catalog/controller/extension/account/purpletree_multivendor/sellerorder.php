@@ -74,6 +74,14 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 				$filter_table = $this->request->get['filter_table'];
 			}
 
+			if (isset($this->request->get['filter_order_id'])) {
+				$filter_order_id = $this->request->get['filter_order_id'];
+			}
+
+			if (isset($this->request->get['filter_order_no'])) {
+				$filter_order_no = $this->request->get['filter_order_no'];
+			}
+
 			if (isset($this->request->get['order_type'])) {
 				$order_type = $this->request->get['order_type'];
 			}
@@ -117,6 +125,14 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 				$url .= '&filter_table=' . $this->request->get['filter_table'];
 			}
 
+			if(isset($this->request->get['filter_order_id'])){
+				$url .= '&filter_order_id=' . $this->request->get['filter_order_id'];
+			}
+
+			if(isset($this->request->get['filter_order_no'])){
+				$url .= '&filter_order_no=' . $this->request->get['filter_order_no'];
+			}
+
 			if(isset($this->request->get['order_type'])){
 				$url .= '&order_type=' . $this->request->get['order_type'];
 			}
@@ -145,6 +161,8 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 			'filter_time_from' 	   => $filter_time_from,
 			'filter_time_to'	   => $filter_time_to,
 			'filter_table' 		   => $filter_table,
+			'filter_order_id'			=> $filter_order_id,
+			'filter_order_no'			=> $filter_order_no,
 			'order_type'           => $order_type
 			);
 			$seller_id = $this->customer->getId();
@@ -259,6 +277,8 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 			$data['filter_time_to'] = $filter_time_to;
 			$data['filter_time_from'] = $filter_time_from;
 			$data['filter_table'] = $filter_table;
+			$data['filter_order_id'] = $filter_order_id;
+			$data['filter_order_no'] = $filter_order_no;
 			$data['order_type'] = $order_type;
 			
 			$this->load->model('extension/localisation/ptsorder_status');
@@ -1470,8 +1490,10 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 
 					$data['orders'][] = array(
 					'order_id'	       => $order_id,
+					'order_no'	       => $order_info['order_no'],
+					'order_type'	   => $order_info['ordertype'],
 					'invoice_no'       => $invoice_no,
-					'date_added'       => date($this->language->get('date_format_short'), strtotime($order_info['date_added'])),
+					'date_added'       => date('d/m/y y:i a', strtotime($order_info['date_added'] )),
 					'store_name'       => $order_info['store_name'],
 					'store_url'        => rtrim($order_info['store_url'], '/'),
 					'store_address'    => nl2br($store_address),
@@ -1816,6 +1838,14 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 			if (isset($this->request->get['filter_table'])) {
 				$filter_table = $this->request->get['filter_table'];
 			}
+			
+			if (isset($this->request->get['filter_order_no'])) {
+				$filter_order_no = $this->request->get['filter_order_no'];
+			}
+
+			if (isset($this->request->get['filter_order_id'])) {
+				$filter_order_id = $this->request->get['filter_order_id'];
+			}
 
 			if (isset($this->request->get['order_type'])) {
 				$order_type = $this->request->get['order_type'];
@@ -1861,6 +1891,14 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 				$url .= '&filter_table=' . $this->request->get['filter_table'];
 			}
 
+			if(isset($this->request->get['filter_order_no'])){
+				$url .= '&filter_order_no=' . $this->request->get['filter_order_no'];
+			}
+
+			if(isset($this->request->get['filter_order_id'])){
+				$url .= '&filter_order_id=' . $this->request->get['filter_order_id'];
+			}
+
 			if(isset($this->request->get['order_type'])){
 				$url .= '&order_type=' . $this->request->get['order_type'];
 			}
@@ -1889,6 +1927,8 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 			'filter_time_from' 	   => $filter_time_from,
 			'filter_time_to'	   => $filter_time_to,
 			'filter_table' 		   => $filter_table,
+			'filter_order_no' 		   => $filter_order_no,
+			'filter_order_id' 		   => $filter_order_id,
 			'order_type'		   => $order_type
 			);
 			$seller_id = $this->customer->getId();
