@@ -382,7 +382,8 @@ class ModelExtensionPurpletreeMultivendorSellerorder extends Model{
 				'accept_language'         => $order_query->row['accept_language'],
 				'date_added'              => $order_query->row['date_added'],
 				'date_modified'           => $order_query->row['date_modified'],
-				'order_no'           => $order_query->row['order_no']
+				'order_no'           => $order_query->row['order_no'],
+				'comment'           => $order_query->row['product_comments']
 				);
 				} else {
 				return;

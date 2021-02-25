@@ -638,7 +638,12 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 							}
 						}
 					}
-					
+					// Shipping Address
+				if ($order_info['shipping_address_format']) {
+					$format = $order_info['shipping_address_format'];
+					} else {
+					$format = '{firstname} {lastname}' . "\n" . '{company}' . "\n" . '{address_1}' . "\n" . '{address_2}' . "\n" . '{city} {postcode}' . "\n" . '{zone}' . "\n" . '{country}';
+				}
 					$data['products'][] = array(
 					'order_product_id' => $product['order_product_id'],
 					'product_id'       => $product['product_id'],
@@ -1397,6 +1402,34 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 						$format = '{firstname} {lastname}' . "\n" . '{company}' . "\n" . '{address_1}' . "\n" . '{address_2}' . "\n" . '{city} {postcode}' . "\n" . '{zone}' . "\n" . '{country}';
 					}
 					
+					$find = array(
+						'{firstname}',
+						'{lastname}',
+						'{company}',
+						'{address_1}',
+						'{address_2}',
+						'{city}',
+						'{postcode}',
+						'{zone}',
+						'{zone_code}',
+						'{country}'
+						);
+						
+						$replace = array(
+						'firstname' => $order_info['payment_firstname'],
+						'lastname'  => $order_info['payment_lastname'],
+						'company'   => $order_info['payment_company'],
+						'address_1' => $order_info['payment_address_1'],
+						'address_2' => $order_info['payment_address_2'],
+						'city'      => $order_info['payment_city'],
+						'postcode'  => $order_info['payment_postcode'],
+						'zone'      => $order_info['payment_zone'],
+						'zone_code' => $order_info['payment_zone_code'],
+						'country'   => $order_info['payment_country']
+						);
+						
+					$data['payment_address'] = str_replace(array("\r\n", "\r", "\n"), '<br />', preg_replace(array("/\s\s+/", "/\r\r+/", "/\n\n+/"), '<br />', trim(str_replace($find, $replace, $format))));
+
 					$find = array(
 					'{firstname}',
 					'{lastname}',

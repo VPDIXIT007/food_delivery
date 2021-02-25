@@ -63,6 +63,23 @@ $_['text_picklist']              = 'Dispatch Note';
 $_['text_missing']              = 'Missing orders';
 $_['text_seller_order_status']       = 'This order has been updated with status';
 $_['text_seller_update_footer']       = 'This is system generated email. Please do not reply.';
+$_['text_seller_update_footer']       = 'This is system generated email. Please do not reply.';
+$_['text_seller_update_footer']       = 'This is system generated email. Please do not reply.';
+$_['text_order_takeaway']       = 'takeaway';
+$_['text_order_dinein']         = 'dinein';
+$_['text_order_delivery']       = 'delivery';
+$_['text_change_table']       = 'Change table number for order :';
+$_['text_table_no']       = 'Table number :';
+$_['text_orderdate']       = 'Date ';
+$_['text_order_no']       = 'Order No ';
+$_['text_customer_detail']       = 'Customer Details';
+$_['text_order_type']       = 'Type';
+$_['text_name']       = 'Name';
+$_['text_mobile']       = 'Mobile';
+$_['text_address']       = 'Address';
+$_['text_item']       = 'Item';
+$_['text_amount']       = 'Amount';
+$_['text_scan_menu']       = 'SCAN FOR MENU';
 
 // Column
 $_['column_order_id']            = 'Order ID';
@@ -82,7 +99,10 @@ $_['column_location']            = 'Location';
 $_['column_reference']           = 'Reference';
 $_['column_action']              = 'Action';
 $_['column_weight']              = 'Product Weight';
-$_['column_commissions']              = 'Commission';
+$_['column_commissions']         = 'Commission';
+$_['column_order_type']          = 'Order Type';
+$_['column_table_no']          = 'Table No';
+$_['column_order_no']          = 'Order No';
 
 // Entry
 $_['entry_store']                = 'Store';
@@ -145,6 +165,7 @@ $_['button_history_add']				= 'Add History';
 $_['button_invoice_print']				= 'Print Invoice';
 $_['button_shipping_print']				= 'Print Shipping';
 $_['button_filter']				= 'Filter';
+$_['button_edit']				= 'Edit';
 
 // Help   
 $_['help_override']              = 'If the customers order is being blocked from changing the order status due to an anti-fraud extension enable override.';

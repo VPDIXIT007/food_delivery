@@ -8,6 +8,8 @@ $_['text_list']              = 'Subscription Plan List';
 $_['text_add']               = 'Add Subscription Plan';
 $_['text_edit']              = 'Edit Subscription Plan';
 $_['text_default']           = 'Default';
+$_['text_enable_point']           = 'Enable Point System';
+$_['text_custom_theme']           = 'Custom Theme Setting';
 
 // Column
 $_['column_name']            = 'Subscription Plan Name';

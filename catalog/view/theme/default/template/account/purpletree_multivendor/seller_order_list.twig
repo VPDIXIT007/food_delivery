@@ -102,9 +102,9 @@
 							<div class="pts-input-group date d-flex d-flex" style="display: flex;">
 								<select name="order_type" class="form-control">
 									<option value="">{{ text_select }}</option>
-									<option {% if order_type=='takeaway' %} selected {% endif %}>takeaway</option>
-									<option {% if order_type=='dinein' %} selected {% endif %}>dinein</option>
-									<option {% if order_type=='delivery' %} selected {% endif %}>delivery</option>
+									<option {% if order_type=='{{text_order_takeaway}}' %} selected {% endif %}>{{text_order_takeaway}}</option>
+									<option {% if order_type=='{{text_order_dinein}}' %} selected {% endif %}>{{text_order_dinein}}</option>
+									<option {% if order_type=='{{text_order_delivery}}' %} selected {% endif %}>{{text_order_delivery}}</option>
 								</select>
 							</div>
 						</div>
@@ -211,10 +211,10 @@
 										onclick="$('input[name*=\'order_id\']').prop('checked', this.checked);"
 										class="form-control order_status_box" value=""></td>
 								<td class="pts-text-left">{{ column_order_id }}</td>
-								<td class="pts-text-left">{{ column_order_number }} Order No</td>
-								<td class="pts-text-left">Order Type</td>
+								<td class="pts-text-left">{{ column_order_no }}</td>
+								<td class="pts-text-left">{{ column_order_type }}</td>
 								<td class="pts-text-left">{{ column_customer }}</td>
-								<td class="pts-text-left">Table Number</td>
+								<td class="pts-text-left">{{ column_table_no }}</td>
 								<td class="pts-text-left">{{ column_status }}</td>
 								{# <td class="pts-text-left">{{ column_admin_status }}</td> #}
 								<td class="pts-text-left">{{ column_total }}</td>
@@ -236,7 +236,7 @@
 
 								<td class="pts-text-left">{{order.table_num}} {% if order.table_num > 0 %}<button type="button"
 										id="pts-button-edit" data-toggle="modal" data-target="#myModal{{ order.order_id }}"
-										class="pts-btn pts-btn-primary pts-pull-right"> Edit</button>{% endif %}</td>
+										class="pts-btn pts-btn-primary pts-pull-right"> {{ button_edit }}</button>{% endif %}</td>
 								<!-- Modal -->
 								<div class="modal fade" id="myModal{{ order.order_id }}" role="dialog">
 									<div class="modal-dialog ">
@@ -245,10 +245,10 @@
 										<div class="modal-content">
 											<div class="modal-header">
 												<button type="button" class="close" data-dismiss="modal">&times;</button>
-												<h4 class="modal-title">Change table number for order :{{ order.order_id }}</h4>
+												<h4 class="modal-title">{{ text_change_table }}{{ order.order_id }}</h4>
 											</div>
 											<div class="modal-body">
-												<label>Table number :</label>
+												<label>{{ text_table_no }}</label>
 												<!-- <input type="text" id="table_no{{ order.order_id }}" name="tableno" value=""> -->
 												{% if order.table_num %}
 												<select name="filter_tablenum" id="table_no{{ order.order_id }}" class="pts-form-control"

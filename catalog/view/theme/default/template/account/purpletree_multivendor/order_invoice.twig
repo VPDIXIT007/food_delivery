@@ -29,28 +29,28 @@
 				<table class="table table-bordered">
 					<tbody>
 						<tr>
-							<td><b>Date : </b>{{ order.date_added }}</td>
-							<td><b>Order No : </b> {{ order.order_no }}</td>
+							<td><b>{{ text_order_date }} :</b>{{ order.date_added }}</td>
+							<td><b>{{ text_order_no }} :</b> {{ order.order_no }}</td>
 						</tr>
 						<tr>
 							{# <td><b>Cashier </b> : {{ order.name  }}</td> #}
-							<td colspan="2"><b>Type : </b> {{ order.order_type }}</td>
+							<td colspan="2"><b>{{ text_order_type}} : </b> {{ order.order_type }}</td>
 						</tr>
 					</tbody>
 				</table>
 
-					<h4 style="margin:0px;">Customer Details</h4>
+					<h4 style="margin:0px;">{{text_customer_detail}}</h4>
 					<p> ====================</p>
 
 
 				<table class="table table-bordered">
 					<tbody>
 						<tr>
-							<td><b>Name : </b> {{ order.payment_name }}</td>
-							<td><b>Mobile : </b> {{ order.telephone }}</td>
+							<td><b>{{ text_name }} : </b> {{ order.payment_name }}</td>
+							<td><b>{{ text_mobile }} : </b> {{ order.telephone }}</td>
 						</tr>
 						<tr>
-							<td colspan="2"><b>Address :</b>&nbsp;&nbsp;{{ order.payment_address }}</td>
+							<td colspan="2"><b>{{ Address }} :</b>&nbsp;&nbsp;{{ order.payment_address }}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -62,10 +62,10 @@
 					<thead>
 						<tr>
 							<td class="text-right"><b>{{ column_quantity_xs }}</b></td>
-							<td><b>Item</b></td>
+							<td><b>{{ text_item }}</b></td>
 							<td class="text-right"><b>{{ column_price }}</b></td>
 							{# <td><b>{{ column_model }}</b></td> #}
-							<td class="text-right"><b>Amount</b></td>
+							<td class="text-right"><b>{{ text_amount }}</b></td>
 						</tr>
 					</thead>
 					<tbody>
@@ -122,7 +122,7 @@
 					<tbody>
 						<tr>
 							<td>
-							<h3 class="text-center text-black"><strong><br><br>SCAN FOR MENU</strong></h3>
+							<h3 class="text-center text-black"><strong><br><br>{{ text_scan_menu }}</strong></h3>
 							<svg width="200" height="200" style="display: block; margin: auto;"
  								 xmlns="#">
   							<image href="{{ filename }}"  width="100%"/>

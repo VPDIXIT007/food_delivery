@@ -22,7 +22,7 @@
 			<ul class="pts-nav pts-nav-tabs nav nav-tabs">	
 					<li id="ptsGeneralTab" class="nav-item active"><a class="nav-link"  href="#tab-general" data-toggle="tab">General</a></li>
 					<li id="ptsSlidesTab" class="nav-item"><a class="nav-link"  href="#tab-slides" data-toggle="tab">Slider Banner</a></li>
-					<li id="ptsSlidesTab" class="nav-item"><a class="nav-link"  href="#tab-setting" data-toggle="tab">Theme Setting</a></li>
+					<li id="ptsSlidesTab" class="nav-item"><a class="nav-link"  href="#tab-setting" data-toggle="tab">{{ text_theme_setting }}</a></li>
 					
 				</ul>
 			<div class="pts-tab-pane tab-pane active" id="tab-general">
@@ -658,60 +658,60 @@
 		<div class="pts-tab-pane tab-pane" id="tab-setting" style="display: none;">
 			<div class="pts-table-responsive">
 			{% if enable_theme_setting %}
-			<h3>Color <button type="button" class="btn btn-primary pull-right _theme-color-reset">Reset to default theme</button></h3>
+			<h3><button type="button" class="btn btn-primary pull-right _theme-color-reset">{{ button_reset_store }}</button></h3>
 			
 			<legend>{{ text_color }}</legend>
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-primary-color">{{ entry_primary_color ?? "Primary Color" }}</label>
+                <label class="col-sm-2 control-label" for="input-primary-color">{{ entry_primary_color }}</label>
                 <div class="col-sm-1">
                     <input class="form-control" type="color" name="theme_mahardhi_primary_color" value="{{ theme_mahardhi_primary_color ?? "#222222" }}" id="input-primary-color" style="padding: 0 2px;">
                 </div>
             </div>   
 <br>
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-primary-hover-color">{{ entry_primary_hover_color ?? "Primary Hover Color" }}</label>
+                <label class="col-sm-2 control-label" for="input-primary-hover-color">{{ entry_primary_hover_color }}</label>
                 <div class="col-sm-1">
                     <input class="form-control" type="color" name="theme_mahardhi_primary_hover_color" value="{{ theme_mahardhi_primary_hover_color ?? "#ffffff" }}" id="input-primary-hover-color" style="padding: 0 2px;">
                 </div>
             </div>   
 <br>
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-secondary-color">{{ entry_secondary_color ?? "Secondary Color" }}</label>
+                <label class="col-sm-2 control-label" for="input-secondary-color">{{ entry_secondary_color }}</label>
                 <div class="col-sm-1">
                     <input class="form-control" type="color" name="theme_mahardhi_secondary_color" value="{{ theme_mahardhi_secondary_color ?? "#ef271f" }}" id="input-secondary-color" style="padding: 0 2px;">
                 </div>
             </div>  
 <br>
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-secondary-hover-color">{{ entry_secondary_hover_color ?? "Secondary Hover Color" }}</label>
+                <label class="col-sm-2 control-label" for="input-secondary-hover-color">{{ entry_secondary_hover_color }}</label>
                 <div class="col-sm-1">
                     <input class="form-control" type="color" name="theme_mahardhi_secondary_hover_color" value="{{ theme_mahardhi_secondary_hover_color ?? "#04030f" }}" id="input-secondary-hover-color" style="padding: 0 2px;">
                 </div>
             </div>  
 <br>
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-secondary-light-color">{{ entry_secondary_light_color ?? "Secondary Light Color" }}</label>
+                <label class="col-sm-2 control-label" for="input-secondary-light-color">{{ entry_secondary_light_color }}</label>
                 <div class="col-sm-1">
                     <input class="form-control" type="color" name="theme_mahardhi_secondary_light_color" value="{{ theme_mahardhi_secondary_light_color ?? "#7d7d7d" }}" id="input-secondary-light-color" style="padding: 0 2px;">
                 </div>
             </div>  
  <br>
              <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-background-color">{{ entry_background_color ?? "Background Color" }}</label>
+                <label class="col-sm-2 control-label" for="input-background-color">{{ entry_background_color }}</label>
                 <div class="col-sm-1">
                     <input class="form-control" type="color" name="theme_mahardhi_background_color" value="{{ theme_mahardhi_background_color ?? "#f9fafe" }}" id="input-background-color" style="padding: 0 2px;">
                 </div>
             </div> 
 <br>
             <div class="form-group">
-                <label class="col-sm-2 control-label" for="input-border-color">{{ entry_border_color ?? "Border Color" }}</label>
+                <label class="col-sm-2 control-label" for="input-border-color">{{ entry_border_color }}</label>
                 <div class="col-sm-1">
                     <input class="form-control" type="color" name="theme_mahardhi_border_color" value="{{ theme_mahardhi_border_color ?? "#b9bab8" }}" id="input-border-color" style="padding: 0 2px;">
                 </div>
             </div>   
             {% else %}
 						<div class="col-sm-12 text-center">
-						<h3> <em class="fa fa-lock"></em> Theme setting is locked for this plan!</h3>
+						<h3> <em class="fa fa-lock"></em> {{ text_theme_locked }}</h3>
 						<br>
 						<br>
 						</div>
@@ -725,7 +725,7 @@
 						<input type="submit" value="{{ button_save }}" class="pts-btn pts-btn-primary" />
 					</div>
 				</div>
-				
+				 
 				
 			</form>
 		</div>

@@ -7,6 +7,7 @@ $_['text_success']      = 'Success: You have modified customer groups!';
 $_['text_list']         = 'Customer Group List';
 $_['text_add']          = 'Add Customer Group';
 $_['text_edit']         = 'Edit Customer Group';
+$_['text_reward_setting']         = 'Reward Setting';
 
 // Column
 $_['column_name']       = 'Customer Group Name';

@@ -13,6 +13,7 @@
       </ul>
     </div>
   </div> 
+
   <div class="container-fluid">
     {% if error_warning %}
     <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
@@ -27,7 +28,7 @@
         <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-customer-group" class="form-horizontal">
           <ul class="nav nav-tabs">
             <li class="active"><a href="#tab-general" data-toggle="tab">{{ tab_general }}</a></li>
-            <li><a href="#reward-setting" data-toggle="tab"> Reward Setting </a></li>
+            <li><a href="#reward-setting" data-toggle="tab"> {{ text_reward_setting }} </a></li>
           </ul>  
       <div class="tab-content">
         <div class="tab-pane active" id="tab-general">

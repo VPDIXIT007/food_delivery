@@ -2,7 +2,7 @@
 // Heading
 $_['heading_title']         = 'Store Information';
 $_['heading_become_title']         = 'Become a seller';
-
+ 
 // Text
 $_['text_success']          = 'Success: You have modified store!';
 $_['text_seller_success']          = 'Success: Congratulation you are now a seller!';
@@ -23,8 +23,14 @@ $_['text_downloads'] = 'Download file';
 $_['text_attachment'] = 'Attachment';
 $_['text_no_file'] = 'File not found';
 $_['text_supported'] = 'Supported file: jpeg,png,jpg,pdf,doc,docx,zip';
+$_['text_theme_setting'] = 'Theme Setting';
+$_['text_color'] = 'Color';
+
+
 
 $_['button_image_add']          = 'Add Image';
+$_['button_reset_store']          = 'Reset to default theme';
+
 // Entry
 $_['entry_storename']       = 'Store Name';
 $_['entry_storeurl']       = 'Store Url';
@@ -134,6 +140,13 @@ $_['entry_whatsapp_number']  = 'Whatsapp Number';
 $_['entry_youtube_link']  = 'Store Video';
 $_['entry_google_map']  = 'Google Map Address';
 $_['entry_google_add_link']  = 'Google Map Address Link';
+$_['entry_primary_color']  = 'Primary Color';
+$_['entry_primary_hover_color']  = 'Primary Hover Color';
+$_['entry_secondary_color']  = 'Secondary Color';
+$_['entry_secondary_hover_color']  = 'Secondary Hover Color';
+$_['entry_secondary_light_color']  = 'Secondary Light Color';
+$_['entry_background_color']  = 'Background Color';
+$_['entry_border_color']  = 'Border Color';
 $_['text_warning_vacation']  = 'Seller is on vacation!';
 $_['text_store_opening'] = 'Store Opening and Closing timing';
 $_['text_open'] = 'Open';
@@ -148,3 +161,4 @@ $_['text_saturday'] = 'Saturday';
 $_['text_holiday'] = 'Scheduled Holiday';
 $_['text_date'] = 'Date';
 $_['text_action'] = 'Action';
+$_['text_theme_locked'] = 'Theme setting is locked for this plan!';
