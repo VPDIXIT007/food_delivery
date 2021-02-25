@@ -70,7 +70,8 @@ class ControllerExtensionPaymentBankTransfer extends Controller {
 		//	$statusname = $this->db->query("SELECT * FROM ". DB_PREFIX ."order_status WHERE order_status_id = '". $order_status_id ."' and language_id = '". (int)$this->config->get('config_language_id') ."'")->row;
 		      
 			//save in notification 
-			$message = "YOU HAVE A NEW ORDER #$order_id PLEASE PROCESS ASAP";
+			$order_no = (isset($this->session->data['tracking_order_no']) && $this->session->data['tracking_order_no'])?$this->session->data['tracking_order_no'] : $order_id;
+			$message = "YOU HAVE A NEW ORDER #$order_no PLEASE PROCESS ASAP";
 			$notification_sql = "INSERT INTO oc_fcm_notification SET `session_id` = '".$customer_id['seller_id']."', `payload` = '".$message."', `status` = '0' ";
 			$this->db->query($notification_sql);
 			$notification_id = $this->db->getLastId();
@@ -80,7 +81,7 @@ class ControllerExtensionPaymentBankTransfer extends Controller {
     $fields=array(
         "to"=> $firetoken['firebasetoken'],//$_REQUEST['token'],
         "notification"=>array(
-            "body"=>'YOU HAVE A NEW ORDER # '.$order_id.' PLEASE PROCESS ASAP',//$_REQUEST['message'],
+            "body"=>'YOU HAVE A NEW ORDER # '.$order_no.' PLEASE PROCESS ASAP',//$_REQUEST['message'],
             "title"=>'El-Order Notifications',//$_REQUEST['title'],
             "icon"=>$_REQUEST['icon'],
             "click_action"=>"https://el-order.com"

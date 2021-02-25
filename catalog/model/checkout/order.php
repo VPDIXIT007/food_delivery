@@ -565,6 +565,8 @@ class ModelCheckoutOrder extends Model {
 					$order_number = str_pad($order_id,  4, "0", STR_PAD_LEFT);
 					$this->db->query("UPDATE " . DB_PREFIX . "purpletree_vendor_orders SET order_no = '$order_number' WHERE order_id = '". (int)$order_id ."' ");
 					$this->db->query("UPDATE " . DB_PREFIX . "order SET order_no = '$order_number' WHERE order_id = '". (int)$order_id ."' ");
+					//put in session
+					$this->session->data['tracking_order_no'] =  $order_number;
 				}
 			}
 		}
