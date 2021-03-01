@@ -430,6 +430,27 @@ class ControllerCommonCommon extends Controller {
 		 $this->model_tool_online->addOnline($ip, $this->customer->getId(), $url, $referer);
 	 }
 
+	 if(isset($this->request->get['seller_store_id'])){
+		$sellerstore = $this->request->get['seller_store_id'];
+		} else if ($this->customer->isSeller()) {
+			$sellerstore_d = $this->customer->isSeller();
+			$sellerstore = $sellerstore_d['id'];
+		}
+
+	 $slider = $this->model_extension_purpletree_multivendor_vendor->getSlider($sellerstore);
+	 $data['slider'] = array();
+
+	 if(isset($slider)) {
+		 if(!empty($slider)) {
+		 foreach ($slider as $result) {
+			 $data['slider'][] = array(
+				 'image' => $result['image'],
+			 );
+		 }
+	 }
+	 }
+
+
 	 $data['scripts'] = $this->document->getScripts('footer');
 	 $data['footer_top'] = $this->load->controller('common/footer_top');
 	 $data['footer_left'] = $this->load->controller('common/footer_left');

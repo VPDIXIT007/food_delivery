@@ -1,61 +1,138 @@
-<div id="cart" class="btn-group btn-block">
-  <button type="button" data-toggle="dropdown" data-loading-text="{{ text_loading }}" class="btn btn-inverse btn-block btn-lg dropdown-toggle">
+{#<div id="cart" class="btn-group btn-block">
+  <button type="button" data-toggle="dropdown" data-loading-text="{{ text_loading }}"
+    class="btn btn-inverse btn-block btn-lg dropdown-toggle">
     <span id="cart-total">{{ text_items }}</span>
   </button>
   <ul class="dropdown-menu header-cart-toggle pull-right ">
-  {% if products or vouchers %}
+    {% if products or vouchers %}
     <li class="cart-content-product">
       <table class="table table-striped">
         {% for product in products %}
-          <tr>
-            <td class="text-center product-cart-thumb">
+        <tr>
+          <td class="text-center product-cart-thumb">
             {% if product.thumb %}
-              <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-thumbnail" />
-              </a> 
+            <a href="{{ product.href }}"><img src="{{ product.thumb }}" alt="{{ product.name }}"
+                title="{{ product.name }}" class="img-thumbnail" />
+            </a>
             {% endif %}
-            </td>
-            <td class="text-left product-cart-details">
-              <a href="{{ product.href }}" class="product-item-name">{{ product.name }}</a>
-              <div class="product-cart-info">
-                <span class="product-cart-qty">{{ product.quantity }} x </span>
-                <span class="product-cart-price">{{ product.price }}</span>
-              </div>
-            </td>
-            <td class="text-center product-cart-close"><button type="button" onclick="cart.remove('{{ product.cart_id }}');" title="{{ button_remove }}" class="btn btn-danger btn-xs"><i class="fa fa-times"></i></button></td>
-          </tr>
+          </td>
+          <td class="text-left product-cart-details">
+            <a href="{{ product.href }}" class="product-item-name">{{ product.name }}</a>
+            <div class="product-cart-info">
+              <span class="product-cart-qty">{{ product.quantity }} x </span>
+              <span class="product-cart-price">{{ product.price }}</span>
+            </div>
+          </td>
+          <td class="text-center product-cart-close"><button type="button"
+              onclick="cart.remove('{{ product.cart_id }}');" title="{{ button_remove }}"
+              class="btn btn-danger btn-xs"><i class="fa fa-times"></i></button></td>
+        </tr>
         {% endfor %}
         {% for voucher in vouchers %}
-          <tr>
-            <td class="text-center"></td>
-            <td class="text-left voucher-details">
-              <a class="product-item-name" href="{{ product.href }}">{{ voucher.description }}</a>
+        <tr>
+          <td class="text-center"></td>
+          <td class="text-left voucher-details">
+            <a class="product-item-name" href="{{ product.href }}">{{ voucher.description }}</a>
             <div class="voucher-info">
               <span class="voucher-qty">1 x&nbsp;</span>
               <span class="voucher-price">{{ voucher.amount }}</span>
             </div>
-            </td>
-            <td class="text-center  voucher-close"><button type="button" onclick="cart.remove('{{ product.cart_id }}');" title="{{ button_remove }}" class="btn btn-danger btn-xs"><i class="fa fa-times"></i></button></td>
-          </tr>
+          </td>
+          <td class="text-center  voucher-close"><button type="button" onclick="cart.remove('{{ product.cart_id }}');"
+              title="{{ button_remove }}" class="btn btn-danger btn-xs"><i class="fa fa-times"></i></button></td>
+        </tr>
         {% endfor %}
       </table>
     </li>
     <li>
       <div>
         <table class="table table-bordered">
-        {% for total in totals %}
+          {% for total in totals %}
           <tr>
             <td class="text-left"><strong>{{ total.title }}</strong></td>
             <td class="text-right">{{ total.text }}</td>
           </tr>
-        {% endfor %}
+          {% endfor %}
         </table>
-        <p class="text-right product-cart-button"><a href="{{ cart }}" class="btn cart-btn addtocart-btn">{{ text_cart }}</a>&nbsp;&nbsp;&nbsp;<a href="{{ checkout }}" class="btn cart-btn checkout-btn">{{ text_checkout }}</a></p>
+        <p class="text-right product-cart-button"><a href="{{ cart }}" class="btn cart-btn addtocart-btn">{{ text_cart
+            }}</a>&nbsp;&nbsp;&nbsp;<a href="{{ checkout }}" class="btn cart-btn checkout-btn">{{ text_checkout }}</a>
+        </p>
       </div>
     </li>
-  {% else %}
+    {% else %}
     <li>
       <p class="text-center product-cart-empty">{{ text_empty }}</p>
     </li>
-  {% endif %}
+    {% endif %}
   </ul>
+</div>
+#}
+
+<div id="floater_cart" class="floater_cart" style="display: none;">
+  <div class="__cart_orders" style="display: none;">
+    <div class="row" style="    border-bottom: 1px solid #ccccccb8;
+			margin-bottom: 20px;">
+      <div class="col-xs-6">
+        <p style="font-size: 18px;">Your Orders</p>
+      </div>
+      <div class="col-xs-6">
+        <i class="fa fa-close fa-lg pull-right __close_cart" style="font-size: 18px;"></i>
+      </div>
+    </div>
+    {% for product in products %}
+    <div class="row ac_cart_items">
+      <div class="col-xs-6">
+        <p class="item_name">{{ product.name }}</p>
+      </div>
+      <div class="col-xs-6">
+        <p class="text-danger item_price">{{ product.price }}</p>
+        <div class="input-group pull-right ac_cart_btn">
+          <input type="button" value="-" class="button-minus text-danger ac_cart_btn-minus" data-field="quantity">
+          <input type="number" step="1" max="" value="1" name="quantity" class="quantity-field ac_cart_btn-input">
+          <input type="button" value="+" class="button-plus text-danger ac_cart_btn-plus" data-field="quantity">
+        </div>
+
+      </div>
+    </div>
+    {% endfor %}
+
+    <!-- <div class="row ac_cart_items">
+      <div class="col-xs-6">
+        <p class="item_name">Ice Cream</p>
+        <small class="item_options">Extra :Chocolate Sauce</small>
+      </div>
+      <div class="col-xs-6">
+        <p class="text-danger item_price">30 EGP</p>
+        <div class="input-group pull-right ac_cart_btn">
+          <input type="button" value="-" class="button-minus text-danger ac_cart_btn-minus" data-field="quantity">
+          <input type="number" step="1" max="" value="1" name="quantity" class="quantity-field ac_cart_btn-input">
+          <input type="button" value="+" class="button-plus text-danger ac_cart_btn-plus" data-field="quantity">
+        </div>
+
+      </div>
+    </div> -->
+
+  </div>
+
+  <div class="row __cart_info" style="background-color: #fff;
+    padding:10px 15px;
+    box-shadow: 0 0 8px 2px #dfdfdf;
+    display: flex;
+    align-items: center;">
+    <div class="col-xs-6">
+      <div class="__cart_items" style="font-size: 14px;
+				font-weight: normal;
+				margin: 0;">{{ text_items }} <i class="fa fa-caret-up" aria-hidden="true"></i>{# <br> 60 EGP ( Plus Taxes) #}
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <a href="{{ checkout }}">
+        <button type="button" class="btn btn-primary" style="padding: 8px 32px 8px 32px;
+					font-size: 12px;
+					border-radius: 5px;
+					float: right;text-transform: capitalize;font-weight: bold;">Continue &nbsp;&nbsp; <i
+            class="fa fa-caret-right"></i></button>
+      </a>
+    </div>
+  </div>
 </div>

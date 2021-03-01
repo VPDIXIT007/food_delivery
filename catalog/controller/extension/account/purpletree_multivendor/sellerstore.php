@@ -1727,7 +1727,7 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerstore extends Control
 			}
 		}
 		}
-	    
+
 		if (!empty($store_detail)) {
 			$data['store_address'] = $store_detail['store_address'];
 			$data['store_addresslen'] = strlen($data['store_address']);

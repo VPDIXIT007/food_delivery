@@ -71,6 +71,10 @@
 	<!-- 
 	<div class="loader"></div> -->
 	<style>
+		#topCategoryList {
+			z-index: 9999999;
+		}
+
 		._cat {
 			display: inline-flex;
 			align-items: center;
@@ -91,6 +95,13 @@
 			font-size: 18px;
 		}
 
+		._cat.active,
+		._cat:hover,
+		._cat.focus {
+			background: var(--secondary-color);
+			color: var(--primary-hover-color);
+		}
+
 		body ::-webkit-scrollbar-thumb {
 			background-color: transparent;
 			border-radius: 0;
@@ -107,64 +118,287 @@
 
 		#floater_menu {
 			position: fixed;
-			bottom: 25px;
+			bottom: 70px;
 			right: 20px;
-			z-index: 9999999999999;
+			z-index: 999999;
 		}
 
 		.scrollToTop {
 			display: none !important;
 		}
+
+		#store_logo {
+			width: 98px;
+			margin: 0 auto;
+			border-radius: 14px;
+			margin-bottom: -12px;
+			z-index: 9999;
+			position: relative;
+			background: #fff;
+		}
+
+		#slider {
+			margin-bottom: -24px;
+			position: relative;
+			text-align: center;
+			display: flex;
+			justify-content: center;
+			padding: 0px;
+			max-height: 420px;
+		}
+
+		#slider .owl-dots {
+			position: absolute;
+			bottom: 28px;
+		}
+
+		#slider .owl-dot {
+			background: #ffffffb8;
+			border: none;
+			width: 10px;
+			height: 10px;
+			zoom: initial;
+		}
+
+		#slider .owl-dot.active {
+			background: #fff;
+		}
+
+		#slider .owl-dot span {
+			display: none;
+		}
+
+		#slider .slider_img {
+			min-height: 240px;
+			width: 100%;
+			padding: 0px;
+			margin-top: -28px;
+			margin-bottom: -58px;
+		}
+
+		.ac_dropdown {
+			border-radius: 8px 0px 0px 8px;
+			z-index: 999999;
+			box-shadow: rgb(255 255 255) -7px 0px 0px 0px;
+		}
+
+		.__search_btn {
+			float: left;
+			width: 20%;
+			padding: 7px;
+			color: #000;
+			background: #fff;
+			border-left: none !Important;
+			cursor: pointer;
+			border: 1px solid #ccc;
+			border-left: none;
+			border-radius: 0px 6px 6px 0px;
+		}
+
+		.__search_input {
+			font-size: 17px;
+			border-right: none !important;
+			float: left;
+			width: 78%;
+			background: #fff;
+			padding: 2px 12px;
+			border: 1px solid #ccc;
+			height: 37px;
+			border-radius: 6px 0px 0px 6px;
+		}
+
+		.__header {
+			position: fixed;
+			background: #fff;
+			z-index: 999999;
+			width: 100%;
+			padding: 15px 0px 15px 0px !important;
+			box-shadow: 1px 2px 10px 0px #9a999991;
+			transition: 180ms;
+		}
+
+		.__scroll_show {
+			padding-top: 8px;
+		}
+
+		.ac_cart_items {
+			border-bottom: 1px solid #ccccccb8;
+			margin-bottom: 20px;
+			padding-bottom: 10px;
+		}
+
+		.ac_cart_items:last-child {
+			border-bottom: none;
+		}
+
+		.ac_cart_items .item_name {
+			font-size: 16px;
+			color: #000;
+			font-weight: normal;
+			margin-bottom: 2px;
+		}
+
+		.ac_cart_items .item_options {
+			display: block;
+			font-size: 12px;
+			color: #595959;
+		}
+
+		.ac_cart_items .item_price {
+			font-size: 16px;
+			text-align: right;
+		}
+
+		.ac_product_action {
+			padding: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+		}
+
+		.ac_add_to_cart {
+			border-radius: 7px;
+			color: #fff;
+			padding: 0px;
+			font-size: 14px;
+			width: 75px;
+			height: 30px;
+		}
+
+		.ac_add_to_cart .plus_icon {}
+
+		.ac_cart_btn {
+			border: 1px solid #000;
+			border-radius: 8px;
+			display: flex;
+			width: 75px;
+			padding: 0px;
+			height: 30px;
+		}
+
+		.ac_cart_btn-minus {
+			border: none;
+			background: transparent;
+			border-right: 1px solid #000;
+		}
+
+		.ac_cart_btn-input {
+			width: 60%;
+			border: none;
+			background: transparent;
+			text-align: center;
+		}
+
+		.ac_cart_btn-plus {
+			border: none;
+			background: transparent;
+			border-left: 1px solid #000;
+		}
+
+		.__cart_orders {
+			background-color: rgb(255, 255, 255);
+			padding: 15px;
+			max-height: 300px;
+			overflow: auto;
+		}
+
+		.__cart_orders::before {
+			content: "";
+			position: fixed;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			background: rgb(0 0 0 / 40%);
+			z-index: -1;
+		}
+
+		.floater_cart {
+			position: fixed;
+			z-index: 999999;
+			bottom: 0;
+			width: 100%;
+		}
 	</style>
 	<div class="container-fluid" style="padding: 0;">
 
-		<div id="floater_menu">
-			<button class="btn btn-primary" id="btnMenuBar" style="background: #000;
-    border-radius: 20px;"> <i class="fa fa-bars"></i>&nbsp;&nbsp;&nbsp;Menu </button>
+		<div class="row __header_change" style="background: #fff; margin: 0px; padding: 15px 0px 0px 0px;">
+			<div class="col-xs-10 __scroll_show hidden">
+				<input type="search" class="__search_input" placeholder="Search" />
+				<button type="submit" class="__search_btn"><i class="fa fa-search" style="font-size: 19px;
+						color: #b4b4b4;"></i></button>
+			</div>
+			<div class="col-xs-4 __scroll_hidden " style="align-items: center; display: flex;padding-top: 10px;">
+				<img src="ac_dev/open_now.png" style="width: 28px;margin-right: 8px;" />
+				<span class="open-time">{{ storestatus }}</span>
+			</div>
+			<div class="col-xs-4 __scroll_hidden">
+				{% if logo %}
+				<a href="{{ home }}">
+					<img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive" id="store_logo" />
+				</a>
+				{% else %}
+				<h1><a href="{{ home }}">{{ name }}</a></h1>
+				{% endif %}
+
+			</div>
+
+			<div class="col-xs-4 __account_scroll text-right" style="padding-top: 10px;">
+				<span class=" __scroll_hidden">{{ language }}</span>
+				<a href="{{ account }}" title="My Account" class="dropdown-toggle" data-toggle="dropdown">
+					<img src="ac_dev/accountpng.png" style="width: 32px;" />
+				</a>
+				<ul class="dropdown-menu dropdown-menu-right account-link-toggle ac_dropdown">
+					{% if logged %}
+					<li><a href="{{ account }}">{{ text_account }}</a></li>
+					<li><a href="{{ order }}">{{ text_order }}</a></li>
+					<li><a href="{{ reward }}">{{ text_reward }}</a></li>
+					<li><a href="{{ transaction }}">{{ text_transaction }}</a></li>
+					<!-- <li><a href="{{ download }}">{{ text_download }}</a></li> -->
+					<li><a href="{{ logout }}">{{ text_logout }}</a></li>
+					{% else %}
+					<li><a href="{{ register }}">{{ text_register }}</a></li>
+					<li><a href="{{ login }}">{{ text_login }}</a></li>
+					{% endif %}
+				</ul>
+				<div class="clearfix"></div>
+			</div>
 		</div>
 
-		<div class="row" style="background: #fff;
-	margin: 0px;
-	padding: 15px 0px 0px 0px;">
-			<header>
-				<div class="col-xs-4" style="align-items: center;
-			display: flex;">
-					<img src="ac_dev/noun_Time_3203568.png" style="width: 28px;margin-right: 8px;" />
-					<span class="open-time">Closing Soon</span>
-				</div>
-				<div class="col-xs-4">
-					<img src="ac_dev/costa.png" title="{{ name }}" alt="{{ name }}" class="img-responsive"
-						style="width: 120px;border-radius: 14px;" />
-				</div>
-				<div class="col-xs-4 text-right">
-					<span style="float: left;
-				font-size: 18px;
-				padding-top: 5px;">AR</span>
-					<img src="ac_dev/img_184513.png" style="width: 28px;float: right;" />
-					<div class="clearfix"></div>
-				</div>
-			</header>
+		<div id="slider" class="owl-carousel owl-theme">
+			{% set count = 0 %}
+			{% for slide in slider %}
+			<img src="image/{{ slide.image }}" class="slider_img" alt="" />
+			{% set count = count + 1 %}
+			{% endfor %}
 		</div>
+		<script>
+			$(function () {
 
-		<div id="slider">
-			<img src="ac_dev/carsol.png" style="width: 100%;
-		padding: 0px;
-		margin-top: -28px;margin-bottom: -58px;" />
-		</div>
+				$("#slider").owlCarousel({
+					items: 1,
+					loop: true,
+					margin: 10,
+					nav: false,
+					autoplay: true,
+					autoplayTimeout: 2000
+				})
+
+			})
+		</script>
 
 		<div id="search">
-			<div class="col-sm-12" style="    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-content: space-around;">
+			<div class="col-sm-12"
+				style="width: 100%; display: flex; justify-content: space-around; align-content: space-around;">
 				<div class="input-group">
 					<input type="search" class="form-control" placeholder="I want..." style="border-radius: 7px 0px 0px 7px;
 				padding: 2px 15px;
 				height: 42px;
 				border: 1px solid #ccc;">
 					<span class="input-group-btn">
-						<button class="btn btn-primary" type="button" style="    background: #df342f;height: 42px;"><span
-								class="glyphicon glyphicon-search" aria-hidden="true">
+						<button class="btn btn-primary " type="button"
+							style="height: 42px;background: var(--secondary-color);"><span class="glyphicon glyphicon-search"
+								aria-hidden="true">
 							</span> Search</button>
 					</span>
 				</div>
@@ -175,7 +409,7 @@
 			<div class="col-sm-12" style="    margin-top: 20px;
     display: flex;
     overflow: auto;">
-				<div class="_cat" style="background-color: #000;color:#fff">
+				<div class="_cat">
 					<img src="/image/catalog/birthday-cake.png" />
 					<span>Tortes</span>
 				</div>
@@ -231,11 +465,15 @@
 					color: #2e2e2e;">
 							Chocolate sponge cake covered with chocolate mousse, crushed almond and a layer of raspberry decorat..
 						</p>
-						<div class="product_action text-right" style="padding: 10px;">
-							<button class="btn btn-inverse" style="border-radius: 7px;
-						color: #fff;
-						padding: 8px 20px;
-						font-size: 16px;background: #000;"><i class="fa fa-plus"></i> Add</button>
+						<div class="ac_product_action text-right" style="padding: 10px;">
+
+							<div class="input-group pull-right ac_cart_btn hidden">
+								<input type="button" value="-" class="button-minus text-danger ac_cart_btn-minus" data-field="quantity">
+								<input type="number" step="1" max="" value="1" name="quantity" class="quantity-field ac_cart_btn-input">
+								<input type="button" value="+" class="button-plus text-danger ac_cart_btn-plus" data-field="quantity">
+							</div>
+
+							<button class="btn btn-primary ac_add_to_cart __add_order"><span class="plus_icon">+</span> Add</button>
 						</div>
 					</div>
 				</div>
@@ -271,11 +509,15 @@
 					color: #2e2e2e;">
 							Chocolate sponge cake covered with chocolate mousse, crushed almond and a layer of raspberry decorat..
 						</p>
-						<div class="product_action text-right" style="padding: 10px;">
-							<button class="btn btn-inverse" style="border-radius: 7px;
-						color: #fff;
-						padding: 8px 20px;
-						font-size: 16px;background: #000;"><i class="fa fa-plus"></i> Add</button>
+						<div class="ac_product_action text-right" style="padding: 10px;">
+
+							<div class="input-group pull-right ac_cart_btn hidden">
+								<input type="button" value="-" class="button-minus text-danger ac_cart_btn-minus" data-field="quantity">
+								<input type="number" step="1" max="" value="1" name="quantity" class="quantity-field ac_cart_btn-input">
+								<input type="button" value="+" class="button-plus text-danger ac_cart_btn-plus" data-field="quantity">
+							</div>
+
+							<button class="btn btn-primary ac_add_to_cart __add_order"><span class="plus_icon">+</span> Add</button>
 						</div>
 					</div>
 				</div>
@@ -283,10 +525,7 @@
 		</div>
 
 		<div class="col-sm-12" style="    padding: 10px;    ">
-			<div class="product_card" style="    display: flex;
-		background: #fff;
-		padding: 12px;
-		align-items: flex-start;">
+			<div class="product_card" style="display: flex; background: #fff; padding: 12px; align-items: flex-start;">
 				<img src="/image/cache/catalog/Seller_24/products/Tortes/file-1597227439-2IRF2W-20201224000354-228x228.jpg"
 					style="    width: 100px;
 				border-radius: 11px;
@@ -298,9 +537,7 @@
 						<span class="pull-right" style="color:#df342f"><b>220 EGP</b></span>
 						<div class="clearfix"></div>
 					</div>
-					<p class="product_rating" style="    color: #f5ac42;
-				margin-bottom: 5px;
-		">
+					<p class="product_rating" style="color: #f5ac42; margin-bottom: 5px;">
 						<i class="fa fa-star" style="font-size: 18px;"></i>
 						<i class="fa fa-star" style="font-size: 18px;"></i>
 						<i class="fa fa-star" style="font-size: 18px;"></i>
@@ -312,17 +549,114 @@
 				color: #2e2e2e;">
 						Chocolate sponge cake covered with chocolate mousse, crushed almond and a layer of raspberry decorat..
 					</p>
-					<div class="product_action text-right" style="padding: 10px;">
-						<button class="btn btn-inverse" style="border-radius: 7px;
-					color: #fff;
-					padding: 8px 20px;
-					font-size: 16px;background: #000;"><i class="fa fa-plus"></i> Add</button>
+					<div class="ac_product_action text-right" style="padding: 10px;">
+
+						<div class="input-group pull-right ac_cart_btn hidden">
+							<input type="button" value="-" class="button-minus text-danger ac_cart_btn-minus" data-field="quantity">
+							<input type="number" step="1" max="" value="1" name="quantity" class="quantity-field ac_cart_btn-input">
+							<input type="button" value="+" class="button-plus text-danger ac_cart_btn-plus" data-field="quantity">
+						</div>
+
+						<button class="btn btn-primary ac_add_to_cart __add_order"><span class="plus_icon">+</span> Add</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
+
+	<div id="floater_menu" style="bottom:20px;">
+		<button class="btn btn-primary" id="btnMenuBar" style="border-radius: 20px; text-transform: capitalize;"> <i
+				class="fa fa-bars"></i>&nbsp;&nbsp;&nbsp;Menu </button>
+	</div>
+	{{ cart }}
+	<script>
+		$(function () {
+
+			// plus and minus buttons
+			function incrementValue(e) {
+				e.preventDefault();
+				var fieldName = $(e.target).data('field');
+				var parent = $(e.target).closest('div');
+				var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+				if (!isNaN(currentVal)) {
+					parent.find('input[name=' + fieldName + ']').val(currentVal + 1);
+				} else {
+					parent.find('input[name=' + fieldName + ']').val(0);
+				}
+			}
+
+			function decrementValue(e) {
+				e.preventDefault();
+				var fieldName = $(e.target).data('field');
+				var parent = $(e.target).closest('div');
+				var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+
+				if (!isNaN(currentVal) && currentVal > 0) {
+					var crval = currentVal - 1;
+					parent.find('input[name=' + fieldName + ']').val(crval);
+					if (crval == 0) {
+						parent.find('input[name=' + fieldName + ']').val(1);
+						parent.parent().find('.__add_order').removeClass('hidden');
+						parent.addClass('hidden');
+					}
+				} else {
+					parent.find('input[name=' + fieldName + ']').val(0);
+				}
+			}
+
+			$('.input-group').on('click', '.button-plus', function (e) {
+				incrementValue(e);
+			});
+
+			$('.input-group').on('click', '.button-minus', function (e) {
+				decrementValue(e);
+			});
+
+			// close cart orders
+			$(".__close_cart").click(function () {
+				$(".__cart_orders").slideToggle("fast");
+			});
+
+			// cart items open and close
+			$(".__cart_items").click(function () {
+				$(".__cart_orders").slideToggle("fast");
+			});
+
+			// add order to cart 
+			$(".__add_order").click(function () {
+				$("#floater_menu").css("bottom", "70px");
+				$("#floater_cart").slideDown("fast");
+				$(this).addClass('hidden');
+				$(this).parent().find('.input-group').removeClass('hidden');
+			});
+
+			// menu on scroll
+			window.addEventListener("scroll", function (event) {
+				var top = this.scrollY;
+				var search_height = ($("#search").position().top);
+
+				//console.log(parseInt(top)+'-'+parseInt(search_height));
+
+				if (parseInt(top) >= parseInt(search_height)) {
+					$(".__scroll_hidden").addClass('hidden');
+					$(".__scroll_show").removeClass('hidden');
+					$(".__account_scroll").removeClass('col-xs-4').removeClass("text-left");
+					$(".__account_scroll").addClass('col-xs-2');
+					$(".__header_change").addClass("__header");
+				}
+				else {
+					$(".__scroll_hidden").removeClass('hidden');
+					$(".__scroll_show").addClass('hidden');
+					$(".__account_scroll").addClass('col-xs-4').addClass("text-right");
+					$(".__account_scroll").removeClass('col-xs-2');
+					$(".__header_change").removeClass("__header");
+				}
+			}, false);
+
+
+		})
+	</script>
 	<br>
 	<br>
 	<br>
