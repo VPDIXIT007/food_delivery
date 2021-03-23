@@ -211,16 +211,25 @@
 					<div class="form-group">
 						<label class="control-label qty" for="input-quantity">{{ entry_qty }}</label>
 						<div class="product-btn-quantity">
-							<div class="pro-quantity">	                            
+							{# <div class="pro-quantity">	                            
 	                            <div class="minus-plus">
 	                            	<button class="minus"><i class="fa fa-minus"></i></button>	                            	
 	                            	<input type="text" name="quantity" value="{{ minimum }}" size="2" id="input-quantity" class="form-control" />
 	                            	<button class="plus"><i class="fa fa-plus"></i></button>                           	
 	                            </div>   
-                            </div>                          
+                            </div>                           #}
+							<div class="input-group ac_cart_btn ">
+													<input type="button" value="-"
+														class="button-minus cartaddquantity2 ac_cart_btn-minus" data-product-id="{{ product_id }}" data-field="quantity">
+													<input type="number" step="1" max="" value="{{ qty_cart ? qty_cart : 1 }}" name="quantity"
+														class="quantity-field ac_cart_btn-input">
+
+													<input type="button" value="+" data-product-id="{{ product_id }}"
+														class="button-plus cartaddquantity ac_cart_btn-plus" data-field="quantity">
+							</div>
                             <input type="hidden" name="product_id" value="{{ product_id }}" />
 							   <input type="hidden" name="seller_store_id" value="{{ seller_id }}" />
-                            <button type="button" id="quick-cart" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-lg btn-block"><span>{{ button_cart }}</span></button>	
+                            {# <button type="button" id="quick-cart" data-loading-text="{{ text_loading }}" class="btn btn-primary btn-lg btn-block"><span>{{ button_cart }}</span></button>	 #}
                             {# <div class="btn-group button-group">
 								<button type="button" class="pro_wish wishlist" title="{{ button_wishlist }}" onclick="addWishlist('{{ product_id }}');"></button>
 								<button type="button" class="pro_comper compare" title="{{ button_compare }}" onclick="addCompare('{{ product_id }}');"></button>
@@ -447,5 +456,27 @@ $('.quickview-container button[id^=\'button-upload\']').on('click', function() {
 	        $('.pro-image img').prop('src', $(event.currentTarget).data('image-large-src'));
 	      }	  
 	    );
+	});
+
+	$("#product").on('click','.cartaddquantity2',function(){
+		var qty = $(this).parent();
+		var pid = $(this);
+
+		setTimeout(function(){
+		$("#content").find("[data-product-id='"+pid.data('product-id')+"']").parent().find(".quantity-field").val(qty.find('.quantity-field').val());
+		cart.add(pid.data('product-id'), qty.find('.quantity-field').val(), {{ seller_id }}); 
+		},500);
+	});
+
+	$("#product").on('click','.cartaddquantity',function(){
+		var qty = $(this).parent();
+		var pid = $(this);
+
+		setTimeout(function(){
+		var quantity = qty.find('.quantity-field').val();
+		var product_id = pid.data('product-id');
+		$("#content").find("[data-product-id='"+product_id+"']").parent().find(".quantity-field").val(quantity);
+		cart.add(product_id, quantity, {{ seller_id }}); 
+		},500);
 	});
 //--></script>

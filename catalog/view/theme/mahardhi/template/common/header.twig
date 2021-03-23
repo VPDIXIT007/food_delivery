@@ -64,166 +64,370 @@
 	{{ analytic }}
 	{% endfor %}
 
+	<style>
 
+ .quickview-wrapper{
+    z-index: 999999 !important;
+  }
+  ._categ_product{
+		background: #fff;
+	  position: fixed;
+	  z-index: 999;
+    top: 55px;
+	  box-shadow: 1px 2px 10px 0px #9a999991;
+		transition: 180ms;
+  }
+
+		#topCategoryList {
+			z-index: 9999999;
+		}
+
+		._cat {
+			display: inline-flex;
+			align-items: center;
+			border-radius: 12px;
+			padding: 4px 8px;
+			min-width: 130px;
+			margin-right: 10px;
+			margin-left: 10px;
+			background: #fff;
+			    min-width: fit-content;
+		}
+		::-webkit-scrollbar-thumb {
+			background-color: transparent;
+			border-radius: 0;
+		}
+
+		::-webkit-scrollbar-track {
+			background-color: #ffffff00 !important;
+    	border-radius: 0;
+		}
+
+		._cat img {
+			height: 30px;
+			margin-right: 5px;
+		}
+
+		._cat span {
+			font-size: 18px;
+		}
+
+		._cat.active,
+		._cat:hover,
+		._cat.focus {
+			background: var(--secondary-color);
+			color: var(--primary-hover-color);
+		}
+
+		.text-danger {
+			color: #df352e;
+		}
+
+		#floater_menu {
+			position: fixed;
+			bottom: 70px;
+			right: 20px;
+			z-index: 999999;
+		}
+
+		.scrollToTop {
+			display: none !important;
+		}
+
+		#store_logo {
+			width: 98px;
+			margin: 0 auto;
+			border-radius: 14px;
+			margin-bottom: -12px;
+			z-index: 9999;
+			position: relative;
+			background: #fff;
+		}
+
+		#slider {
+			margin-bottom: -24px;
+			position: relative;
+			text-align: center;
+			display: flex;
+			justify-content: center;
+			padding: 0px;
+			max-height: 420px;
+		}
+
+		#slider .owl-dots {
+			position: absolute;
+			bottom: 28px;
+		}
+
+		#slider .owl-dot {
+			background: #ffffffb8;
+			border: none;
+			width: 10px;
+			height: 10px;
+			zoom: initial;
+		}
+
+		#slider .owl-dot.active {
+			background: #fff;
+		}
+
+		#slider .owl-dot span {
+			display: none;
+		}
+
+		#slider .slider_img {
+			min-height: 240px;
+			width: 100%;
+			padding: 0px;
+			margin-top: -28px;
+			margin-bottom: -58px;
+		}
+
+		.ac_dropdown {
+			border-radius: 8px 0px 0px 8px;
+			z-index: 999999;
+		}
+
+		.__search_btn {
+			float: left;
+			width: 20%;
+			padding: 7px;
+			color: #000;
+			background: #fff;
+			border-left: none !Important;
+			cursor: pointer;
+			border: 1px solid #ccc;
+			border-left: none;
+			border-radius: 0px 6px 6px 0px;
+		}
+
+		.__search_input {
+			font-size: 17px;
+			border-right: none !important;
+			float: left;
+			width: 78%;
+			background: #fff;
+			padding: 2px 12px;
+			border: 1px solid #ccc;
+			height: 37px;
+			border-radius: 6px 0px 0px 6px;
+		}
+
+		.__header {
+			position: fixed;
+			background: #fff;
+			z-index: 999999;
+			width: 100%;
+			padding: 15px 0px 15px 0px !important;
+			transition: 180ms;
+		}
+
+		.__scroll_show {
+			padding-top: 8px;
+		}
+
+		.ac_cart_items {
+			border-bottom: 1px solid #ccccccb8;
+			margin-bottom: 20px;
+			padding-bottom: 10px;
+		}
+
+		.ac_cart_items:last-child {
+			border-bottom: none;
+		}
+
+		.ac_cart_items .item_name {
+			font-size: 16px;
+			color: #000;
+			font-weight: normal;
+			margin-bottom: 2px;
+		}
+
+		.ac_cart_items .item_options {
+			display: block;
+			font-size: 12px;
+			color: #595959;
+		}
+
+		.ac_cart_items .item_price {
+			font-size: 16px;
+			text-align: right;
+		}
+
+		.ac_product_action {
+			padding: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+		}
+
+		.ac_add_to_cart {
+			border-radius: 7px;
+			color: #fff;
+			padding: 0px;
+			font-size: 14px;
+			width: 75px;
+			height: 30px;
+		}
+
+		.ac_add_to_cart .plus_icon {}
+
+		.ac_cart_btn {
+			border: 1px solid #000;
+			border-radius: 8px;
+			display: flex;
+			width: 75px;
+			padding: 0px;
+			height: 30px;
+		}
+
+		.ac_cart_btn-minus {
+			border: none;
+			background: transparent;
+			border-right: 1px solid #000;
+		}
+
+		.ac_cart_btn-input {
+			width: 60%;
+			border: none;
+			background: transparent;
+			text-align: center;
+		}
+
+		.ac_cart_btn-plus {
+			border: none;
+			background: transparent;
+			border-left: 1px solid #000;
+		}
+
+		.__cart_orders {
+			background-color: rgb(255, 255, 255);
+			padding: 15px;
+			max-height: 300px;
+			overflow: auto;
+		}
+
+		.__cart_orders::before {
+			content: "";
+			position: fixed;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			background: rgb(0 0 0 / 40%);
+			z-index: -1;
+		}
+
+		.floater_cart {
+			position: fixed;
+			z-index: 999999;
+			bottom: 0;
+			width: 100%;
+		}
+		.alert.alert-success, .alert.alert-error{
+			z-index: 99999 !important;
+		}
+		b {
+    	font-size: 16px !important;
+		}
+		.btn_search, .navbar-header{
+			display:none;
+		}
+		.header-bottom{
+			background:none !important;
+		}
+	</style>
 </head>
 
 <body class="{{ class }}">
+	<div class="loader"></div> 
+	<div class="container-fluid" style="padding: 0;">
 
-	<div class="loader"></div>
-	<nav id="top">
-		<input class="selleridid" name="selleridid" type="hidden" value="{{ seller_id }}" />
-		<div class="container">
-			<div class="top-main">
-				<div class="top-left">
-					<div class="open_time">
-						<i class="fa fa-clock-o"></i>
-						<span class="open-time">{{ storestatus }}</span>
-					</div>
-				</div>
-				<div class="top-right">
-					<!-- Call nottification  -->
-					{% if session_table_id %}
-					<div class="call_waiter dropdown" style="margin-right:20px">
-						<a title="Call waiter" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="fa fa-user"></i><span class="hidden-xs">Call</span><i class="fa fa-angle-down"></i>
-						</a>
-						<ul class="dropdown-menu dropdown-menu-right" style="    padding: 0px;">
-							<li style="margin: 4px;">
-								<a class="btn btn-info _call_btn" data-type="cheque">Request Cheque</a>
-							</li>
-							<li style="margin: 4px;">
-								<a class="btn btn-success _call_btn" data-type="waiter">Call Waiter</a>
-							</li>
-						</ul>
-					</div>
-					<script>
-						$(function () {
-
-							$("._call_btn").on("click", function () {
-								let action_url = "index.php?route=common/common/sendCallPushNotification";
-								let _this = $(this);
-								let dataForm = {
-									'seller_store_id': '{{ seller_id }}',
-									'call_type': _this.data("type")
-								}
-								$.post(action_url, dataForm, function () {
-									console.log("Sent");
-								});
-							})
-
-						})
-					</script>
-					{% endif %}
-					<!-- call notification end -->
-
-					<!-- start account -->
-					<div id="header_ac" class="dropdown">
-						<a href="{{ account }}" title="My Account" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="fa fa-user"></i><span class="hidden-xs">{{ text_account }}</span><i
-								class="fa fa-angle-down"></i>
-						</a>
-						<ul class="dropdown-menu dropdown-menu-right account-link-toggle">
-							{% if logged %}
-							<li><a href="{{ account }}">{{ text_account }}</a></li>
-							<li><a href="{{ order }}">{{ text_order }}</a></li>
-							<li><a href="{{ reward }}">{{ text_reward }}</a></li>
-							<li><a href="{{ transaction }}">{{ text_transaction }}</a></li>
-							<!-- <li><a href="{{ download }}">{{ text_download }}</a></li> -->
-							<li><a href="{{ logout }}">{{ text_logout }}</a></li>
-							{% else %}
-							<li><a href="{{ register }}">{{ text_register }}</a></li>
-							<li><a href="{{ login }}">{{ text_login }}</a></li>
-							{% endif %}
-						</ul>
-					</div>
-					<div class="currency">{{ currency }}</div>
-					<div class="language">{{ language }}</div>
-					<div class="tracking">
-						<a href="javascript:;" data-toggle="modal" data-target="#myModal">
-							<i class="fa fa-motorcycle mr-3"></i> {{order_tracking2}}
-						</a>
-					</div>
-
-				</div>
+		<div class="row __header_change" style="background: #fff; margin: 0px; padding: 15px 0px 0px 0px;">
+			<div class="col-xs-10 __scroll_show hidden">
+				<input type="search" class="__search_input" placeholder="Search" />
+				<button type="submit" class="__search_btn"><i class="fa fa-search" style="font-size: 19px;
+						color: #b4b4b4;"></i></button>
 			</div>
-		</div>
-	</nav>
-	<header>
-		<div class="container">
-			<div class="header-top">
-				<div class="contacts hidden-xs">
-					<i class="fa fa-phone"></i>
-					<div class="contact-text">
-						<div>{{ text_contact }}:</div>
-						<a href="{{ contact }}">{{ telephone }}</a>
+			<div class="col-xs-4 __scroll_hidden " style="align-items: center; display: flex;padding-top: 10px;">
+				<img src="{{ storestatus_img }}" style="width: 28px;margin-right: 8px;" />
+				<span class="open-time">{{ storestatus }}</span>
+			</div>
+			<div class="col-xs-4 __scroll_hidden">
+				{% if logo %}
+				<a href="{{ home }}">
+					<img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive" id="store_logo" />
+				</a>
+				{% else %}
+				<h1><a href="{{ home }}">{{ name }}</a></h1>
+				{% endif %}
 
-					</div>
-				</div>
-				<!-- start logo -->
-				<div id="logo">
-					{% if logo %}
-					<a href="{{ home }}"><img src="{{ logo }}" title="{{ name }}" alt="{{ name }}" class="img-responsive" /></a>
+			</div>
+
+			<div class="col-xs-4 __account_scroll text-right" style="padding-top: 10px;">
+				<span class=" __scroll_hidden">{{ language }}</span>
+				<a href="{{ account }}" title="My Account" class="dropdown-toggle" data-toggle="dropdown">
+					<img src="ac_dev/accountpng.png" style="width: 32px;" />
+				</a>
+				<ul class="dropdown-menu dropdown-menu-right account-link-toggle ac_dropdown">
+					{% if logged %}
+					<li><a href="{{ account }}">{{ text_account }}</a></li>
+					<li><a href="{{ order }}">{{ text_order }}</a></li>
+					<li><a href="{{ reward }}">{{ text_reward }}</a></li>
+					<li><a href="{{ transaction }}">{{ text_transaction }}</a></li>
+					<!-- <li><a href="{{ download }}">{{ text_download }}</a></li> -->
+					<li><a href="{{ logout }}">{{ text_logout }}</a></li>
 					{% else %}
-					<h1><a href="{{ home }}">{{ name }}</a></h1>
+					<li><a href="{{ register }}">{{ text_register }}</a></li>
+					<li><a href="{{ login }}">{{ text_login }}</a></li>
 					{% endif %}
-				</div>
-				<div class="header-right header-links">
-					<!-- start cart -->
-					<div class="header_cart">{{ cart }}</div>
-
-
-				</div>
-			</div>
-		</div>
-		<div class="header-bottom">
-			<div class="container">
-				<div class="header-bottom-inner">
-					<!-- start menu -->
-					{{ menu }}
-					<!-- start search -->
-					<div class="btn_search">
-						<div class="header-search">
-							{{ search }}
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</div>
-	</header>
-
-
-	<div class='floaterdiv hidden'>
-		<div id="mySideshare" class="icon-bar sharebar hidden">
-			<div id='sharebutton' class="facebook">
-
-				{% if facebook_link %}
-				<a href="https://{{ facebook_link }}" class="facebook" target="blank"><i class="fa fa-facebook"></i></a>
-				{% endif %}
-				{% if wesbsite_link %}
-				<a href="https://{{ wesbsite_link }}" class="instagram" target="blank"><i class="fa fa-globe"
-						aria-hidden="true"></i></a>
-				{% endif %}
-				{% if instagram_link %}
-				<a href="https://{{ instagram_link }}" class="instagram" target="blank"><i class="fa fa-instagram"
-						aria-hidden="true"></i></a>
-				{% endif %}
-				{% if whatsapp_link %}
-				<a href="{{ whatsapp_link }}" class="whatsapp" aria-hidden="true" target="_blank"><i
-						class="fa fa-whatsapp"></i></a>
-
-				{% endif %}
-				| <i class="fa fa-link "></i>
+				</ul>
+				<div class="clearfix"></div>
 			</div>
 		</div>
 
-		<div id="mySidenav" class='icon-bar mySideshare sharebutton'>
-			<a href="#" class="linkedin" data-toggle="modal" data-target="#myModal"><i class="">{{ order_tracking2 }}</i></a>
-		</div>
-	</div>
+    <div style="display: none;">
+    
+          <!-- Call nottification  -->
+    {% if session_table_id %}
+    <div class="call_waiter dropdown" style="margin-right:20px">
+      <a title="Call waiter" class="dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-user"></i><span class="hidden-xs">Call</span><i class="fa fa-angle-down"></i>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-right" style="    padding: 0px;">
+        <li style="margin: 4px;">
+          <a class="btn btn-info _call_btn" data-type="cheque">Request Cheque</a>
+        </li>
+        <li style="margin: 4px;">
+          <a class="btn btn-success _call_btn" data-type="waiter">Call Waiter</a>
+        </li>
+      </ul>
+    </div>
+    <script>
+      $(function () {
 
+        $("._call_btn").on("click", function () {
+          let action_url = "index.php?route=common/common/sendCallPushNotification";
+          let _this = $(this);
+          let dataForm = {
+            'seller_store_id': '{{ seller_id }}',
+            'call_type': _this.data("type")
+          }
+          $.post(action_url, dataForm, function () {
+            console.log("Sent");
+          });
+        })
 
-	<!-- Modal -->
+      })
+    </script>
+    {% endif %}
+    <!-- call notification end -->
+
+    <a href="javascript:;" data-toggle="modal" data-target="#myModal">
+      <i class="fa fa-motorcycle mr-3"></i> {{order_tracking2}}
+    </a>
+
+    <!-- Modal -->
 	<div class="modal fade" id="myModal" role="dialog">
 		<div class="modal-dialog ">
 
@@ -281,3 +485,5 @@
 		};
 	</script>
 	<!--End Modal -->
+  
+    </div>

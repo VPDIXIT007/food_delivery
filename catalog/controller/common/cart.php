@@ -98,6 +98,7 @@ class ControllerCommonCart extends Controller {
 
 			$data['products'][] = array(
 				'cart_id'   => $product['cart_id'],
+				'product_id' => $product['product_id'],
 				'thumb'     => $image,
 				'name'      => $product['name'],
 				'model'     => $product['model'],
@@ -109,7 +110,7 @@ class ControllerCommonCart extends Controller {
 				'href'      => $this->url->link('product/product', 'product_id=' . $product['product_id'])
 			);
 		}
-
+		
 		// Gift Voucher
 		$data['vouchers'] = array();
 
@@ -122,7 +123,7 @@ class ControllerCommonCart extends Controller {
 				);
 			}
 		}
-
+ 
 		$data['totals'] = array();
 		
 
@@ -132,7 +133,7 @@ class ControllerCommonCart extends Controller {
 				'text'  => $this->currency->format($total['value'], $this->session->data['currency']),
 			);
 		}
-
+	
 		$data['cart'] = $this->url->link('checkout/cart');
 		$data['checkout'] = $this->url->link('checkout/checkout','',false);
 

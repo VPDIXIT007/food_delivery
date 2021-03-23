@@ -1,4 +1,5 @@
 {{ header }}
+
 <link href="catalog/view/javascript/jquery/swiper/css/swiper.min.css" type="text/css" rel="stylesheet" media="screen">
 <link href="catalog/view/javascript/jquery/swiper/css/opencart.css" type="text/css" rel="stylesheet" media="screen">
 <script src="catalog/view/javascript/jquery/swiper/js/swiper.jquery.js"></script>
@@ -7,603 +8,650 @@
 
 
 
-	<div class="row bannerspecial">{{ column_left }}
+<div class="row bannerspecial">{{ column_left }}
 	{% if column_left and column_right %}
-		{% set class = 'col-sm-6' %}
+	{% set class = 'col-sm-6' %}
 	{% elseif column_left or column_right %}
-		{% set class = 'col-sm-9' %}
+	{% set class = 'col-sm-9' %}
 	{% else %}
-		{% set class = 'col-sm-12' %}
+	{% set class = 'col-sm-12' %}
 	{% endif %}
 	<div id="content" class="{{ class }}">
-			<div class="slideshow clearfix-before clearfix-after">
-				<div class="swiper-viewport">
-					<div id="slideshow1" class="swiper-container">
-						<div class="swiper-wrapper">
-							{% set count = 0 %}
-							{% for slide in slider %}
-							<div class="swiper-slide text-center {{ slide }}">
-			
-								<img src="image/{{ slide.image }}" alt="{{ slide.image }}" class="img-responsive" />
-			
-							</div>
-							{% set count = count + 1 %}
-							{% endfor %}
-						</div>
-					</div>
-					<div class="swiper-pagination slideshow1"></div>
-					{% if count > 1 %}
-					<div class="swiper-pager">
-						<div class="swiper-button-prev"><i class="fa fa-angle-left"></i></div>
-						<div class="swiper-button-next"><i class="fa fa-angle-right"></i></div>
-					</div>
-					{% endif %}
-				</div>
-			</div>
-<div class="pts-container container">
 
-	<style>
-	.page-title-wrapper{
-	       float: left !important;
-		   
-	} 
-	.right-block{
-	       position: relative;
-	}
-	
-	</style>
-	{% if error_warning %}
-	<div class="alert pts-alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}</div>
-	{% endif %}
-	<div class="pts-row d-flex row">
-	{% if column_right %}
-    {% set class = 'pts-col-sm-9 col-sm-9' %}
-	{% set classproducts = 'pts-col-lg-4 pts-col-md-4' %}
-    {% else %}
-    {% set class = 'pts-col-sm-12 col-sm-12' %}
-	{% set classproducts = 'pts-col-lg-3 pts-col-md-3' %}
-    {% endif %}
-    <div id="pts-content" class="{{ class }}">
-	
-	{{ content_top }}
-	{% if storepage_layout %}
-			<div class="pts-row">
-				{% if store_video %}     
-				<div class="pts-col-sm-7">
-					<img src="{{ store_banner }}" style="margin-top: 1px; max-height:329px" class="img-responsive" alt="Image">
-				</div>
-				<div class="pts-col-sm-5 ptsvideo"> 
-					<iframe src="{{ store_video }}" style="height: 329px; width:100%"> </iframe>
-				</div>
-				{% else %} 
-				
-				<div class="pts-banner">
-					<img class="img-responsive" src="{{ store_banner }}" style="width:100%">
-				</div>
-				
-				{% endif %}
-			</div>				  
-			<div class="pts-row ptsrow2">
-				<div class="pts-col-sm-7 ptsinsidecol">
-					<div class="pts-well">
-						<div class="pts-col-sm-6">
-							<div class="pts-row" style="margin-bottom: 12px;">
-								<div class="pts-col-sm-6" >
-									<img src="{{ store_logo }}" class="img-responsive" alt="Image">
-								</div>
-								<div class="pts-col-sm-6">
-									<h4>{{ store_name }}</h4>
-									{% if seller_review_status %}
-									{% if store_rating.rating %}
-									<div class="rating pts-text-left">
-										{% for i in 1..5 %}
-										{% if store_rating.rating < i %} <span class="fa fa-stack star-seller"><i class="fa fa-star-o fa-stack-2x"></i></span> {% else %} <span class="fa fa-stack star-seller"><i class="fa fa-star fa-stack-2x" ></i><i class="fa fa-star-o fa-stack-2x"></i></span> {% endif %}
-										{% endfor %}({{ store_rating.rating|number_format(1) }})
-									</div>
-									{% else %}
-									{% for i in 1..5 %}
-									<span class="fa fa-stack star-seller"><i class="fa fa-star-o fa-stack-1x" ></i></span>
-									{% endfor %}({{ store_rating.rating|number_format(1) }})
-									{% endif %}
-									<div class="store-rating">
-										<a href="{{ store_review }}" target="_blank">{{ text_sellerreview }} ({{ store_rating['count'] }})</a>
-									</div>
-									{% endif %}
-								</div>
-							</div>
-							<div class="pts-row">
-								<div class="pts-col-sm-12" >
-									{% if (module_purpletree_multivendor_store_email) is not null %} <b>Email:</b>  {{ store_email }} {% endif %}<br>	
-									{% if (module_purpletree_multivendor_store_address) is not null %}<b>Address:</b>  {{ store_address }}
-									<p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ store_city }}{{ store_state }}<p/><p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ store_country }}{{ store_zipcode }}<p/>
-									{% endif %}<br>
-									{% if (module_purpletree_multivendor_store_phone) is not null %}<b>Tel. no:</b>  {{ store_phone }}{% endif %}<br>
-									{% if (module_purpletree_multivendor_store_social_link) is not null %}
-									<div class="social-icons d-flex justify-content-between">
-										{% if facebook_link != '' %}
-										<a target="_blank" href="{{ facebook_link }}"><i class="fa fa-facebook-square" style="margin-left:-3px"></i></a>
-										{% endif %}
-										{% if twitter_link != '' %}
-										<a target="_blank" href="{{ twitter_link  }}"><i class="fa fa-tumblr-square"></i></a>
-										{% endif %}
-										{% if google_link != '' %}
-										<a  target="_blank" href="{{ google_link }}"><i class="fa fa-google-plus-square"></i></a>
-										{% endif %}
-										{% if instagram_link != '' %}
-										<a  target="_blank" href="{{ instagram_link }}"><i class="fa fa-instagram"></i></a>
-										{% endif %}
-										{% if pinterest_link != '' %}
-										<a target="_blank" href="{{ pinterest_link }}"><i class="fa fa-pinterest-square"></i></a>
-										{% endif %}
-										{% if wesbsite_link != '' %}
-										<a target="_blank" href="{{ wesbsite_link }}"><i class="fa fa-globe"></i></a>
-										{% endif %}
-										{% if whatsapp_link != '' %}
-										<a target="_blank" href="{{ whatsapp_link }}"><i class="fa fa-whatsapp"></i></a>
-										{% endif %}
-									</div>
-									{% endif %}
-								</div>
-							</div>
-						</div>
-						<div class="pts-row">
-							<div class="pts-col-sm-6">
-								<b><h3 class="pts-text-right">{{ text_store_timings }}</h3></b>
-								<div class="pts-text-right">
-									<h4>{{ store_timings }}</h4>
-								</div>
-							</div>
-						</div>
-						
-					</div>
-					
-				</div>
-				
-				{% if google_map %}
-				<div class="pts-col-sm-5 ptsstoreimage"> 
-					<img src="{{ store_image }}" style="max-height:329px;" class="img-responsive" alt="Image">  
-				</div>
-				{% else %}
-				<div class="pts-col-sm-5 ptsstoreimage"> 
-					<img src="{{ store_image }}" style="max-height:329px; margin-bottom: 1%;" class="img-responsive" alt="Image">  
-				</div>
-				{% endif %}
-			</div>
-			<div class="pts-row">
-				{% if store_description %}  
-				<div class="pts-col-sm-7 ptsimage">
-					<div class="pts-well" id="ptsabout1">
-						{{ store_description }}								
-					</div>
-				</div>
-				{% endif %}
-				{% if google_map %}
-				<div class="pts-col-sm-5 ptsgooglemap"> 
-					<iframe src="{{ google_map }}" style="height: 329px; width:100%"> </iframe>
-				    {{ store_google_map }}
-				</div>
-				{% endif %}
-			</div>
-			{% if seller_products %}
-			<div class="pts-well ptsfilter">
-				<div class="pts-row">
-					<div class="pts-col-md-4 pts-col-xs-0 pull-left" style="margin-left: 0px;">
-						<h3 style="margin-top: 7px;">{{ 'Product / Services' }}</h3>
-					</div>
-					<div class="pts-col-md-4 pts-col-xs-6 pull-right">
-						<div class="pts-form-group pts-input-group pts-input-group-sm">
-							<label class="pts-input-group-addon" for="input-sort">{{ text_sort }}</label>
-							<select id="input-sort" class="pts-form-control" onchange="location = this.value;">
-								{% for sorts in sorts %}
-								{% if sorts.value == '%s-%s'|format(sort, order) %}
-								<option value="{{ sorts.href }}" selected="selected">{{ sorts.text }}</option>
-								{% else %}
-								<option value="{{ sorts.href }}">{{ sorts.text }}</option>
-								{% endif %}
-								{% endfor %}
-							</select>
-						</div>
-					</div>
-					<div class="pts-col-md-3 pts-col-xs-6  pull-right"  style="    padding: 0;">
-						<div class="pts-form-group pts-input-group pts-input-group-sm">
-							<label class="pts-input-group-addon" for="input-limit">{{ text_limit }}</label>
-							<select id="input-limit" class="pts-form-control" onchange="location = this.value;">
-								{% for limits in limits %}
-								{% if limits.value == limit %}
-								<option value="{{ limits.href }}" selected="selected">{{ limits.text }}</option>
-								{% else %}
-								<option value="{{ limits.href }}">{{ limits.text }}</option>
-								{% endif %}
-								{% endfor %}
-							</select>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="pts-row">
-				<div class="row"> {% for product in seller_products %}
-					<div class="product-layout product-list col-xs-12">
-						<div class="product-thumb transition">
-							<div class="image">
-								{% if product.thumb_swap %}
-									<a href="{{ product.href }}">
-										<img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" />
-										<img class="img-responsive hover-img" src="{{ product.thumb_swap }}" title="{{ product.name }}" alt="{{ product.name }}"/>
-									</a>
-								{% else %}
-									<a href="{{ product.href }}">
-										<img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" />
-									</a>
-								{% endif %}
-								{% if  product.special %}
-									<div class="sale-text"><span class="section-sale">{{ text_sale }}</span></div>
-								{% endif %}	
-								<div class="cart_main">
-									<button type="button" class="addcart" data-toggle="tooltip" title="{{ button_cart }}" onclick="cartaddquantity('{{ product.product_id }}');"></button>
-								</div>							
-								<div class="button-group grid-btn">
-									{# <button type="button" class="wishlist" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"></button> #}
-									<button type="button" class="quickview-button" data-toggle="tooltip" title="{{ button_quickview }}" onclick="quickView.ajaxView('{{ product.href2 }}');"></button>
-									{# <button type="button" class="compare" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');"></button> #}
-								</div>
 
-								{% if product.rating %}
-									<div class="rating">
-										{% for i in 1..5 %}
-											{% if product.rating < i %} <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> {% else %} <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> {% endif %}
-										{% endfor %}
-									</div>
-								{% else %}
-									<div class="rating">
-										{% for i in 1..5 %}
-											<span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
-										{% endfor %}
-									</div>
-								{% endif %}	
-							</div>
-							<div class="thumb-description clearfix">
-								<div class="caption">
-									<div class="desc-inner">
-										<h4 class="product-title"><a href="{{ product.href }}">{{ product.name }}</a></h4>
-									</div>
-									{% if product.rating %}
-										<div class="rating">
-											{% for i in 1..5 %}
-												{% if product.rating < i %} <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> {% else %} <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
-												{% endif %}
-											{% endfor %}
-										</div>
-									{% else %}
-										<div class="rating">
-											{% for i in 1..5 %}
-												<span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
-											{% endfor %}
-										</div>
-									{% endif %}
-									<p class="description">{{ product.description }}</p>
-									{% if product.price %}
-										<p class="price"> 
-											{% if not product.special %}
-												{{ product.price }}
-											{% else %}
-												<span class="price-new">{{ product.special }}</span><span class="price-old">{{ product.price }}</span>
-											{% endif %}
-										</p>
-									{% endif %}									
-								</div>
-								<div class="cart_main">
-									<button type="button" class="addcart" title="{{ button_cart }}" onclick="cart.add('{{ product.product_id }}');">{{ button_cart }}</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					{% endfor %}
-				
-			</div>
-			<div class="pro_pagination clearfix">
-				<div class="col-sm-6 text-left">
-					 {{ pagination }}
+		<div id="slider" class="owl-carousel owl-theme">
+			{% set count = 0 %}
+			{% for slide in slider %}
+			<img src="image/{{ slide.image }}" class="slider_img" alt="" />
+			{% set count = count + 1 %}
+			{% endfor %}
+		</div>
+		<script>
+			$(function () {
+
+				$("#slider").owlCarousel({
+					items: 1,
+					loop: true,
+					margin: 10,
+					nav: false,
+					autoplay: true,
+					autoplayTimeout: 2000
+				})
+
+			})
+		</script>
+
+		<div id="search">
+			<div class="col-sm-12"
+				style="width: 100%; display: flex; justify-content: space-around; align-content: space-around;">
+				<div class="input-group">
+					<input type="search" class="form-control" placeholder="I want..." style="border-radius: 7px 0px 0px 7px;
+				padding: 2px 15px;
+				height: 42px;
+				border: 1px solid #ccc;">
+					<span class="input-group-btn">
+						<button class="btn btn-primary " type="button"
+							style="height: 42px;background: var(--secondary-color);"><span class="glyphicon glyphicon-search"
+								aria-hidden="true">
+							</span> Search</button>
+					</span>
 				</div>
-				<div class="col-sm-6 text-right" style="line-height: 32px;">{{ results }}</div>
-			</div>
-			{# <div class="pts-row">
-				<div class="pts-col-sm-6 pts-text-left"></div>
-				<div class="pts-col-sm-6 pts-text-right"></div>
-			</div> #}
-			{% else %}
-			<div class="pts-text-center"><h3>{{ text_no_results }}</h3></div>
-			{% endif %}
-	
-{% else %}
-	
-			
-<script><!--
-$('#slideshow1').swiper({
-	mode: 'horizontal',
-	slidesPerView: 1,
-	pagination: '.slideshow1',
-	paginationClickable: true,
-	nextButton: '.swiper-button-next',
-	prevButton: '.swiper-button-prev',
-	spaceBetween: 0,
-	autoplay: 4000,
-	autoplayDisableOnInteraction: true,
-	loop: true
-});
---></script>
-  <div class="cat-main">
-	<div class="category-tab">
-      <div class="titletab">
-	   <div class="container">
-		{# <div class="box-heading hometab-title"><h3>{{ heading_title }}</h3></div> #}
-		<div id="CTab-{{ module }}" class="tab-box-heading">
-			<ul class="nav nav-tabs">
-				{% for category in slidercat %}
-				{% if loop.index0 == 0 %}
-				{% set class = ' class="active"'%}
-				{% else %}
-				{% set class = ''%}
-				{% endif %}
-				<li {{class}}>
-					<a onclick="ajaxproducts('{{ category.url }}');" data-toggle="tab">
-						<img src={% if category.img %}"image/{{category.img}}"{% else %}"image/catmenu.jpg"{% endif %} class="img-responsive" style="max-width: 50px;" />
-						<span>{{category.name}}</span>
-					</a>
-				</li>
-				{% endfor %}
-			</ul>
-			
 			</div>
 		</div>
+
+		<div class="pts-container container">
+
+			<style>
+				.page-title-wrapper {
+					float: left !important;
+
+				}
+
+				.right-block {
+					position: relative;
+				}
+			</style>
+			{% if error_warning %}
+			<div class="alert pts-alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}</div>
+			{% endif %}
+			<div class="pts-row d-flex row">
+				{% if column_right %}
+				{% set class = 'pts-col-sm-9 col-sm-9' %}
+				{% set classproducts = 'pts-col-lg-4 pts-col-md-4' %}
+				{% else %}
+				{% set class = 'pts-col-sm-12 col-sm-12' %}
+				{% set classproducts = 'pts-col-lg-3 pts-col-md-3' %}
+				{% endif %}
+				<div id="pts-content">
+
+					{{ content_top }}
+					{% if storepage_layout %}
+					<div class="pts-row">
+						{% if store_video %}
+						<div class="pts-col-sm-7">
+							<img src="{{ store_banner }}" style="margin-top: 1px; max-height:329px" class="img-responsive"
+								alt="Image">
+						</div>
+						<div class="pts-col-sm-5 ptsvideo">
+							<iframe src="{{ store_video }}" style="height: 329px; width:100%"> </iframe>
+						</div>
+						{% else %}
+
+						<div class="pts-banner">
+							<img class="img-responsive" src="{{ store_banner }}" style="width:100%">
+						</div>
+
+						{% endif %}
+					</div>
+					<div class="pts-row ptsrow2">
+						<div class="pts-col-sm-7 ptsinsidecol">
+							<div class="pts-well">
+								<div class="pts-col-sm-6">
+									<div class="pts-row" style="margin-bottom: 12px;">
+										<div class="pts-col-sm-6">
+											<img src="{{ store_logo }}" class="img-responsive" alt="Image">
+										</div>
+										<div class="pts-col-sm-6">
+											<h4>{{ store_name }}</h4>
+											{% if seller_review_status %}
+											{% if store_rating.rating %}
+											<div class="rating pts-text-left">
+												{% for i in 1..5 %}
+												{% if store_rating.rating < i %} <span class="fa fa-stack star-seller"><i
+														class="fa fa-star-o fa-stack-2x"></i></span> {% else %} <span
+														class="fa fa-stack star-seller"><i class="fa fa-star fa-stack-2x"></i><i
+															class="fa fa-star-o fa-stack-2x"></i></span> {% endif %}
+													{% endfor %}({{ store_rating.rating|number_format(1) }})
+											</div>
+											{% else %}
+											{% for i in 1..5 %}
+											<span class="fa fa-stack star-seller"><i class="fa fa-star-o fa-stack-1x"></i></span>
+											{% endfor %}({{ store_rating.rating|number_format(1) }})
+											{% endif %}
+											<div class="store-rating">
+												<a href="{{ store_review }}" target="_blank">{{ text_sellerreview }} ({{ store_rating['count']
+													}})</a>
+											</div>
+											{% endif %}
+										</div>
+									</div>
+									<div class="pts-row">
+										<div class="pts-col-sm-12">
+											{% if (module_purpletree_multivendor_store_email) is not null %} <b>Email:</b> {{ store_email }}
+											{% endif %}<br>
+											{% if (module_purpletree_multivendor_store_address) is not null %}<b>Address:</b> {{ store_address
+											}}
+											<p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ store_city }}{{ store_state }}
+												<p />
+											<p>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{{ store_country }}{{ store_zipcode }}
+												<p />
+												{% endif %}<br>
+												{% if (module_purpletree_multivendor_store_phone) is not null %}<b>Tel. no:</b> {{ store_phone
+												}}{% endif %}<br>
+												{% if (module_purpletree_multivendor_store_social_link) is not null %}
+											<div class="social-icons d-flex justify-content-between">
+												{% if facebook_link != '' %}
+												<a target="_blank" href="{{ facebook_link }}"><i class="fa fa-facebook-square"
+														style="margin-left:-3px"></i></a>
+												{% endif %}
+												{% if twitter_link != '' %}
+												<a target="_blank" href="{{ twitter_link  }}"><i class="fa fa-tumblr-square"></i></a>
+												{% endif %}
+												{% if google_link != '' %}
+												<a target="_blank" href="{{ google_link }}"><i class="fa fa-google-plus-square"></i></a>
+												{% endif %}
+												{% if instagram_link != '' %}
+												<a target="_blank" href="{{ instagram_link }}"><i class="fa fa-instagram"></i></a>
+												{% endif %}
+												{% if pinterest_link != '' %}
+												<a target="_blank" href="{{ pinterest_link }}"><i class="fa fa-pinterest-square"></i></a>
+												{% endif %}
+												{% if wesbsite_link != '' %}
+												<a target="_blank" href="{{ wesbsite_link }}"><i class="fa fa-globe"></i></a>
+												{% endif %}
+												{% if whatsapp_link != '' %}
+												<a target="_blank" href="{{ whatsapp_link }}"><i class="fa fa-whatsapp"></i></a>
+												{% endif %}
+											</div>
+											{% endif %}
+										</div>
+									</div>
+								</div>
+								<div class="pts-row">
+									<div class="pts-col-sm-6">
+										<b>
+											<h3 class="pts-text-right">{{ text_store_timings }}</h3>
+										</b>
+										<div class="pts-text-right">
+											<h4>{{ store_timings }}</h4>
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+
+						{% if google_map %}
+						<div class="pts-col-sm-5 ptsstoreimage">
+							<img src="{{ store_image }}" style="max-height:329px;" class="img-responsive" alt="Image">
+						</div>
+						{% else %}
+						<div class="pts-col-sm-5 ptsstoreimage">
+							<img src="{{ store_image }}" style="max-height:329px; margin-bottom: 1%;" class="img-responsive"
+								alt="Image">
+						</div>
+						{% endif %}
+					</div>
+					<div class="pts-row">
+						{% if store_description %}
+						<div class="pts-col-sm-7 ptsimage">
+							<div class="pts-well" id="ptsabout1">
+								{{ store_description }}
+							</div>
+						</div>
+						{% endif %}
+						{% if google_map %}
+						<div class="pts-col-sm-5 ptsgooglemap">
+							<iframe src="{{ google_map }}" style="height: 329px; width:100%"> </iframe>
+							{{ store_google_map }}
+						</div>
+						{% endif %}
+					</div>
+					{% if seller_products %}
+					<div class="pts-well ptsfilter">
+						<div class="pts-row">
+							<div class="pts-col-md-4 pts-col-xs-0 pull-left" style="margin-left: 0px;">
+								<h3 style="margin-top: 7px;">{{ 'Product / Services' }}</h3>
+							</div>
+							<div class="pts-col-md-4 pts-col-xs-6 pull-right">
+								<div class="pts-form-group pts-input-group pts-input-group-sm">
+									<label class="pts-input-group-addon" for="input-sort">{{ text_sort }}</label>
+									<select id="input-sort" class="pts-form-control" onchange="location = this.value;">
+										{% for sorts in sorts %}
+										{% if sorts.value == '%s-%s'|format(sort, order) %}
+										<option value="{{ sorts.href }}" selected="selected">{{ sorts.text }}</option>
+										{% else %}
+										<option value="{{ sorts.href }}">{{ sorts.text }}</option>
+										{% endif %}
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="pts-col-md-3 pts-col-xs-6  pull-right" style="    padding: 0;">
+								<div class="pts-form-group pts-input-group pts-input-group-sm">
+									<label class="pts-input-group-addon" for="input-limit">{{ text_limit }}</label>
+									<select id="input-limit" class="pts-form-control" onchange="location = this.value;">
+										{% for limits in limits %}
+										{% if limits.value == limit %}
+										<option value="{{ limits.href }}" selected="selected">{{ limits.text }}</option>
+										{% else %}
+										<option value="{{ limits.href }}">{{ limits.text }}</option>
+										{% endif %}
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="pts-row">
+						<div class="row"> {% for product in seller_products %}
+							<div class="product-layout product-list col-xs-12">
+								<div class="product-thumb transition">
+									<div class="image">
+										{% if product.thumb_swap %}
+										<a href="{{ product.href }}">
+											<img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}"
+												class="img-responsive" />
+											<img class="img-responsive hover-img" src="{{ product.thumb_swap }}" title="{{ product.name }}"
+												alt="{{ product.name }}" />
+										</a>
+										{% else %}
+										<a href="{{ product.href }}">
+											<img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}"
+												class="img-responsive" />
+										</a>
+										{% endif %}
+										{% if product.special %}
+										<div class="sale-text"><span class="section-sale">{{ text_sale }}</span></div>
+										{% endif %}
+										<div class="cart_main">
+											<button type="button" class="addcart" data-toggle="tooltip" title="{{ button_cart }}"
+												onclick="cartaddquantity('{{ product.product_id }}');"></button>
+										</div>
+										<div class="button-group grid-btn">
+											{# <button type="button" class="wishlist" data-toggle="tooltip" title="{{ button_wishlist }}"
+												onclick="wishlist.add('{{ product.product_id }}');"></button> #}
+											<button type="button" class="quickview-button" data-toggle="tooltip"
+												title="{{ button_quickview }}" onclick="quickView.ajaxView('{{ product.href2 }}');"></button>
+											{# <button type="button" class="compare" data-toggle="tooltip" title="{{ button_compare }}"
+												onclick="compare.add('{{ product.product_id }}');"></button> #}
+										</div>
+
+										{% if product.rating %}
+										<div class="rating">
+											{% for i in 1..5 %}
+											{% if product.rating < i %} <span class="fa fa-stack"><i
+													class="fa fa-star-o fa-stack-2x"></i></span> {% else %} <span class="fa fa-stack"><i
+														class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> {% endif
+												%}
+												{% endfor %}
+										</div>
+										{% else %}
+										<div class="rating">
+											{% for i in 1..5 %}
+											<span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+											{% endfor %}
+										</div>
+										{% endif %}
+									</div>
+									<div class="thumb-description clearfix">
+										<div class="caption">
+											<div class="desc-inner">
+												<h4 class="product-title"><a href="{{ product.href }}">{{ product.name }}</a></h4>
+											</div>
+											{% if product.rating %}
+											<div class="rating">
+												{% for i in 1..5 %}
+												{% if product.rating < i %} <span class="fa fa-stack"><i
+														class="fa fa-star-o fa-stack-2x"></i></span> {% else %} <span class="fa fa-stack"><i
+															class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
+													{% endif %}
+													{% endfor %}
+											</div>
+											{% else %}
+											<div class="rating">
+												{% for i in 1..5 %}
+												<span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
+												{% endfor %}
+											</div>
+											{% endif %}
+											<p class="description">{{ product.description }}</p>
+											{% if product.price %}
+											<p class="price">
+												{% if not product.special %}
+												{{ product.price }}
+												{% else %}
+												<span class="price-new">{{ product.special }}</span><span class="price-old">{{ product.price
+													}}</span>
+												{% endif %}
+											</p>
+											{% endif %}
+										</div>
+										<div class="cart_main">
+											<button type="button" class="addcart  ac_add_to_cart __add_order " title="{{ button_cart }}"
+												onclick="cart.add('{{ product.product_id }}');">{{ button_cart }}</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							{% endfor %}
+
+						</div>
+						<div class="pro_pagination clearfix">
+							<div class="col-sm-6 text-left">
+								{{ pagination }}
+							</div>
+							<div class="col-sm-6 text-right" style="line-height: 32px;">{{ results }}</div>
+						</div>
+						{# <div class="pts-row">
+							<div class="pts-col-sm-6 pts-text-left"></div>
+							<div class="pts-col-sm-6 pts-text-right"></div>
+						</div> #}
+						{% else %}
+						<div class="pts-text-center">
+							<h3>{{ text_no_results }}</h3>
+						</div>
+						{% endif %}
+
+						{% else %}
+
+
+						<script>
+							// $('#slideshow1').swiper({
+							// 	mode: 'horizontal',
+							// 	slidesPerView: 1,
+							// 	pagination: '.slideshow1',
+							// 	paginationClickable: true,
+							// 	nextButton: '.swiper-button-next',
+							// 	prevButton: '.swiper-button-prev',
+							// 	spaceBetween: 0,
+							// 	autoplay: 4000,
+							// 	autoplayDisableOnInteraction: true,
+							// 	loop: true
+							// });
+						</script>
+
+						<div id="category">
+							{# <div class="box-heading hometab-title">
+								<h3>{{ heading_title }}</h3>
+							</div> #}
+							<div class="col-sm-12 _product_categ" style="margin-top: 20px; display: flex; overflow: auto;">
+								{% for category in slidercat %}
+								{% if loop.index0 == 0 %}
+								{% set class = ' class="active"'%}
+								{% else %}
+								{% set class = ''%}
+								{% endif %}
+								<div class="_cat " onclick="ajaxproducts('{{ category.url }}');" data-toggle="tab">
+									<img src={% if category.img %}"image/{{category.img}}"{% else %}"image/catmenu.jpg"{% endif %} />
+									<span>{{category.name}}</span>
+								</div>
+								{% endfor %}
+							</div>
+							<div style="    margin-top: 10px;"></div>
+							<script>
+									// $('#carouselx10').swiper({
+									// 	mode: 'horizontal',
+									// 	slidesPerView: 8,
+									// 	paginationClickable: false,
+									// 	nextButton: '.swiper-button-next',
+									// 	prevButton: '.swiper-button-prev',
+									// 	loop: false,
+									// 	autoplay: 3000,
+									// 	autoplayDisableOnInteraction: true,
+									// 	breakpoints: {
+									// 		1199: {
+									// 			slidesPerView: 5,
+									// 			spaceBetween: 0
+									// 		},
+									// 		991: {
+									// 			slidesPerView: 4,
+									// 			spaceBetween: 0
+									// 		},
+									// 		767: {
+									// 			slidesPerView: 3,
+									// 			spaceBetween: 0
+									// 		},
+									// 		560: {
+									// 			slidesPerView: 2,
+									// 			spaceBetween: 0
+									// 		},
+									// 		375: {
+									// 			slidesPerView: 1,
+									// 			spaceBetween: 0
+									// 		}
+									// 	}
+									// });
+							</script>
+							{% if seller_products %}
+							{# <div class="cat_info">
+								<div class="row"> #}
+									{# <div class="col-sm-2 col-xs-5 cat_list_gird">
+										<div class="btn-group btn-group-sm">
+											<button type="button" id="grid-view" class="btn btn-default" data-toggle="tooltip"
+												title="{{ button_grid }}"><i class="fa fa-th"></i></button>
+											<button type="button" id="list-view" class="btn btn-default" data-toggle="tooltip"
+												title="{{ button_list }}"><i class="fa fa-th-list"></i></button>
+										</div>
+									</div> #}
+									{# <div class="col-sm-3 col-xs-6 com-total">
+										<!-- <a href="{{ compare }}" id="compare-total" class="btn btn-link">{{ text_compare }}</a> -->
+									</div> #}
+									{# <div class="col-sm-7 col-xs-12 cat-pagination-right">
+										<div class="cat-sort">
+											<div class="text-right show-text clearfix">
+												<label class="control-label text_sort" for="input-sort">{{ text_sort }}</label>
+											</div>
+											<div class="text-right show-select clearfix">
+												<div class="select-filter-sort">
+													<select id="input-sort" class="form-control sort-order" onchange="location = this.value;">
+														{% for sorts in sorts %}
+														{% if sorts.value == '%s-%s'|format(sort, order) %}
+														<option value="{{ sorts.href }}" selected="selected">{{ sorts.text }}</option>
+														{% else %}
+														<option value="{{ sorts.href }}">{{ sorts.text }}</option>
+														{% endif %}
+														{% endfor %}
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="cat-show">
+											<div class="text-right show-text clearfix">
+												<label class="control-label text_limit" for="input-limit">{{ text_limit }}</label>
+											</div>
+											<div class="text-right show-select clearfix">
+												<div class="select-filter-show">
+													<select id="input-limit" class="form-control limits-text" onchange="location = this.value;">
+														{% for limits in limits %}
+														{% if limits.value == limit %}
+														<option value="{{ limits.href }}" selected="selected">{{ limits.text }}</option>
+														{% else %}
+														<option value="{{ limits.href }}">{{ limits.text }}</option>
+														{% endif %}
+														{% endfor %}
+													</select>
+												</div>
+											</div>
+										</div>
+									</div> #}
+									{# </div>
+							</div> #}
+							{% endif %}
+							{% if seller_products %}
+
+							<div id="producty" class="pts-row" style="width: 100%;">
+								{% for product in seller_products %}
+								<div class="col-sm-12">
+									<div class="product_card" style="    display: flex;
+										background: #fff;
+										padding: 12px;
+										align-items: flex-start;
+										padding-bottom: 0px;
+										margin-top: 6px;
+							 		margin-bottom: 12px;
+										border-radius: 5px;">
+										{% if product.thumb_swap %}
+										<a href="javascript:void(0)" onclick="quickView.ajaxView('product_id={{product.product_id}}&seller_store_id={{store_id}}');">
+											<img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" style="width: 100px;border-radius: 11px;
+					margin-right: 10px;" />
+											<img src="{{ product.thumb_swap }}"  class="hover-img" alt="{{ product.name }}"
+												title="{{ product.name }}" style="width: 100px;border-radius: 11px;
+					margin-right: 10px;" />
+										</a>
+										{% else %}
+										<a href="javascript:void(0)" onclick="quickView.ajaxView('product_id={{product.product_id}}&seller_store_id={{store_id}}');">
+											<img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" style="width: 100px;border-radius: 11px;
+					margin-right: 10px;" />
+										</a>
+										{% endif %}
+
+										<div class="product_info">
+											<div class="product_name" style="display: block;
+					font-size: 16px;margin-bottom: 10px;">
+												<span class="pull-left" onclick="quickView.ajaxView('product_id={{product.product_id}}&seller_store_id={{store_id}}');" style="cursor: pointer;">{{ product.name }}</span>
+												{% if product.price %}
+												{% if not product.special %}
+												<span class="pull-right" style="color:#df342f"><b>{{ product.price }}</b></span>
+												{% else %}
+												<span class="pull-right" style="color:#df342f"><b>{{ product.special }}</b></span>
+												<span class="price-old pull-right" style="color:#df342f"><b>{{ product.price }}</b></span>
+												{% endif %}
+												{% endif %}
+												<div class="clearfix"></div>
+											</div>
+											<p class="product_rating" style="    color: #f5ac42;
+					margin-bottom: 5px;
+			">
+												{% if product.rating %}
+												{% for i in 1..5 %}
+												{% if product.rating < i %} <i class="fa fa-star" style="font-size: 18px;color:#ccc;"></i> {%
+													else %} <i class=" fa fa-star" style="font-size: 18px;"></i> {% endif %}
+													{% endfor %}
+													{% else %}
+													{% for i in 1..5 %}
+													<i class="fa fa-star" style="font-size: 18px;color:#ccc;"></i>
+													{% endfor %}
+													{% endif %}
+											</p>
+
+											<p class="product_desc" style="font-size: 14px;
+					font-weight: normal;
+					color: #2e2e2e;text-transform: lowercase; !important">
+												{{ product.description }}
+											</p>
+											<div class="ac_product_action text-right" style="padding: 10px;">
+ 
+												<div class="input-group pull-right _cart_add_products ac_cart_btn 
+													{{ product.qty ? '' : ' hidden' }}">
+													
+													<input type="button" value="-" class="button-minus cartaddquantity2 ac_cart_btn-minus" data-product-id="{{ product.product_id }}" data-field="quantity">
+													
+													<input type="number" step="1" max="" value="{{ product.qty ? product.qty : 1 }}" name="quantity" class="quantity-field ac_cart_btn-input">
+													
+													<input type="button" value="+" data-product-id="{{ product.product_id }}"
+														class="button-plus cartaddquantity ac_cart_btn-plus" data-field="quantity">
+												</div>
+
+												<button class="btn btn-primary ac_add_to_cart __add_order 
+													{{ product.qty ? ' hidden' : '' }}"
+													onclick="cartaddquantity('{{ product.product_id }}');"><span class="plus_icon">+</span>
+													Add</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								{% endfor %}
+							</div>
+							<div class="pro_pagination clearfix">
+								<div class="col-sm-6 text-left">
+									{{ pagination }}
+								</div>
+							</div>
+							<div id="floater_menu" style="bottom:20px;">
+								<button class="btn btn-primary" id="btnMenuBar"
+									style="border-radius: 20px; text-transform: capitalize;"> <i
+										class="fa fa-bars"></i>&nbsp;&nbsp;&nbsp;Menu </button>
+							</div>
+							<div class="header-bottom">
+								<div class="container">
+									<div class="header-bottom-inner">
+										<!-- start menu -->
+										{{ menu }}
+										<!-- start search -->
+										<div class="btn_search">
+											<div class="header-search">
+												{{ search }}
+											</div>
+										</div>
+
+									</div>
+								</div>
+							</div>
+
+							<div id="floater_cart" class="floater_cart" style="display: none;">
+								{{ cart }}
+							</div>
+
+
+
+
+
+							<div class="col-sm-6 text-right" style="line-height: 32px;">{{ results }}</div>
+						</div>
+						{% else %}
+						<div class="pts-text-center">
+							<h3>{{ text_no_results }}</h3>
+						</div>
+						{% endif %}
+						{# <div class="pts-row">
+							<div class="pts-col-sm-6 pts-text-left"></div>
+							<div class="pts-col-sm-6 pts-text-right"></div>
+						</div> #}
+					</div>
+				</div>
+			</div>
+
+			{% endif %}
+			{{ content_bottom }}
+		</div>
+		{{ column_right }}
 	</div>
 </div>
-
-			<script><!--
-	$('#carouselx10').swiper({
-		mode: 'horizontal',
-		slidesPerView: 8,
-		paginationClickable: false,
-		nextButton: '.swiper-button-next',
-		prevButton: '.swiper-button-prev',
-		loop: false,
-		autoplay: 3000,
-		autoplayDisableOnInteraction: true,
-		breakpoints: {		
-			1199: {
-				slidesPerView: 5,
-				spaceBetween: 0
-			},
-			991: {
-				slidesPerView: 4,
-				spaceBetween: 0
-			},
-			767: {
-				slidesPerView: 3,
-				spaceBetween: 0
-			},
-			560: {
-				slidesPerView: 2,
-				spaceBetween: 0
-			},
-			375: {
-				slidesPerView: 1,
-				spaceBetween: 0
-			}
-		}
-	});
---></script>	
-				{% if seller_products %}
-				<div class="cat_info">
-					<div class="row">		
-						<div class="col-sm-2 col-xs-5 cat_list_gird">
-							<div class="btn-group btn-group-sm">
-								<button type="button" id="grid-view" class="btn btn-default" data-toggle="tooltip" title="{{ button_grid }}"><i class="fa fa-th"></i></button>
-								<button type="button" id="list-view" class="btn btn-default" data-toggle="tooltip" title="{{ button_list }}"><i class="fa fa-th-list"></i></button>
-							</div>
-						</div>			   
-						<div class="col-sm-3 col-xs-6 com-total">
-							<!-- <a href="{{ compare }}" id="compare-total" class="btn btn-link">{{ text_compare }}</a> -->
-						</div>
-						<div class="col-sm-7 col-xs-12 cat-pagination-right">
-							<div class="cat-sort">
-								<div class="text-right show-text clearfix">
-									<label class="control-label text_sort" for="input-sort">{{ text_sort }}</label>
-								</div>
-								<div class="text-right show-select clearfix">
-									<div class="select-filter-sort">
-										<select id="input-sort" class="form-control sort-order" onchange="location = this.value;">
-											{% for sorts in sorts %}
-											{% if sorts.value == '%s-%s'|format(sort, order) %}
-											<option value="{{ sorts.href }}" selected="selected">{{ sorts.text }}</option>
-											{% else %}
-											<option value="{{ sorts.href }}">{{ sorts.text }}</option>
-											{% endif %}
-											{% endfor %}
-										</select>
-									</div>
-								</div>
-							</div>
-							<div class="cat-show">
-								<div class="text-right show-text clearfix">
-									<label class="control-label text_limit" for="input-limit">{{ text_limit }}</label>
-								</div>
-								<div class="text-right show-select clearfix">
-									<div class="select-filter-show">
-										<select id="input-limit" class="form-control limits-text" onchange="location = this.value;">
-											{% for limits in limits %}
-											{% if limits.value == limit %}
-											<option value="{{ limits.href }}" selected="selected">{{ limits.text }}</option>
-											{% else %}
-											<option value="{{ limits.href }}">{{ limits.text }}</option>
-											{% endif %}
-											{% endfor %}
-										</select>
-									</div>
-								</div>
-							</div>
-						</div>	
-					</div>
-				</div>
-					{% endif %}
-					{% if seller_products %}
-					
-					<div id="producty" class="pts-row">
-						<div class="row"> {% for product in seller_products %}
-					<div class="product-layout product-list col-xs-12">
-						<div class="product-thumb transition">
-							<div class="image">
-								{% if product.thumb_swap %}
-									<a href="{{ product.href }}">
-										<img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" />
-										<img class="img-responsive hover-img" src="{{ product.thumb_swap }}" title="{{ product.name }}" alt="{{ product.name }}"/>
-									</a>
-								{% else %}
-									<a href="{{ product.href }}">
-										<img src="{{ product.thumb }}" alt="{{ product.name }}" title="{{ product.name }}" class="img-responsive" />
-									</a>
-								{% endif %}
-								{% if  product.special %}
-									<div class="sale-text"><span class="section-sale">{{ text_sale }}</span></div>
-								{% endif %}	
-								<div class="cart_main">
-									<button type="button" class="addcart" data-toggle="tooltip" title="{{ button_cart }}" onclick="cartaddquantity2('{{ product.product_id }}');"></button>
-								</div>							
-								<div class="button-group grid-btn">
-									{# <button type="button" class="wishlist" data-toggle="tooltip" title="{{ button_wishlist }}" onclick="wishlist.add('{{ product.product_id }}');"></button> #}
-									<button type="button" class="quickview-button" data-toggle="tooltip" title="{{ button_quickview }}" onclick="quickView.ajaxView('{{ product.href2 }}');"></button>
-									{# <button type="button" class="compare" data-toggle="tooltip" title="{{ button_compare }}" onclick="compare.add('{{ product.product_id }}');"></button> #}
-								</div>
-
-								{% if product.rating %}
-									<div class="rating">
-										{% for i in 1..5 %}
-											{% if product.rating < i %} <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> {% else %} <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span> {% endif %}
-										{% endfor %}
-									</div>
-								{% else %}
-									<div class="rating">
-										{% for i in 1..5 %}
-											<span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
-										{% endfor %}
-									</div>
-								{% endif %}	
-							</div>
-							<div class="thumb-description clearfix">
-							<div class="caption">
-							<div class="desc-inner">
-										<h4 class="product-title"><a href="{{ product.href }}">{{ product.name }}</a></h4>
-									</div></div>
-								<div class="caption">
-								
-								
-								<!--<div class="listhide quantity noradius">
-						  <div class="">
-						  <span class="q_up hmm13" id="q_up2{{ product.product_id }}"><i class="fa fa-plus"></i></span>
-     				          <input class="hmm12" type="text" name="quantity" id="quantity_wanted2{{ product.product_id }}" size="2" value="1">
-     				         <span class="q_down hmm13" id="q_down2{{ product.product_id }}"><i class="fa fa-minus"></i></span>
-							</div></div>-->
-						  <div class="listhide limitwidth pro-quantity">									
-		                            <div class="minus-plus">
-		                            	<button id="q_down2{{ product.product_id }}" class="q_down minus"><i class="fa fa-minus"></i></button>	                            	
-		                            	<input type="text" name="quantity" value="1" size="2" id="quantity_wanted2{{ product.product_id }}" class="hmm12 form-control">
-		                            	<button id="q_up2{{ product.product_id }}" class="q_up plus"><i class="fa fa-plus"></i></button>
-											
-								   </div>    
-								    <script type="text/javascript" async="">$("#q_up2{{ product.product_id }}").on("click", function() {var $button =$(this);var oldValue = $('#quantity_wanted2{{ product.product_id }}').val();var newVal = parseFloat(oldValue) + 1;$('#quantity_wanted2{{ product.product_id }}').val(newVal);});$("#q_down2{{ product.product_id }}").on("click", function() {var $button = $(this);var oldValue = $('#quantity_wanted2{{ product.product_id }}').val();if (oldValue > 1) {var newVal = parseFloat(oldValue) - 1;} else {newVal = 1;}$('#quantity_wanted2{{ product.product_id }}').val(newVal);});</script>
-     			          
-	                            </div>
-								
-									
-									{% if product.rating %}
-										<div class="rating">
-											{% for i in 1..5 %}
-												{% if product.rating < i %} <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span> {% else %} <span class="fa fa-stack"><i class="fa fa-star fa-stack-2x"></i><i class="fa fa-star-o fa-stack-2x"></i></span>
-												{% endif %}
-											{% endfor %}
-										</div>
-									{% else %}
-										<div class="rating">
-											{% for i in 1..5 %}
-												<span class="fa fa-stack"><i class="fa fa-star-o fa-stack-2x"></i></span>
-											{% endfor %}
-										</div>
-									{% endif %}
-									<p class="description">{{ product.description }}</p>
-									{% if product.price %}
-										<p class="price"> 
-											{% if not product.special %}
-												{{ product.price }}
-											{% else %}
-												<span class="price-new">{{ product.special }}</span><span class="price-old">{{ product.price }}</span>
-											{% endif %}
-										</p>
-									{% endif %}									
-								</div>
-								<div class="samerow">
-								 <div class="limitwidth pro-quantity">									
-		                            <div class="minus-plus">
-		                            	<button id="q_down{{ product.product_id }}" class="q_down minus"><i class="fa fa-minus"></i></button>	                            	
-		                            	<input type="text" name="quantity" value="1" size="2" id="quantity_wanted{{ product.product_id }}" class="hmm12 form-control">
-		                            	<button id="q_up{{ product.product_id }}" class="q_up plus"><i class="fa fa-plus"></i></button>
-											
-								   </div>    
-								    <script type="text/javascript" async="">$("#q_up{{ product.product_id }}").on("click", function() {var $button =$(this);var oldValue = $('#quantity_wanted{{ product.product_id }}').val();var newVal = parseFloat(oldValue) + 1;$('#quantity_wanted{{ product.product_id }}').val(newVal);});$("#q_down{{ product.product_id }}").on("click", function() {var $button = $(this);var oldValue = $('#quantity_wanted{{ product.product_id }}').val();if (oldValue > 1) {var newVal = parseFloat(oldValue) - 1;} else {newVal = 1;}$('#quantity_wanted{{ product.product_id }}').val(newVal);});</script>
-     			        
-	                            </div>
-								<div class="cart_main">
-								
-									<button type="button" class="addcart" title="{{ button_cart }}" onclick="cartaddquantity('{{ product.product_id }}');">{{ button_cart }}</button>
-								</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					{% endfor %}
-				</div>
-					</div>
-				<div class="pro_pagination clearfix">
-				<div class="col-sm-6 text-left">
-					 {{ pagination }}
-				</div>
-				<div class="col-sm-6 text-right" style="line-height: 32px;">{{ results }}</div>
-			</div>
-			{% else %}
-			<div class="pts-text-center"><h3>{{ text_no_results }}</h3></div>
-			{% endif %}
-			{# <div class="pts-row">
-				<div class="pts-col-sm-6 pts-text-left"></div>
-				<div class="pts-col-sm-6 pts-text-right"></div>
-			</div> #}
-				</div>
-			</div>
-		</div>
-{% endif %}
-{{ content_bottom }}</div>
-{{ column_right }}</div>
 </div>
-</div>
-	{{ column_right }}
+{{ column_right }}
 </div>
 {% if module_purpletree_multivendor_allow_live_chat %}
 {% if store_live_chat_enable %}
 {% if store_live_chat_code != '' %}
 <!--Start of Tawk.to Script-->
 <script>
-	$(document).ready(function(){
+	$(document).ready(function () {
 		If($(window).width() < 768){
 			$('#ptsstorevideo').removeAttr('style');
 		}
 	});
 </script>
 <script type="text/javascript">
-	var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-	(function(){
-		var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-		s1.async=true;
-		s1.src='https://embed.tawk.to/{{ store_live_chat_code }}/default';
-		s1.charset='UTF-8';
-		s1.setAttribute('crossorigin','*');
-		s0.parentNode.insertBefore(s1,s0);
+	var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+	(function () {
+		var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+		s1.async = true;
+		s1.src = 'https://embed.tawk.to/{{ store_live_chat_code }}/default';
+		s1.charset = 'UTF-8';
+		s1.setAttribute('crossorigin', '*');
+		s0.parentNode.insertBefore(s1, s0);
 	})();
 </script>
 <!--End of Tawk.to Script-->
@@ -613,36 +661,167 @@ $('#slideshow1').swiper({
 <script type="text/javascript">
 	if (localStorage.getItem('display') == 'list') {
 		$('#list-view').trigger('click');
-		
-		} else {
+
+	} else {
 		$('#grid-view').trigger('click');
-		
+
 	}
-	
+
 </script>
 <script>
-$('#grid-view').on('click',function() {
-$('.listhide').show();
-});
-$('#list-view').on('click',function() {
-$('.listhide').hide();
-});
-function cartaddquantity(product_id) {
-	var quantity = $('#quantity_wanted'+ product_id +'').val();
-	cart.add(product_id,quantity);
-}
-function cartaddquantity2(product_id) {
-	var quantity = $('#quantity_wanted2'+ product_id +'').val();
-	cart.add(product_id,quantity);
-}
-	$(window).load(function() {
-		
-			$('aside#column-right').addClass('pts-col-sm-3 col-sm-3');
-		
-		});
-function ajaxproducts(pageurl) {
-var newproducts = $('#producty').load(''+ pageurl + ' #producty');
+	$('#grid-view').on('click', function () {
+		$('.listhide').show();
+	});
+	$('#list-view').on('click', function () {
+		$('.listhide').hide();
+	});
+ 
+	$("#content, .__cart_orders").on('click','.cartaddquantity2',function(){
+		var qty = $(this).parent();
+		var pid = $(this);
 
-}
+		setTimeout(function(){
+	
+		cart.add(pid.data('product-id'), qty.find('.quantity-field').val(), {{ seller_id }}); 
+		},500);
+	});
+	
+	$("#content, .__cart_orders").on('click','.cartaddquantity',function(){
+		var qty = $(this).parent();
+		var pid = $(this);
+
+		setTimeout(function(){
+		var quantity = qty.find('.quantity-field').val();
+		var product_id = pid.data('product-id');
+		cart.add(product_id, quantity, {{ seller_id }}); 
+		},500);
+	});
+ 
+	function cartaddquantity(product_id) {
+		//var quantity = $('#quantity_wanted' + product_id + '').val();
+		setTimeout(function(){
+		var quantity = 1;//$("input[name=quantity]").val();
+		cart.add(product_id, quantity, {{ seller_id }});
+		},500);
+	}
+	function cartaddquantity2(product_id) {
+		//var quantity = $('#quantity_wanted2' + product_id + '').val();
+		setTimeout(function(){
+		var quantity = $("input[name=quantity]").val();
+		if(quantity==1){
+			quantity = 0;
+		}
+		cart.add(product_id, quantity, {{ seller_id }});
+		},500);
+	}
+	$(window).load(function () {
+
+		$('aside#column-right').addClass('pts-col-sm-3 col-sm-3');
+
+	});
+	function ajaxproducts(pageurl) {
+		$('#producty').html('<div class="col-sm-12 text-center" style="margin-top:40px;margin-bottom:120px;color:var(--secondary-color)"><img src="catalog/view/theme/mahardhi/image/mahardhi/ajax_loader.gif"></div>');
+		var newproducts = $('#producty').load('' + pageurl + ' #producty');
+
+	}
+</script>
+
+<script>
+	$(function () {
+
+		// plus and minus buttons
+		function incrementValue(e) {
+			e.preventDefault();
+			var fieldName = $(e.target).data('field');
+			var parent = $(e.target).closest('div');
+			var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+			if (!isNaN(currentVal)) {
+				parent.find('input[name=' + fieldName + ']').val(currentVal + 1);
+			} else {
+				parent.find('input[name=' + fieldName + ']').val(0);
+			}
+		}
+
+		function decrementValue(e) {
+			e.preventDefault();
+			var fieldName = $(e.target).data('field');
+			var parent = $(e.target).closest('div');
+			var currentVal = parseInt(parent.find('input[name=' + fieldName + ']').val(), 10);
+
+			if (!isNaN(currentVal) && currentVal > 0) {
+				var crval = currentVal - 1;
+				parent.find('input[name=' + fieldName + ']').val(crval);
+				if (crval == 0) {
+					parent.find('input[name=' + fieldName + ']').val(0);
+					parent.parent().find('.__add_order').removeClass('hidden');
+					parent.addClass('hidden');
+				}
+			} else {
+				parent.find('input[name=' + fieldName + ']').val(0);
+			}
+		}
+
+		$('body').on('click', '.button-plus', function (e) {
+			incrementValue(e);
+		});
+
+		$('body').on('click', '.button-minus', function (e) {
+			decrementValue(e);
+		});
+
+		// close cart orders
+
+		$("body").on('click', '.__close_cart', function () {
+			$(".__cart_orders").slideToggle("fast");
+		});
+
+		// cart items open and close
+		$("body").on('click', '.__cart_items', function () {
+			$(".__cart_orders").slideToggle("fast");
+		});
+
+		// add order to cart 
+		var cart_products = $("#floater_cart").find('.ac_cart_items').html();
+		if(cart_products){
+			$("#floater_cart").slideDown("fast");
+			$("#floater_menu").css("bottom","70px");
+		}	
+		$("body").on('click', '.__add_order', function () {
+			$("#floater_menu").css("bottom", "70px");
+			$("#floater_cart").slideDown("fast");
+			$(this).prev().find('.quantity-field').val(1);
+			$(this).addClass('hidden');
+			$(this).parent().find('.input-group').removeClass('hidden');
+		});
+
+		// menu on scroll
+		window.addEventListener("scroll", function (event) {
+			var top = this.scrollY;
+			var search_height = ($("#search").position().top);
+			var product_categ = ($("._product_categ").position().top);
+			console.log(top+'-'+product_categ);
+
+			//console.log(parseInt(top)+'-'+parseInt(search_height));
+
+			if (parseInt(top) >= parseInt(search_height)) {
+				$(".__scroll_hidden").addClass('hidden');
+				$(".__scroll_show").removeClass('hidden');
+				$(".__account_scroll").removeClass('col-xs-4').removeClass("text-left");
+				$(".__account_scroll").addClass('col-xs-2');
+				$(".__header_change").addClass("__header");
+				$("._product_categ").addClass('_categ_product');
+			}
+			else {
+				$(".__scroll_hidden").removeClass('hidden');
+				$(".__scroll_show").addClass('hidden');
+				$(".__account_scroll").addClass('col-xs-4').addClass("text-right");
+				$(".__account_scroll").removeClass('col-xs-2');
+				$(".__header_change").removeClass("__header");
+				$("._product_categ").removeClass('_categ_product');
+			}
+		}, false);
+
+
+	})
 </script>
 {{ footer }}

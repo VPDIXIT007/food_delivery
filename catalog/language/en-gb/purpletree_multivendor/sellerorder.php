@@ -75,11 +75,15 @@ $_['text_order_no']       = 'Order No ';
 $_['text_customer_detail']       = 'Customer Details';
 $_['text_order_type']       = 'Type';
 $_['text_name']       = 'Name';
+$_['text_order_type']       = 'Type';
 $_['text_mobile']       = 'Mobile';
 $_['text_address']       = 'Address';
 $_['text_item']       = 'Item';
 $_['text_amount']       = 'Amount';
 $_['text_scan_menu']       = 'SCAN FOR MENU';
+$_['text_order_date']   = "Date";
+
+ 
 
 // Column
 $_['column_order_id']            = 'Order ID';

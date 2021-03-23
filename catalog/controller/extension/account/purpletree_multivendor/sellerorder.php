@@ -1978,6 +1978,8 @@ class ControllerExtensionAccountPurpletreeMultivendorSellerorder extends Control
 			
 			$order_total = $this->model_extension_purpletree_multivendor_sellerorder->getTotalSellerOrders($filter_data);
 
+			$filter_data['limit'] = $order_total;
+			
 			$results = $this->model_extension_purpletree_multivendor_sellerorder->getSellerOrders($filter_data);
 	
 			foreach ($results as $result) {

@@ -68,6 +68,7 @@ class ControllerCommonHeader extends Controller {
 				$today = date("D");
 				if($store_timings) {
 				$data['storestatus'] = 'Open Now';
+				$data['storestatus_img'] = '';
 				foreach($store_timings as $time) {
 					$restday = substr($time['day_name'], 0, 3);
 					if ($restday == $today) 
@@ -83,15 +84,16 @@ class ControllerCommonHeader extends Controller {
 				if ($closingampm == 'AM') {	$closing = date('d H:i:s a', strtotime($time['close_time'].' +1 day')); }
 					if ($now > $openining && $now < $closing)
 					{
-					  if($lang == 'en') {	$data['storestatus'] = 'Open Now'; } else {$data['storestatus'] = 'مفتوح الان';}
+					  if($lang == 'en') {	$data['storestatus'] = 'Open Now'; 
+						$data['storestatus_img'] = 'ac_dev/open_now.png';  } else {$data['storestatus'] = 'مفتوح الان'; $data['storestatus_img'] = 'ac_dev/open_now.png'; }
 						if ($now > $closinghour && $now < $closing) {
-						 if($lang == 'en') {	$data['storestatus'] = 'Closing Soon'; } else {$data['storestatus'] = 'سيتم الاغلاق قريبا';}
+						 if($lang == 'en') {	$data['storestatus'] = 'Closing Soon'; $data['storestatus_img'] = 'ac_dev/yellow.png'; } else {$data['storestatus'] = 'سيتم الاغلاق قريبا'; $data['storestatus_img'] = 'ac_dev/yellow.png'; }
 					}
 					}
 					 elseif ($now > $closing) {
-						  if($lang == 'en') {		$data['storestatus'] = 'Closed'; } else {	$data['storestatus'] = 'مغلق الان';}
+						  if($lang == 'en') {		$data['storestatus'] = 'Closed'; $data['storestatus_img'] = 'ac_dev/red.png'; } else {	$data['storestatus'] = 'مغلق الان'; $data['storestatus_img'] = 'ac_dev/red.png';}
 					} elseif ($now > $openinghour && $now < $openining) {
-						  if($lang == 'en') {		$data['storestatus'] = 'Opening Soon'; } else {	$data['storestatus'] = 'سيتم الفتح قريبا';}
+						  if($lang == 'en') {		$data['storestatus'] = 'Opening Soon'; $data['storestatus_img'] = 'ac_dev/red.png'; } else {	$data['storestatus'] = 'سيتم الفتح قريبا'; $data['storestatus_img'] = 'ac_dev/red.png'; }
 						
 					}
 				} 

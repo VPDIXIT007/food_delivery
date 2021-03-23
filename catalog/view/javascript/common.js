@@ -148,7 +148,7 @@ $(document).ready(function() {
 var cart = {
 	'add': function(product_id, quantity,seller_id) {
 		//var seller_id = $.urlParam('seller_store_id'); 
-	
+	 
 		$.ajax({
 			url: 'index.php?route=checkout/cart/add',
 			type: 'post',
@@ -174,16 +174,16 @@ var cart = {
 				}
 
 				if (json['success']) {
-					$('#content').parent().before('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
+					// $('#content').parent().before('<div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> ' + json['success'] + ' <button type="button" class="close" data-dismiss="alert">&times;</button></div>');
 
 					// Need to set timeout otherwise it wont update the total
 					setTimeout(function () {
 						$('#cart > button').html('<span class="cart_block"><span id="cart-total"> ' + json['total'] + '</span></span>');
 					}, 100);
 
-					$('html, body').animate({ scrollTop: 0 }, 'slow');
+				//	$('html, body').animate({ scrollTop: 0 }, 'slow');
 
-					$('#cart > ul').load('index.php?route=common/cart/info&seller_store_id='+ seller_id +' ul li');
+					$('#floater_cart').load('index.php?route=common/cart/info&seller_store_id='+ seller_id);
 				}
 			},
 			error: function(xhr, ajaxOptions, thrownError) {

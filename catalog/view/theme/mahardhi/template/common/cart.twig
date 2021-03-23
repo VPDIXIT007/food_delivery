@@ -68,7 +68,7 @@
 </div>
 #}
 
-<div id="floater_cart" class="floater_cart" style="display: none;">
+
   <div class="__cart_orders" style="display: none;">
     <div class="row" style="    border-bottom: 1px solid #ccccccb8;
 			margin-bottom: 20px;">
@@ -85,12 +85,15 @@
         <p class="item_name">{{ product.name }}</p>
       </div>
       <div class="col-xs-6">
-        <p class="text-danger item_price">{{ product.price }}</p>
-        <div class="input-group pull-right ac_cart_btn">
-          <input type="button" value="-" class="button-minus text-danger ac_cart_btn-minus" data-field="quantity">
-          <input type="number" step="1" max="" value="1" name="quantity" class="quantity-field ac_cart_btn-input">
-          <input type="button" value="+" class="button-plus text-danger ac_cart_btn-plus" data-field="quantity">
-        </div>
+        <p class=" item_price">{{ product.price }}</p>
+        <div class="input-group pull-right ac_cart_btn ">
+						<input type="button" value="-"
+														class="button-minus cartaddquantity2 ac_cart_btn-minus" data-product-id="{{ product_id }}" data-field="quantity">
+						<input type="number" step="1" max="" value="{{ product.quantity }}" name="quantity"
+														class="quantity-field ac_cart_btn-input">
+            <input type="button" value="+" data-product-id="{{ product_id }}"
+														class="button-plus cartaddquantity ac_cart_btn-plus" data-field="quantity">
+				</div>
 
       </div>
     </div>
@@ -135,4 +138,3 @@
       </a>
     </div>
   </div>
-</div>

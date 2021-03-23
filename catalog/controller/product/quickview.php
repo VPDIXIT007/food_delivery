@@ -206,6 +206,8 @@ class ControllerProductQuickView extends Controller {
 				}
 			}
 
+			$data['qty_cart'] = $this->get_cart_quantity($product_id);
+
 			$data['recurrings'] = $this->model_catalog_product->getProfiles($this->request->get['product_id']);
 
 			$this->model_catalog_product->updateViewed($this->request->get['product_id']);
@@ -217,6 +219,18 @@ class ControllerProductQuickView extends Controller {
     	return $data;
 
     }
+
+	
+	public function get_cart_quantity($product_id){
+		$qty = 0;
+		$cart_products = $this->cart->getProducts();
+		foreach($cart_products as $cart_qty){
+			if($product_id==$cart_qty['product_id']){
+				$qty = $cart_qty['quantity'];
+			}
+		}
+		return $qty;
+	}
 
     public function Viewcontainer() {
 
