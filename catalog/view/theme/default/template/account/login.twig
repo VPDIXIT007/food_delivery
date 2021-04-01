@@ -1,4 +1,9 @@
 {{ header }}
+<style>
+.d-social-login__button-list{
+  margin-left: 40%;
+}
+</style>
 <div id="account-login" class="container">
   <ul class="breadcrumb">
     {% for breadcrumb in breadcrumbs %}
@@ -19,34 +24,38 @@
     {% else %}
     {% set class = 'col-sm-12' %}
     {% endif %}
-    <div id="content" class="{{ class }}">{{ content_top }}
+    <div id="content" class="{{ class }}">
       <div class="row">
-        <div class="col-sm-6">
+        {# <div class="col-sm-6">
           <div class="well">
             <h2>{{ text_new_customer }}</h2>
             <p><strong>{{ text_register }}</strong></p>
             <p>{{ text_register_account }}</p>
             <a href="{{ register }}" class="btn btn-primary">{{ button_continue }}</a></div>
-        </div>
+        </div> #}
         <div class="col-sm-6">
-          <div class="well">
-            <h2>{{ text_returning_customer }}</h2>
-            <p><strong>{{ text_i_am_returning_customer }}</strong></p>
+          {# <div class="well"> #}
+            {# <h2>{{ text_returning_customer }}</h2>
+            <p><strong>{{ text_i_am_returning_customer }}</strong></p> #}
             <form action="{{ action }}" method="post" enctype="multipart/form-data">
               <div class="form-group">
-                <label class="control-label" for="input-email">{{ entry_email }}</label>
-                <input type="text" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
+                <label class="control-label" for="input-email" style="font-size: 18px;">Email</label>
+                <input type="text" style="border: none; height: 60px; border-radius: 10px; font-size: 18px;" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
               </div>
               <div class="form-group">
-                <label class="control-label" for="input-password">{{ entry_password }}</label>
-                <input type="password" name="password" value="{{ password }}" placeholder="{{ entry_password }}" id="input-password" class="form-control" />
-                <a href="{{ forgotten }}">{{ text_forgotten }}</a></div>
-              <input type="submit" value="{{ button_login }}" class="btn btn-primary" />
+                <label class="control-label" for="input-password" style="font-size: 18px;">Password</label>
+                <input type="password" name="password" style="border: none; height: 60px; border-radius: 10px; font-size: 18px;" value="{{ password }}" placeholder="{{ entry_password }}" id="input-password" class="form-control" /></div>
+              <input type="submit" style="width: 100%; padding: 20px; font-size: 22px; border-radius: 40px; background: #333; color: #fff;" value="Sign In" class="btn btn-primary" />
+              
+                <a href="{{ forgotten }}" class="text-center" style="display: block; margin-top: 20px; font-size: 18px; color: #555;">{{ text_forgotten }}</a>
+                <p class="text-center" style="display: block; margin-top: 20px; font-size: 18px; color: #555;">Don't have account<a href="{{ register }}" style="color: red;"> Register Here !</a></p>
+                <h3 class="text-center" style="color: #999;"> OR Login With</h3>
+                {{ content_top }}
               {% if redirect %}
               <input type="hidden" name="redirect" value="{{ redirect }}" />
               {% endif %}
             </form>
-          </div>
+          {# </div> #}
         </div>
       </div>
       {{ content_bottom }}</div>
