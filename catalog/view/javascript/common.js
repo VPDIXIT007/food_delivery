@@ -169,8 +169,9 @@ var cart = {
 				$('html, body').animate({ scrollTop: 0 }, 'slow');
 			}}
 				if (json['redirect']) {
-					location = json['redirect'];
-					
+					//location = json['redirect'];
+					console.log(json);
+					quickView.ajaxView('product_id=226&seller_store_id=11');
 				}
 
 				if (json['success']) {
