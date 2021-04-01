@@ -3,13 +3,51 @@
 .d-social-login__button-list{
   margin-left: 40%;
 }
+.ac_spacer{
+  margin-top:40px;
+  margin-bottom:40px;
+}
+.ac_form .control-label{
+      font-size: 16px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+.ac_form .form-control{
+  border: none; 
+  height: 40px; 
+  border-radius: 10px; 
+  font-size: 18px;
+}
+.ac-submit{
+    width: 100%;
+    padding: 15px 15px;
+    font-size: 18px;
+    border-radius: 40px;
+    background: #303030;
+    color: #fff;
+    text-transform: capitalize;
+}
+.ac_form-link{
+      display: block;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #303030;
+}
+.ac_login_with{
+  color: #999;
+    font-weight: 500;
+    font-size: 18px;
+    margin: 60px 20px 40px 20px;
+}
 </style>
 <div id="account-login" class="container">
-  <ul class="breadcrumb">
+  {# <ul class="breadcrumb">
     {% for breadcrumb in breadcrumbs %}
     <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
     {% endfor %}
-  </ul>
+  </ul> #}
+  <h2 class="text-center ac_spacer">Log In</h2>
   {% if success %}
   <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}</div>
   {% endif %}
@@ -33,23 +71,23 @@
             <p>{{ text_register_account }}</p>
             <a href="{{ register }}" class="btn btn-primary">{{ button_continue }}</a></div>
         </div> #}
-        <div class="col-sm-6">
+        <div class="col-sm-6 col-sm-offset-3">
           {# <div class="well"> #}
             {# <h2>{{ text_returning_customer }}</h2>
             <p><strong>{{ text_i_am_returning_customer }}</strong></p> #}
-            <form action="{{ action }}" method="post" enctype="multipart/form-data">
+            <form action="{{ action }}" method="post" enctype="multipart/form-data" class="ac_form">
               <div class="form-group">
-                <label class="control-label" for="input-email" style="font-size: 18px;">Email</label>
-                <input type="text" style="border: none; height: 60px; border-radius: 10px; font-size: 18px;" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
+                <label class="control-label" for="input-email">Email</label>
+                <input type="text" name="email" value="{{ email }}" placeholder="{{ entry_email }}" id="input-email" class="form-control" />
               </div>
               <div class="form-group">
-                <label class="control-label" for="input-password" style="font-size: 18px;">Password</label>
-                <input type="password" name="password" style="border: none; height: 60px; border-radius: 10px; font-size: 18px;" value="{{ password }}" placeholder="{{ entry_password }}" id="input-password" class="form-control" /></div>
-              <input type="submit" style="width: 100%; padding: 20px; font-size: 22px; border-radius: 40px; background: #333; color: #fff;" value="Sign In" class="btn btn-primary" />
+                <label class="control-label" for="input-password">Password</label>
+                <input type="password" name="password" value="{{ password }}" placeholder="{{ entry_password }}" id="input-password" class="form-control" /></div>
+              <input type="submit" value="Sign In" class="btn btn-primary ac-submit" />
               
-                <a href="{{ forgotten }}" class="text-center" style="display: block; margin-top: 20px; font-size: 18px; color: #555;">{{ text_forgotten }}</a>
-                <p class="text-center" style="display: block; margin-top: 20px; font-size: 18px; color: #555;">Don't have account<a href="{{ register }}" style="color: red;"> Register Here !</a></p>
-                <h3 class="text-center" style="color: #999;"> OR Login With</h3>
+                <a href="{{ forgotten }}" class="text-center ac_form-link">{{ text_forgotten }}</a>
+                <p class="text-center ac_form-link">Don't have account<a href="{{ register }}" style="color: red;"> Register Here !</a></p>
+                <h3 class="text-center ac_login_with"> OR Login With</h3>
                 {{ content_top }}
               {% if redirect %}
               <input type="hidden" name="redirect" value="{{ redirect }}" />

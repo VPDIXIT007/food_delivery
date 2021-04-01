@@ -574,9 +574,10 @@
 								</div>
 								{% endfor %}
 							</div>
-							<div class="pro_pagination clearfix">
-								<div class="col-sm-6 text-left">
-									{{ pagination }}
+							<div class="row clearfix">
+								<div class="col-sm-12 text-center">
+									{# {{ pagination }} #}
+									<button class="btn btn-primary" id="load_more" style="border-radius: 20px; text-transform: capitalize;"> Load more.. </button>
 								</div>
 							</div>
 							<div id="floater_menu" style="bottom:20px;">
@@ -608,7 +609,7 @@
 
 
 
-							<div class="col-sm-6 text-right" style="line-height: 32px;">{{ results }}</div>
+							<div class="col-sm-6 text-right" style="line-height: 32px;display:none">{{ results }}</div>
 						</div>
 						{% else %}
 						<div class="pts-text-center">
@@ -799,7 +800,7 @@
 			var top = this.scrollY;
 			var search_height = ($("#search").position().top);
 			var product_categ = ($("._product_categ").position().top);
-			console.log(top+'-'+product_categ);
+			//console.log(top+'-'+product_categ);
 
 			//console.log(parseInt(top)+'-'+parseInt(search_height));
 

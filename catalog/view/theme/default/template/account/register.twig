@@ -1,27 +1,59 @@
 {{ header }}
 <style>
-.form-control{
-  border: none !important;
-    background: #f1f1f1 !important;
-    height: 50px !important;
-}
-label{
-  font-weight: bold !Important;
-}
 input:-internal-autofill-selected{
   background: #f1f1f1 !important;
 }
-.d-social-login--icons{
+#d_social_login{
+  width: 100%;
+}
+.d-social-login__button-list{
   margin-left: 40%;
-  margin-top: 20px;
+}
+.ac_spacer{
+  margin-top:40px;
+  margin-bottom:40px;
+}
+.ac_form .control-label{
+      font-size: 16px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
+.ac_form .form-control{
+  border: none; 
+  height: 40px; 
+  border-radius: 10px; 
+  font-size: 18px;
+}
+.ac-submit{
+    width: 100%;
+    padding: 15px 15px;
+    font-size: 18px;
+    border-radius: 40px;
+    background: #303030;
+    color: #fff;
+    text-transform: capitalize;
+}
+.ac_form-link{
+      display: block;
+    margin-top: 20px;
+    font-size: 16px;
+    color: #303030;
+}
+.ac_login_with{
+  color: #999;
+    font-weight: 500;
+    font-size: 18px;
+    margin: 60px 20px 40px 20px;
 }
 </style>
 <div id="account-register" class="container">
-  <ul class="breadcrumb">
+  {# <ul class="breadcrumb">
     {% for breadcrumb in breadcrumbs %}
     <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
     {% endfor %}
-  </ul>
+  </ul> #}
+  <h2 class="text-center ac_spacer">Sign Up</h2>
   {% if error_warning %}
   <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}</div>
   {% endif %}
@@ -36,7 +68,7 @@ input:-internal-autofill-selected{
     <div id="content" class="{{ class }}">
       {# <h1>{{ heading_title }}</h1>
       <p>{{ text_account_already }}</p> #}
-      <form action="{{ action }}" method="post" enctype="multipart/form-data" class="form-horizontal">
+      <form action="{{ action }}" method="post" enctype="multipart/form-data" class="form-horizontal ac_form">
         <fieldset id="account">
           {# <legend>{{ text_your_details }}</legend> #}
           <div class="form-group required" style="display: {% if customer_groups|length > 1 %} block {% else %} none {% endif %};">
@@ -273,7 +305,7 @@ input:-internal-autofill-selected{
           </div>
         </fieldset>
         <fieldset>
-          <legend>{{ text_newsletter }}</legend>
+          {# <legend>{{ text_newsletter }}</legend> #}
           <div class="form-group">
             <label class="col-sm-2 control-label">{{ entry_newsletter }}</label>
             <div class="col-sm-10"> {% if newsletter %}
@@ -295,26 +327,29 @@ input:-internal-autofill-selected{
         </fieldset>
         {{ captcha }}
         {% if text_agree %}
-        <div class="buttons">
-          <div class="pull-right">{{ text_agree }}
+        <div class="buttons ac_form-link">
+          <div class="text-left">
             {% if agree %}
             <input type="checkbox" name="agree" value="1" checked="checked" />
             {% else %}
             <input type="checkbox" name="agree" value="1" />
             {% endif %}
             &nbsp;
-            <input type="submit" style="width: 100%; padding: 20px; font-size: 22px; border-radius: 40px; background: #333; color: #fff;" value="Register" class="btn" />
+            {{ text_agree }}
+            &nbsp;
+            <div class="ac_spacer"></div>
+            <input type="submit" value="Register" class="btn ac-submit" />
           </div>
         </div>
         {% else %}
         <div class="buttons">
           <div class="pull-right">
-            <input type="submit" style="width: 100%; padding: 20px; font-size: 22px; border-radius: 40px; background: #333; color: #fff;" value="Register" class="btn" />
+            <input type="submit" value="Register" class="btn ac-submit" />
           </div>
         </div>
         {% endif %}
       </form>
-              <h4 class="text-center" style="color: #999; margin-top: 20px;"> OR sign up with</h4>
+         <h3 class="text-center ac_login_with"> OR sign up with</h3>
         {{ content_top }}
       {{ content_bottom }}</div>
     {{ column_right }}</div>
