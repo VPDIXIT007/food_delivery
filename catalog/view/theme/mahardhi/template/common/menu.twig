@@ -1,11 +1,17 @@
+<style>
+#topCategoryList.box-menu{
+	max-width: inherit;
+}
+</style>
 {% if categories %}
+
 	<nav id="menu" class="navbar navbar_menu">
 		<div class="navbar-header">
 			
 			<button type="button" class="btn btn-navbar navbar-toggle" id="btnMenuBar"><i class="fa fa-bars"></i></button>
 		</div>
-		<div id="topCategoryList" class="main-menu menu-navbar clearfix"> 
-			<div class="menu-close hidden-lg hidden-md"><span id="category" class="">{{ text_menu }}</span><i class="fa fa-close"></i></div> 
+		<div id="topCategoryList" class="main-menu menu-navbar clearfix" style="height: 80vh; margin-top: 30px; width: 100%; display: none;"> 
+			<div class="menu-close hidden-lg hidden-md" style="background: #fff;"><span id="category" class="">{{ text_menu }}</span><i class="fa fa-close" style="color: #000;"></i></div> 
 			<ul class="nav navbar-nav">
 				<!-- <li class="menulist home"><a id="home" href="{{ home }}" >{{ text_home }}</a></li> -->
 				{% for category in categories %}
